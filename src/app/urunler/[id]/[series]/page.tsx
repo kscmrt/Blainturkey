@@ -7,7 +7,7 @@ import { ecosystemProducts } from '../../../../data/ecosystemProducts';
 import PowerUnitsCatalog from '../../../../components/products/PowerUnitsCatalog';
 
 export default function ProductSeriesPage() {
-  const { id, series } = useParams();
+  const { id, series } = useParams() as { id: string; series: string };
 
   const product = ecosystemProducts.find(p => p.slug === series && p.categorySlug === id);
 

@@ -7,7 +7,7 @@ import { productCategories } from '../../../data/productsData';
 import PowerUnitsCatalog from '../../../components/products/PowerUnitsCatalog';
 
 export default function CategoryPage() {
-  const { id } = useParams();
+  const { id } = useParams() as { id: string };
   const category = productCategories.find(c => c.id === id);
 
   if (!category) {
