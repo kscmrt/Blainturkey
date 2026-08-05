@@ -1,0 +1,1365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Trouble shooting</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+ <script src="js/jquery-1.9.1.js" type="text/javascript"></script> 
+  <script src="js/jquery.color.min.js"></script>
+  -->
+	<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.css">
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
+	<script src="js/troubleshootingInhalt1.js" type="text/javascript"></script>  
+	<link rel="stylesheet" type="text/css" media="screen" href="css/toubleshooting.css" />
+	<script src="js/java_functions.js" type="text/javascript"></script>
+</head>
+
+<body>
+<script type="text/javascript">
+//alert("test"+langchanged);
+$(document).on('pagebeforeshow', '#permbajtja', function(){       
+//$( "#rightICpanel" ).panel( "open");
+ });
+$(document).ready(function(){
+	/*
+	Isen Callaki Nov. 2013
+
+	*/	
+	
+	var url = window.location.toString();
+	var query_string = url.split("?");
+	var params = query_string[1].split("&");
+	//alert(params[0]);
+
+	var ProdNameSelected = params[0];
+	var lang = params[1];
+	//alert("gjuha:"+lang);
+	var gjatsia = (url.length) - 2;
+	//alert("gjuha:"+lang);
+	switch (lang){
+		case "de":
+			//var lang = lang;
+			//$('#langInput').val(lang);
+			$('#langGb').removeClass('ui-btn-d');
+			$('#langGb').addClass('ui-btn-b');
+			$('#langDe').removeClass('ui-btn-b');
+			$('#langDe').addClass('ui-btn-d');
+			$('#langEs').removeClass('ui-btn-d');
+			$('#langEs').addClass('ui-btn-b');
+			break;
+		case "gb":
+			//var lang = lang;
+			//$('#langInput').val(lang);
+			$('#langGb').removeClass('ui-btn-b');
+			$('#langGb').addClass('ui-btn-d');
+			$('#langDe').removeClass('ui-btn-d');
+			$('#langDe').addClass('ui-btn-b');			
+			$('#langEs').removeClass('ui-btn-d');
+			$('#langEs').addClass('ui-btn-b');
+			
+			break;
+		case "es":
+			//var lang = "gb";
+			//$('#langInput').val(lang);
+			$('#langGb').removeClass('ui-btn-d');
+			$('#langGb').addClass('ui-btn-b');
+			$('#langDe').removeClass('ui-btn-d');
+			$('#langDe').addClass('ui-btn-b');
+			$('#langEs').removeClass('ui-btn-b');
+			$('#langEs').addClass('ui-btn-d');
+			break;
+		}
+	//var lang = $('#langInput').val();
+	
+		//alert("gjuha:"+lang)
+	navigationSprache(lang);
+
+	navLang(lang);
+	
+	
+	$('#langInput').on('change', function(e){
+		langchanged = this.value;
+		//alert(langchanged);
+		//$('#langInput' ).val(langchanged).change();
+		var dynLink = url.substr(0,gjatsia);
+		window.location.href = dynLink+langchanged;
+		// location.reload();
+		//alert(window.location.href);
+		//alert(langchanged);
+		//location.reload();
+		});
+	$('#langDe').click(function(){
+		var dynLink = url.substr(0,gjatsia);
+		$('#langGb').removeClass('ui-btn-d');
+		$('#langGb').addClass('ui-btn-b');
+		$('#langDe').removeClass('ui-btn-b');
+		$('#langDe').addClass('ui-btn-d');
+		window.location.href = dynLink+"de";
+	});
+	$('#langGb').click(function(){
+		var dynLink = url.substr(0,gjatsia);
+		$('#langDe').removeClass('ui-btn-d');
+		$('#langDe').addClass('ui-btn-b');
+		$('#langGb').removeClass('ui-btn-b');
+		$('#langGb').addClass('ui-btn-d');
+		window.location.href = dynLink+"gb";
+	});
+	$('#langEs').click(function(){
+		var dynLink = url.substr(0,gjatsia);
+		$('#langGb').removeClass('ui-btn-d');
+		$('#langGb').addClass('ui-btn-b');
+		$('#langDe').removeClass('ui-btn-d');
+		$('#langDe').addClass('ui-btn-b');
+		$('#langEs').removeClass('ui-btn-b');
+		$('#langEs').addClass('ui-btn-d');
+		window.location.href = dynLink+"es";
+	});
+	
+
+		//alert("-->"+lang);
+	$('[id="possible_txt_gb"]').html("<strong>Possible cause:</strong>");
+	$('[id="rec_txt_gb"]').html("<strong>Recommended:</strong>");
+	$('[id="possible_txt_de"]').html("<strong>Mögliche Ursache:</strong>");
+	$('[id="rec_txt_de"]').html("<strong>Abhilfe:</strong>");
+	//$('#trouble_72').hide();
+	//$('#trouble_73_de').hide();
+	//$('#trouble_73_gb').hide();
+	$('div[id^="trouble_"]').each(function(){
+		$(this).hide();
+		});  	
+	//$('#upShow').removeClass('ui-bar-a');
+	//$('#upShow').addClass('ui-bar-b');
+
+
+
+
+	//$('#upShow').removeClass('ui-bar-a');
+	//$('#upShow').addClass('ui-bar-b');
+	//$('#downShow').removeClass('ui-bar-b');
+	//$('#downShow').addClass('ui-bar-a');
+	$('#trbl_video').html('');
+	$('#trbl_video').hide();
+	$('#upProblem').show();
+	$('#downProblem').hide();
+	$('#trouble_74_gb').hide();
+	$('#trouble_74_de').hide();	
+	$('[id="trouble_75_'+lang+'"]').show();
+	hideShowDiv('asgje',lang);
+	$('[id^="trouble_"]').attr('class','troubleClass');
+	//alleDivButtons();
+	//$('#tshUpButt1').attr('style','');
+	//$('#tshUpButt1').attr('class','tshClass_selected');
+	//$('#trbl_video').html('');
+	//	$('#trbl_video').hide();
+	
+	/*
+	$('#menuPanel').click(function(){
+		$( "#ndihma" ).collapsible( "option", "collapsed", true);
+		});
+	*/
+
+$('#upShow').click(function(){
+//	$( "#ndihma" ).collapsible( "option", "collapsed", true);
+	$('#upShow').removeClass('ui-btn-b');
+	$('#upShow').addClass('ui-btn-d');
+	$('#downShow').removeClass('ui-btn-d');
+	$('#downShow').addClass('ui-btn-b');
+	$('#trbl_video').html('');
+	$('#trbl_video').hide();
+	$('#upProblem').show();
+	$('#downProblem').hide();
+	$('#trouble_74_gb').hide();
+	$('#trouble_74_de').hide();
+	//alleDivButtons();
+	$('[id="trouble_75_'+lang+'"]').show();
+	//$('#tshUpButt1').attr('style','');
+	//$('#tshUpButt1').attr('class','tshClass_selected');
+	//$('[id^="trouble_"]').attr('class','troubleClass');
+	//$('#trbl_video').html('');
+//	$('#trbl_video').hide();
+	//hideShowDiv('tshUpButt1',lang);
+	hideShowDiv('asgje',lang);
+	});
+	
+$('#downShow').click(function(){
+	//$( "#ndihma" ).collapsible( "option", "collapsed", true);	
+	$('#upShow').removeClass('ui-btn-d');
+	$('#upShow').addClass('ui-btn-b');
+	$('#downShow').removeClass('ui-btn-b');
+	$('#downShow').addClass('ui-btn-d');
+	$('#trbl_video').html('');
+	$('#trbl_video').hide();
+	$('#upProblem').hide();	
+	$('#trouble_75_de').hide();
+	$('#trouble_75_gb').hide();
+	$('#downProblem').show();
+	//alleDivButtons();
+	$('[id="trouble_74_'+lang+'"]').show();
+	//$('#tshDownButt1').attr('style','');
+	//$('#tshDownButt1').attr('class','tshClass_selected');
+	//$('[id^="trouble_"]').attr('class','troubleClass');
+	//$('#trbl_video').html('');
+	//$('#trbl_video').hide();
+	//hideShowDiv('tshDownButt1',lang);
+	hideShowDiv('asgje',lang);
+	});
+
+
+$('div[id^="h_tsh"]').click(function(){
+		//$('[id^="trouble_"]').attr('class','troubleClass');
+		//$('#trbl_video').html('');
+		//$('#trbl_video').hide();
+		//alleDivButtons();
+		/*$(this).attr('style','');
+		$(this).attr('class','tshClass_selected');
+		*/
+		mybuttonId=this.id;
+		mybuttonId = mybuttonId.replace("h_","");
+		hideShowDiv(mybuttonId,lang);
+		
+		if(mybuttonId.substr(0,5) == "tshUp"){
+			$('[id="trouble_75_'+lang+'"]').show();
+			$('[id="trouble_74_'+lang+'"]').hide();
+			}	
+		if(mybuttonId.substr(0,5) == "tshDo"){
+			$('[id="trouble_74_'+lang+'"]').show();
+			$('[id="trouble_75_'+lang+'"]').hide();
+			}
+		//searchAndHighlight1('Solenoid B');
+	});
+	
+
+
+///////////////////////////////////////////////////////////////////
+	//$('#trbl_video').hide();
+
+	$('#schliessVideo').click(function(){
+		$('#trbl_video').html('');
+		$('#trbl_video').hide();
+		//$('[id^="trouble_"]').attr('class','troubleClass');
+		});
+
+
+	$('[id^="trouble_"]').click(function(){
+		/*
+		$(this).off('hover');
+		$(this).attr('style','');
+		$('[id^="trouble_"]').attr('class','troubleClass');
+		$(this).attr('class','troubleActiveClass');
+		*/
+		
+		plsySelecVideo(this.id,lang)
+		});
+//alert($('#langInput').val());
+	//alert(lang);
+	//$("#langInpu").val(lang).change();
+	$(".selIC > span").text(lang);
+	$(".selIC  option[value="+lang+"]").attr('selected','selected');
+	//$("").hide();
+	// Symbol für video
+	$('[id^="trouble_"]').append("<img id='VideoSymbol' src='css/images/videoSymbol.png'/>");//addClass('videoSymbolTabelle');
+});//------------ jquery ende  ---------------
+
+
+
+
+function alleDivButtons(){
+	$('div[id^="tsh"]').each(function(){
+		//alert("drauf");
+		//$(this).hover(MousOverAnimateProd,MousOutAnimateProd);
+	$(this).attr('style','');
+	$(this).attr('class','tshClass');	
+	});  	
+	
+}
+
+
+</script>
+<div id="permbajtja" data-role="page" >
+
+	<!-- /panel///////////////////////////////////////////////////////////////// -->
+   <!-- <div data-role="popup" id="rightICpanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">-->
+  <!--  <div data-role="panel" id="rightICpanel" data-display="push" data-position="right"  style="z-index:9999;">
+	<!--	<a href="#" data-rel="close" data-role="button" data-mini="true" data-inline="true" data-icon="delete" data-iconpos="right">Close</a>
+		-->
+    
+        
+
+
+	<!--- </div><!-- /panel////////////////////NAVI////////////////////////////////////// --> 
+
+         <div data-role="header"  data-position="fixed" style="overflow:hidden;">
+            <div id="sprachenDiv" class="sprachenClass" data-role="navbar" >
+			 <a href="" data-role="button" name="langGb" id="langGb" class="ui-btn ui-btn-d ui-btn-icon-top" >English </a>
+				<a href="" data-role="button" name="langDe" id="langDe" class="ui-btn ui-btn-b ui-btn-icon-top" > Deutsch</a>
+					<a href="" data-role="button" name="langEs" id="langEs" class="ui-btn ui-btn-b ui-btn-icon-top" > Español</a>
+		
+                    </div>
+			 
+        </div><!-- /header -->
+ 
+
+ <div id="trbl_video" class="troble_videoClass">
+        
+			<div id="schliessVideo" class="schliessVideoClass">
+            	Close</div>
+                
+        </div>  
+        <div data-role="navbar">
+                <ul>
+                    <li><a href="#rightICpanel" id="upShow" data-role="button" data-icon="green-button" class="ui-btn ui-btn-d ui-btn-icon-top"> Up</a></li>
+                    <li><a href="#rightICpanel" id="downShow" data-role="button"  data-icon="red-button" class="ui-btn ui-btn-b ui-btn-icon-top"> Down </a></li>
+                    
+                </ul>
+            </div><!-- /navbar -->
+        <!-- english anfang  
+   <div id="textTroubleEnglish" class="possRecClass">			
+                           ---> 
+          <div id="upProblem" data-role="collapsible-set">
+          
+                  <div id="TupProb"  style="color:#fff; width:100%; text-align:center; " >
+                       <h3 style="color:#000"> Up Problem </h3>
+
+                       
+                    </div>   <!--            --->
+                 
+                    <div id="tshUpButt1" class="tshClass"  data-role="collapsible">
+                        <img id='VideoSymbol' src='css/images/videoSymbol.png'/><h3 id="h_tshUpButt1" > No Up-Start (Elevator remains at floor)  </h3>
+                        <div id="trouble_1_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble">	Test: Turn adjustment 5 all the way in. If the elevator now starts upwards the problem is at solenoid A.	</div>
+                        </div>
+                        <div id="trouble_2_gb"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble">
+                                <div id="possible_txt_gb">
+                                </div>
+                                Coil A not energised or voltage too low. 	
+                            </div>
+                            <div id="txt_trouble" class="renditjatrouble_rec">
+                            <div id="rec_txt_gb">
+                            </div>	Check electrics. See A below.	</div>	
+                        </div>
+                            
+                        <div id="trouble_3_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Solenoid A tube not screwed down tight. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Tighten Solenoid A tube.	</div>	</div>
+                        <div id="trouble_4_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Solenoid A: needle AN and seat AS contaminated or damaged.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Clean or change needle and seat. 	</div>	</div>
+                        <div id="trouble_5_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 2 (up acceleration) closed too far. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn out adjustment 2.	</div>	</div>
+                        <div id="trouble_6_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 1 opened too far. Not enough pilot pressure.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Adjust bypass pressure.	</div>	</div>
+                        <div id="trouble_7_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Pressure of relief valve S is set too low.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Set relief valve higher (turn in).	</div>	</div>
+                        <div id="trouble_8_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 8 completely closed (car sits on the buffer).	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn out adjustment 8. Turn in adjustment 7 completely to close the down valve, then turn out again to required speed.	</div>	</div>
+                        <div id="trouble_9_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Bypass flow guide U is too large (slots too wide)	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Insert smaller bypass flow guide(see ‘flow guide charts’ on EV-datasheet).</div>	</div>
+                        <div id="trouble_10_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Pump running in the wrong direction. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Check motor direction and install the pump correctly.  	</div>	</div>
+                        <div id="trouble_11_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	The pump connection flange is leaking excessively. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Seal the pump connection.	</div>	</div>
+                        <div id="trouble_12_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	The pump is undersize, worn or crack in the housing.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Select bigger pump or change pump. 	</div>	</div>
+                        <div id="trouble_13_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble">	Test: If by turning adjustment 1 with the pump running the pressure does not rise above 5 bar, even with a smaller bypass valve inserted, the problem should be sought at the pump, at the connection between the pump and the valve or the pulsation damper, if available.	</div>
+                        </div>
+                        
+						
+						
+						<!-- DEUTSCH ######################################################################################################################################
+						 ###
+						  #	-->
+						
+						
+						
+						
+						
+                        <div id="trouble_1_de"  class="troubleClass">
+							<div id="txt_trouble_de" class="renditjatrouble">	
+								<div id="possible_txt_de"></div>			Test: Drossel 5 ganz „hinein“ drehen. Falls der Aufzug jetzt anfährt, liegt die Störung an Magnetventil A.	</div>
+								</div>
+	<div id="trouble_2_de"  class="troubleClass">
+		<div id="txt_trouble_de" class="renditjatrouble">	
+			<div id="possible_txt_de"></div>								Magnetspule A ohne Strom oder zu wenig Spannung.	
+		</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec">
+		<div id="rec_txt_de"></div>											Elektrik überprüfen. Siehe Vermerk A.	</div>	</div>
+	<div id="trouble_3_de"  class="troubleClass">
+		<div id="txt_trouble_de" class="renditjatrouble">
+		<div id="possible_txt_de"></div>									Magnetventil A Rohr nicht fest angezogen.
+		</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec">
+		<div id="rec_txt_de"></div>											Magnetventil A Rohr fester anziehen.	</div>	</div>
+	<div id="trouble_4_de"  class="troubleClass">
+		<div id="txt_trouble_de" class="renditjatrouble">	
+			<div id="possible_txt_de"></div>								Magnetventil A: Magnetnadel AN und Sitz AS verschmutzt oder beschädigt.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec">
+		<div id="rec_txt_de"></div>											Magnetnadel und Sitz reinigen oder austauschen.	</div>	</div>
+	<div id="trouble_5_de"  class="troubleClass">
+		<div id="txt_trouble_de" class="renditjatrouble">	
+		<div id="possible_txt_de"></div>									Drossel 2 (Anfahrt aufwärts) zu weit geschlossen.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>			 Drossel 2 "heraus" drehen.	</div>	</div>
+	<div id="trouble_6_de"  class="troubleClass">
+		<div id="txt_trouble_de" class="renditjatrouble">	
+			<div id="possible_txt_de"></div>								Einstellung 1 zu weit geöffnet. Zu wenig Vorsteuerdruck.  	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>		 Umlaufdruck neu einstellen	</div>	</div>
+	<div id="trouble_7_de"  class="troubleClass">
+		<div id="txt_trouble_de" class="renditjatrouble">	
+			<div id="possible_txt_de"></div>								Überdruckventil S zu niedrig eingestellt.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>		 Überdruckventil höher einstellen ("hinein" drehen).	</div>	</div>
+	<div id="trouble_8_de"  class="troubleClass">
+		<div id="txt_trouble_de" class="renditjatrouble">	
+			<div id="possible_txt_de"></div>	
+																			Drossel 8 ganz geschlossen (Kabine sitzt auf dem Puffer).	
+		</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec">
+		<div id="rec_txt_de"></div>	
+																			Drossel 8 „heraus“ drehen. Einstellung 7 ganz "hinein" drehen um Senkkolben zu schließen, dann wieder auf
+gewünschte Geschwindigkeit "heraus" drehen.
+
+	</div>	</div>
+	<div id="trouble_9_de"  class="troubleClass">
+		<div id="txt_trouble_de" class="renditjatrouble">	
+			<div id="possible_txt_de"></div>	
+																			Einsatzgröße Umlaufkolben U zu groß. (Schlitze zu breit)	</div>
+		<div id="txt_trouble_de_rec" class="renditjatrouble_rec">
+			<div id="rec_txt_de"></div>										Kleineren Umlaufkolben einsetzen (siehe Durchflussgrafik EV-Datenblatt).	</div>	</div>
+	<div id="trouble_10_de"  class="troubleClass">
+		<div id="txt_trouble_de" class="renditjatrouble">	
+			<div id="possible_txt_de"></div>								Pumpe läuft in falscher Richtung.	</div>
+		<div id="txt_trouble_de_rec" class="renditjatrouble_rec">
+			<div id="rec_txt_de"></div>										Motor-Drehrichtung überprüfen und Pumpe korrekt anschließen.	</div>	</div>
+	<div id="trouble_11_de"  class="troubleClass">
+		<div id="txt_trouble_de" class="renditjatrouble">	
+			<div id="possible_txt_de"></div>								Verbindung zur Pumpe stark undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>										  Pumpen-Verbindung abdichten. </div>	</div>
+	<div id="trouble_12_de"  class="troubleClass">
+		<div id="txt_trouble_de" class="renditjatrouble">	
+			<div id="possible_txt_de"></div>								Pumpe zu klein, abgenutzt oder Risse im Gehäuse. </div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>		 Größere Pumpe wählen oder Pumpe austauschen.	</div>	</div>
+	<div id="trouble_13_de"  class="troubleClass">
+		<div id="txt_trouble_de" class="renditjatrouble">	
+			<div id="possible_txt_de"></div>								Test: Wenn sich beim Drehen der Einstellung 1 bei laufender Pumpe der Druck nicht auf 5 bar erhöht, auch wenn ein kleinerer Umlaufkolben eingebaut wurde, liegt die Störung an der Pumpe, der Verbindung zwischen Pumpe und Ventil oder dem Pulsationsdämpfer, falls vorhanden.	</div></div>
+	<!--    ###### Spanisch #####
+		Subida
+		Up 1
+-->
+					<div id="trouble_1_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble">	Prueba: Gira adentro el ajuste 5 completamente. Si el ascensor empieza a subir, el problema esta en la válvula magnética A.	</div>
+                        </div>
+                        <div id="trouble_2_es"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble">
+                                <div id="possible_txt_es">
+                                </div>
+                                Bobina A no energizado o voltaje demasiado bajo. 	
+                            </div>
+                            <div id="txt_trouble" class="renditjatrouble_rec">
+                            <div id="rec_txt_es">
+                            </div>	Véase  A  debajo.	</div>	
+                        </div>
+                            
+                        <div id="trouble_3_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Válvula magnética A: el tubo no esta apretado. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Apriete el tubo de la válvula magnética A.	</div>	</div>
+                        <div id="trouble_4_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Válvula magnetica A: suciedad o daño entre la aguja AN y el asiento AS.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Limpie la aguja y el asiento o sustituyalos.	</div>	</div>
+                        <div id="trouble_5_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 2 es demasiado cerrado. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,afuera' el ajuste 2.	</div>	</div>
+                        <div id="trouble_6_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 1 es demasiado abierto. No hay suficiente presión piloto.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Ajuste la presión de derivacion.	</div>	</div>
+                        <div id="trouble_7_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La válvula de sobrepresión S esta configurada demasiado baja.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Ajuste la presíon más alta (gire ,adentro').	</div>	</div>
+                        <div id="trouble_8_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 8 esta completamente cerrado.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,afuera' el ajuste 8. Gire ,adentro' ajuste 7 completamente para cerrar la válvula de bajada, luego gire ,afuera' ajuste 7 a la velocidad deseada.	</div>	</div>
+                        <div id="trouble_9_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La guía de flujo de la válvula de desviacion U esta demasiado grande.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Insert smaller bypass flow guide(see ‘flow guide charts’ on EV-datasheet).</div>	</div>
+                        <div id="trouble_10_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La bomba está funcionando en el sentido equivocado. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Compruebe el sentido del motor e instale la bomba correctamente.  	</div>	</div>
+                        <div id="trouble_11_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La brida de unión de la bomba tiene fugas excesivas. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Selle la unión de la bomba.	</div>	</div>
+                        <div id="trouble_12_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La bomba no tiene suficiente poder, esta desgastada o presenta una grieta en su caja.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Seleccione una bomba más grande o sustituya la bomba. 	</div>	</div>
+                        <div id="trouble_13_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble">	Prueba: Si girando ,adentro' el ajuste 1 con la bomba funcionando la presión no sube encima de 5 bar aún una guia de flujo de la válvula de desviación más prequeña insertada, el problema se debe buscar en la bomba, la conexión de la bomba y la válvula o en el amortiguador de pulsación si hay.	</div>
+                        </div>
+               <!--- ----------------------->
+  
+                    </div>
+                    
+                    <div id="tshUpButt2" class="tshClass"  data-role="collapsible">
+                       <img id='VideoSymbol' src='css/images/videoSymbol.png'/><h3 id="h_tshUpButt2" > Up-Start, but no Full Speed     </h3>
+                         <div id="trouble_14_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble">	Test: Turn adjustment 3 all the way in. If the elevator now travels upwards at full speed the problem is at solenoid B.	</div>
+                          </div>
+                          <div id="trouble_15_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Coil B not energised or voltage too low. 	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Check electrics. See A below.	</div>	</div>
+                          <div id="trouble_16_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Solenoid B tube not screwed down tight. 	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Tighten solenoid B tube. 	</div>	</div>
+                          <div id="trouble_17_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Solenoid B: needle AN and seat AS contaminated or damaged.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Clean or change needle and seat.	</div>	</div>
+                          <div id="trouble_18_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	The pump connection flange is leaking excessively.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Seal the pump connection.  	</div>	</div>
+                          <div id="trouble_19_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	The pump is undersize or worn.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Select bigger pump or change pump. 	</div>	</div>
+                          
+                          
+                          <div id="trouble_14_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Test: Drossel 3 ganz "hinein" drehen. Falls der Aufzug jetzt mit voller Geschwindigkeit fährt, liegt die Störung an Magnetventil B.	</div></div>
+	<div id="trouble_15_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Magnetspule B ohne Strom oder zu wenig Spannung.</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Elektrik überprüfen. Siehe Vermerk A.	</div>	</div>
+	<div id="trouble_16_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Magnetventil B Rohr nicht fest angezogen.</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Magnetventil B Rohr fester anziehen.	</div>	</div>
+	<div id="trouble_17_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Magnetventil B: Magnetnadel <b>AN</b> und Sitz <b>AS</b> verschmutzt oder beschädigt.</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Magnetnadel und Sitz reinigen oder austauschen	</div>	</div>
+	<div id="trouble_18_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Verbindung zur Pumpe stark undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Verbindung zur Pumpe abdichten. 	</div>	</div>
+	<div id="trouble_19_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Pumpe zu klein oder abgenutzt.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Größere Pumpe wählen oder Pumpe austauschen.	</div>	</div>
+							
+<!--    ###### Spanisch #####
+		Subida
+		Up 2
+-->						
+						
+						
+						<div id="trouble_14_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble">	Prueba: Gira ,adentro' el ajuste 3 en su totalidad. Si el ascensor ahora sube a toda velocidad, el problema se encuentra en la válvula magnética B.	</div>
+                          </div>
+                          <div id="trouble_15_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Bobina B no energizado o voltaje demasiado bajo.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Véase  A  debajo.	</div>	</div>
+                          <div id="trouble_16_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Válvula magnética B: el tubo no esta apretado.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Apriete el tubo de la válvula magnética B.	</div>	</div>
+                          <div id="trouble_17_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Válvula magnética B: suciedad o daño entre la aguja AN  y el asiento AS.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Limpie la aguja y el asiento o sustituyalos.	</div>	</div>
+                          <div id="trouble_18_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La brida de unión de la bomba tiene fugas excesivas.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Selle la unión de la bomba. 	</div>	</div>
+                          <div id="trouble_19_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La bomba no tiene suficiente poder, esta desgastada o presenta una grieta en su caja.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Seleccione una bomba más grande o sustituya la bomba. 	</div>	</div>
+						  
+		<!--   --------------->
+                          
+                    </div>
+                    
+                    <div id="tshUpButt3" class="tshClass" data-role="collapsible">
+                     <img id='VideoSymbol' src='css/images/videoSymbol.png'/><h3 id="h_tshUpButt3" > Up-Start too hard   </h3>
+                          <div id="trouble_20_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 1 closed too far.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Adjust bypass pressure. 	</div>	</div>
+                          <div id="trouble_21_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustmend 2 opened too far.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn in adjustment 2. 	</div>	</div>
+                          <div id="trouble_22_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Bypass flow guide U too small (slots too narrow).	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec">	Insert larger bypass flow guide(see ‘flow guide charts’ on EV-datasheet).	</div>	</div>
+                          <div id="trouble_23_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	O-Ring UO on bypass flow guide U is leaking.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Change O-Ring → see EV spare parts list. 	</div>	</div>
+                          <div id="trouble_24_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Star to delta motor switch period is too long. 	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	0.2-0.3 sec. is sufficient. 	</div>	</div>
+                          <div id="trouble_25_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Excessive friction on the guide rails or in the cylinder head.</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Can not be eliminated through valve adjustment.	</div>	</div>
+                            
+                            
+                           <div id="trouble_20_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Einstellung 1 zu weit geschlossen. 	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Umlaufdruck neu einstellen.</div>	</div>
+	<div id="trouble_21_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Drossel 2 zu weit geöffnet.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Drossel 2 "hinein" drehen.	</div>	</div>
+	<div id="trouble_22_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Einsatzgröße Umlaufkolben U zu klein (Schlitze zu schmal).	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Größerer Umlaufkolben einsetzen (siehe Durchflussgrafik EV-Datenblatt).</div>	</div>
+	<div id="trouble_23_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	O-Ring UO am Umlaufkolben U undicht.
+</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	O-Ring wechseln → siehe EV Ersatzteilliste	</div>	</div>
+	<div id="trouble_24_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Motorschaltung von Stern auf Dreieck kommt zu spät.</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	0,2-0,3 sek. Umlaufzeit ist ausreichend.	</div>	</div>
+	<div id="trouble_25_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>Starke Reibung an den Führungsschienen oder
+der Zylinderkopfführung.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Kann nicht durch den Steuerblock beseitigt werden	</div>	</div>
+	                 						  
+<!--    ###### Spanisch #####
+		Subida
+		Up 3
+-->							  
+						  
+						  
+						  <div id="trouble_20_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 1 esta demasiado cerrado.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Ajuste la presión de derivacion.	</div>	</div>
+                          <div id="trouble_21_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 2 esta demasiado abierto.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,adentro' el ajuste 2.	</div>	</div>
+                          <div id="trouble_22_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La guía de flujo de la válvula de desviacion U esta demasiado pequeño.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec">	Inserte una guía de flujo más grande (mira la magnitud de utilidad en la ficha de datos de EV).	</div>	</div>
+                          <div id="trouble_23_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La junta tórica UO de la válvula de desviación U presenta fugas.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Sustituya la junta tórica - mira la lista de repuestos de la válvula EV.	</div>	</div>
+                          <div id="trouble_24_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El periodo del interruptor de motor estrella a delta es demasiado largo. 	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	0,2-0,3 s es suficiente.	</div>	</div>
+                          <div id="trouble_25_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Fricción excesiva en los raíles de guía o en la cabeza del cilindro.</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	No se puede eliminar a través los ajustes de la válvula.	</div>	</div>
+						  
+	<!---       ----->
+						
+                    </div>
+                    
+                    <div id="tshUpButt4" class="tshClass" data-role="collapsible">
+                      <h3 id="h_tshUpButt4" >  No deceleration into levelling speed </h3><img id='VideoSymbol' src='css/images/videoSymbol.png'/>
+                          <div id="trouble_26_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Coil B does not de-energise.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Check electrics. See A below. Slow down switch is set to high (too late).	</div>	</div>
+                          <div id="trouble_27_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 3 closed too far.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn out adjustment 3.	</div>	</div>
+                          <div id="trouble_28_gb"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	O-Ring UO on bypass flow guide U is leaking.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Change O-Ring → see EV spare parts list.	</div>	</div>
+                          
+                          	<div id="trouble_26_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Elektrik überprüfen. Siehe Vermerk A. Schachtschalter möglicherweise zu hoch (zu spät)</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Elektrik überprüfen. Siehe Vermerk  A** . Schachtschalter möglicherweise zu hoch (zu spät).	</div>	</div>
+	<div id="trouble_27_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Drossel 3 zu weit geschlossen.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Drossel 3 "heraus" drehen.	</div>	</div>
+	<div id="trouble_28_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	O-Ring UO am Umlaufkolben U undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	O-Ring wechseln → siehe EV Ersatzteilliste.	</div>	</div>
+							  
+<!--    ###### Spanisch #####
+		Subida
+		Up 4
+-->							  
+						  
+						  
+						   <div id="trouble_26_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Bobina B no se desenergiza.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Véase  A  debajo. Posiblemente el interruptor de frenado esta instalado muy alto y reacciona tarde. 	</div>	</div>
+                          <div id="trouble_27_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 3 esta demasiado cerrado.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,afuera' el ajuste 3.	</div>	</div>
+                          <div id="trouble_28_es"  class="troubleClass">
+                          <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La junta tórica UO de la válvula de desviación U presenta fugas.	</div>
+                          <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Sustituya la junta tórica - mira la lista de repuestos de la válvula EV.	</div>	</div>
+	<!---            --->
+  
+                    </div>
+                    
+                    <div id="tshUpButt5" class="tshClass" data-role="collapsible">
+                        <h3 id="h_tshUpButt5" > Levelling too fast </h3><img id='VideoSymbol' src='css/images/videoSymbol.png'/>
+                         <div id="trouble_29_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 4 is opened too far.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn in adjustment 4 to about 0.05 m/s levelling speed.	</div>	</div>
+                        
+                        <div id="trouble_29_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Einstellung 4 zu weit geöffnet.</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Einstellung 4 "hinein" drehen auf ca. 0,05 m/s Schleichfahrtgeschwindigkeit.</div>	</div>
+		<!--    ###### Spanisch #####
+		Subida
+		Up 5
+-->							  
+						  
+						   <div id="trouble_29_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 4 esta demasiado abierto.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,adentro' el ajuste 4 hasta approx. 0,05 m/s velocidad de nivelación.	</div>	</div>
+						
+						<!--- --->
+                        
+                    </div>
+                    
+                    <div id="tshUpButt6" class="tshClass" data-role="collapsible">
+                       <h3 id="h_tshUpButt6" > Deceleration into levelling speed but overtravel of floor level </h3><img id='VideoSymbol' src='css/images/videoSymbol.png'/>
+                       <div id="trouble_30_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Coil A is de-energised too late.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Check electrics. See A below. Change position in the shaft.</div>	</div>
+                        <div id="trouble_31_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 5 (soft-stop) is closed too far.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn out adjustment 5.	</div>	</div>
+                        <div id="trouble_32_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 1 is closed too far.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Adjust bypass pressure.	</div>	</div>
+                       <div id="trouble_33_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Up levelling speed too high.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn in adjustment 4 until the lift stops level with the floor or to about 0.05 m/s (recommendation).	</div>	</div>
+                        
+                        <div id="trouble_30_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>Magnetspule A (Halt oben) zu spät ohne Strom.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Elektrik prüfen. Siehe Vermerk A. Etagen-Schalter verschieben.	</div>	</div>
+						
+	<div id="trouble_31_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>
+		Drossel 5 (Weich-Halt) zu weit geschlossen.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Drossel 5 "heraus" drehen.	</div>	</div>
+	<div id="trouble_32_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		Einstellung 1 zu weit geschlossen.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Umlaufdruck neu einstellen.	</div>	</div>
+	<div id="trouble_33_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>
+		Schleichfahrt aufwärts zu schnell.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Einstellung 4 "hinein" drehen, bis Aufzug bündig in der Haltestelle hält oder auf ca. 0,05 m/s (Empfehlung).	</div>	</div>
+						
+	<!--    ###### Spanisch #####
+		Subida
+		Up 6
+-->										
+						
+						<div id="trouble_30_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Bobina A se desenergiza demasiado tarde.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Véase  A  debajo. Comprueba los conexiones eléctricos.</div>	</div>
+                        <div id="trouble_31_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 5 esta demasiado cerrado.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,afuera' el ajuste 5.	</div>	</div>
+                        <div id="trouble_32_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 1 esta demasiado cerrado. </div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Ajuste la presión de derivacion.	</div>	</div>
+                       <div id="trouble_33_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Velocidad de nivelación es demasiado alta.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,adentro' el ajuste 4 hasta approx. 0,05 m/s velocidad de nivelación.	</div>	</div>
+						<!--- ---->
+                        
+                    </div>
+                    
+                    <div id="tshUpButt7" class="tshClass" data-role="collapsible">
+                       <h3 id="h_tshUpButt7" > Bypass-pressure not adjustable </h3><img id='VideoSymbol' src='css/images/videoSymbol.png'/>
+                       <div id="trouble_34_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Restriction on the return line.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Enlarge return line.	</div>	</div>
+                         <div id="trouble_35_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Bypass flow guide U too small (slots too narrow).	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Insert larger bypass flow guide(see ‘flow guide charts’ on EV-datasheet).	</div>	</div>
+                                        
+                    
+                    <div id="trouble_34_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+						Tankleitung hat zu geringen Querschnitt.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>
+						Querschnitt vergrößern.	</div>	</div>
+	<div id="trouble_35_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		Einsatzgröße Umlaufkolben U zu klein (Schlitze zu schmal).  	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Größeren Umlaufkolben einsetzen (siehe Durchflussgrafik EV-Datenblatt).	</div>	</div>
+	
+              						
+<!--    ###### Spanisch #####
+		Subida
+		Up 7
+-->							
+						
+						<div id="trouble_34_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Restricción en la línea de retorno.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Retire la restricción; alargue la línea de retorno.	</div>	</div>
+                         <div id="trouble_35_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La guía de flujo de la válvula de desviacion U esta demasiado pequeño.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Inserte una guía de flujo más grande (mira la magnitud de utilidad en la ficha de datos de EV).	</div>	</div>
+						
+					<!---   ---->	
+			  
+			  </div>
+                    
+                    <div id="tshUpButt8" class="tshClass" data-role="collapsible">
+                        <h3 id="h_tshUpButt8" > Elevator stops before reaching the floor (no levelling) </h3><img id='VideoSymbol' src='css/images/videoSymbol.png'/>
+                        <div id="trouble_36_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Coil A and B reversed.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Swap coil A and B. See A below.	</div>	</div>
+                        <div id="trouble_37_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Up levelling speed too slow. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn out adjustment 4 until the lift stops level with the floor or to about 0.05 m/s (recommendation).	</div>	</div>
+                        <div id="trouble_38_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Middle O-Ring FO of flange 4F is leaking.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Change O-Ring → see EV spare parts list.	</div>	</div>   
+                        
+                        
+                    
+                     <div id="trouble_36_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>
+						 Magnetspule A und B vertauscht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>
+						 Magnetspule A und B tauschen. Siehe Vermerk A.	</div>	</div>
+					<div id="trouble_37_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+						Schleichfahrt aufwärts zu langsam.
+					</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+						Einstellung 4 „heraus“ drehen, bis Aufzug bündig in der Haltestelle hält oder auf ca. 0,05 m/s (Empfehlung).	</div>	</div>
+					<div id="trouble_38_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>
+						Mittlerer O-Ring FO am Flansch 4F undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>
+						O-Ring wechseln → siehe EV Ersatzteilliste.
+					</div>	</div>
+												
+<!--    ###### Spanisch #####
+		Subida
+		Up 8
+-->									
+						
+						
+						<div id="trouble_36_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Bobina A y B son invertidos.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Intercambie bobinas A y B. Véase  A debajo.	</div>	</div>
+                        <div id="trouble_37_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Velocidad de nivelación de subida demasiado lenta.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,afuera' el ajuste 4 hasta el ascensor para al nivel del piso o a approx. 0,05 m/s velocidad de nivelación.	</div>	</div>
+                        <div id="trouble_38_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La junta tórica media FO de la brida 4F presenta fugas.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Sustituya la junta tórica - mira la lista de repuestos de la válvula EV.	</div>	</div>   
+                        
+						<!-----   ---->
+
+	
+                    </div>
+         </div>
+             
+    <!---   ktu fillon pjesa tjeter  --->
+    
+            <div id="downProblem" class="displayNON" data-role="collapsible-set">   
+        
+               		<div id="TdownProb"  style="color:#fff; width:100%; text-align:center; color:#000; " >
+                    	 <h3 style="color:#000">Down Problem</h3>
+                    </div>
+                    <div id="tshDownButt1" class="tshClass" data-role="collapsible">
+                       <h3 id="h_tshDownButt1"> No Down Start </h3>	<img id='VideoSymbol' src='css/images/videoSymbol.png'/>
+					 
+		
+                       <div id="trouble_40_gb"  class="troubleClass">					   
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Coil D not energised or voltage too low. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Check electrics. See A below.	</div>	</div>
+                        <div id="trouble_41_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 6 is closed too far.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn out adjustment 6.	</div>	</div>
+                        <div id="trouble_42_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 8 is opened too far. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn in adjustment 8 cautiously.Attention: Danger of travelling through!	</div>	</div>
+                        <div id="trouble_43_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	O-Ring UO on down valve X is leaking.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Change O-Ring → see EV spare parts list.	</div>	</div>
+						
+						
+						
+<!-- NEW: HINZUGEFÜGT ADDED HINZUGEFÜGT ADDED HINZUGEFÜGT ADDED HINZUGEFÜGT ADDED HINZUGEFÜGT ADDED -->	<!--NEU HINZU: -->
+						   <div id="trouble_44_gb"  class="troubleClass">
+						 <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Filter on solenoid D contaminated.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Check filter, clean if necessary.	</div>	</div>
+                    
+			<!--NEU HINZU END -->			
+		<!-- END OF ADDED -->				
+                    
+						
+						
+                     <div id="trouble_40_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+						 Magnetspule D ohne Strom oder zu wenig Spannung.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+						 Elektrik überprüfen. Siehe Vermerk A.	</div>	</div>
+	<div id="trouble_41_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>
+		Drossel 6 zu weit geschlossen.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Drossel 6 "heraus" drehen.	</div>	</div>
+	<div id="trouble_42_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>
+		Drossel 8 zu weit geöffnet.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Drossel 8 vorsichtig "hinein" drehen. Achtung: Gefahr des Durchfahrens nach unten.	</div>	</div>
+	<div id="trouble_43_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		O-Ring UO am Senkkolben X undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		O-Ring wechseln → siehe EV Ersatzteilliste.	</div>	</div>
+	<!--NEU HINZU: -->
+						<div id="trouble_44_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		Sieb Magnetventil D ist verschmutzt.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Sieb prüfen, bei Bedarf reinigen.	</div>	</div> 
+						
+						<!--    ###### Spanisch ######################################################################################################################################################
+		bajada
+		Down 1
+-->						  <div id="trouble_40_es"  class="troubleClass">					   
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Bobina D: no energizado o voltaje demasiado bajo.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Véase  A  debajo.	</div>	</div>
+                        <div id="trouble_41_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 6 está demasiado cerrado.		</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,afuera' el ajuste 6.	</div>	</div>
+                        <div id="trouble_42_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 8 está demasiado abierto. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,adentro' el ajuste 8 con cuidado. Atención: Peligro de pasar el piso!	</div>	</div>
+                        <div id="trouble_43_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La junta tórica UO de la válvula de bajada X presenta fugas.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Sustituya la junta tórica - mira la lista de repuestos de la válvula EV.	</div>	</div>
+						<div id="trouble_44_es"  class="troubleClass">
+						 <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Filtro del la válvula magnética D contaminado.		</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Compruebe el filtro y limpielo si es necesario.	</div>	</div>
+						
+
+						
+						
+                    </div>
+                    
+                    <div id="tshDownButt2" class="tshClass" data-role="collapsible">
+                        <h3 id="h_tshDownButt2">No full speed</h3><img id='VideoSymbol' src='css/images/videoSymbol.png'/>
+                        <div id="trouble_45_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Coil C not energised or voltage too low. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Check electrics. See A below.	</div>	</div>
+                        <div id="trouble_46_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 7 (full speed) closed too far.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn out adjustment 7. 	</div>	</div>
+                        <div id="trouble_47_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Down valve flow guide X too small (slots too narrow).	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Insert larger down valve flow guide(see ‘flow guide charts’ on EV-datasheet).	</div>	</div>
+           			
+<!-- NEW: HINZUGEFÜGT ADDED HINZUGEFÜGT ADDED HINZUGEFÜGT ADDED HINZUGEFÜGT ADDED HINZUGEFÜGT ADDED -->	<!--NEU HINZU: -->					
+					 <div id="trouble_48_gb"  class="troubleClass">	
+					 <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Filter on solenoid D contaminated.	</div>
+					<div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Check filter, clean if necessary.</div>	</div>
+						
+			<!--NEU HINZU END -->			
+		<!-- END OF ADDED -->				
+						
+						
+						
+						
+                 <div id="trouble_45_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+					 Magnetspule C ohne Strom oder zu wenig Spannung.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+					 Elektrik überprüfen. Siehe Vermerk A.	</div>	</div>
+	<div id="trouble_46_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		Einstellung 7 (Vollgeschwindigkeit) zu weit geschlossen.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Einstellung 7 "heraus" drehen.</div>	</div>
+	<div id="trouble_47_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		Einsatzgröße Senkkolben X zu klein (Schlitze zu schmal).	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Größerer Senkkolben einsetzen (siehe Durchflussgrafik EV-Datenblatt).</div>	</div>
+	
+                  
+			<!--NEU HINZU: -->
+						<div id="trouble_48_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		Sieb Magnetventil D ist verschmutzt.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Sieb prüfen, bei Bedarf reinigen.	</div>	</div> 
+						
+						<!--NEU HINZU END -->
+						
+<!--    ###### Spanisch ######################################################################################################################################################
+		bajada
+		Down 2
+-->						 				   
+						<div id="trouble_45_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Bobina C: no energizado o voltaje demasiado bajo.  	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Véase  A  debajo.	</div>	</div>
+                        <div id="trouble_46_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 7 está demasiado cerrado.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,afuera' el ajuste 7. 	</div>	</div>
+                        <div id="trouble_47_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La guía de flujo de la válvula de bajada X esta demasiado pequeña.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Inserte una guía de flujo más grande (mira la magnitud de utilidad en la ficha de datos de EV).	</div>	</div>
+						 <div id="trouble_48_es"  class="troubleClass">	
+						 <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Filtro de la válvula magnética D contaminado.	</div>
+						<div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Comprueba el filtro, cambielo si es necesario.</div>	</div>
+	
+						
+                  </div>
+                    
+                    <div id="tshDownButt3" class="tshClass" data-role="collapsible">
+                        <h3 id="h_tshDownButt3">No down levelling. Elevator stops before floor leve </h3><img id='VideoSymbol' src='css/images/videoSymbol.png'/>
+                        <div id="trouble_49_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Coil C and D reversed.  	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Swap coil C and D. See A below.	</div>	</div>
+                        <div id="trouble_50_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 9 turned in too far.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn out adjustment 9 to about 0.05 m/s levelling speed. 	</div>	</div>
+                        <div id="trouble_51_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Spring 9F  in  adjustment  9 is  broken  or  down  levelling valve Y is blocked. </div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Clean the down levelling valve or change the spring.	</div>	</div>
+                        <div id="trouble_52_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Pressure setting of KS too high	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn out adjustment KS.	</div>	</div>
+            		      
+                      <div id="trouble_49_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+						 Magnetspule C und D vertauscht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+						  Magnetspule C und D tauschen. Siehe Vermerk A.	</div>	</div>
+	<div id="trouble_50_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		Einstellung 9 zu weit geschlossen	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Einstellung 9 "heraus" drehen auf ca. 0,05 m/s Schleichfahrtgeschwindigkeit.	</div>	</div>
+	<div id="trouble_51_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		Bei Einstellung 9 ist Feder 9F defekt bzw. der Stößel Y klemmt.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Stößel prüfen und reinigen, fehlerhafte Teile austauschen.	</div>	</div>
+	<div id="trouble_52_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		Druck bei KS zu hoch eingestellt. 	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Einstellung KS niedriger einstellen ("heraus" drehen).	</div>	</div>
+	<!--    ###### Spanisch ######################################################################################################################################################
+		bajada
+		Down 3
+-->								
+						
+						<div id="trouble_49_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Bobina C y D son invertidos.  	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Intercambie bobinas C y D. Véase  A debajo.	</div>	</div>
+                        <div id="trouble_50_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 9 está demasiado cerrado.		</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,afuera' el ajuste 9. 	</div>	</div>
+                        <div id="trouble_51_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Resorte 9F del ajuste 9 está roto o válvula de bajada lentísima Y está bloqueado. </div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Limpie la válvula de bajada lentísima Y o sustituya el resorte. 	</div>	</div>
+                        <div id="trouble_52_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste de presión de la válvula KS is muy alta.</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	 Ajuste la presíon más baja (gire ,afuera').	</div>	</div>
+				
+                
+                </div>
+                    
+                    <div id="tshDownButt4" class="tshClass" data-role="collapsible">
+                        <h3 id="h_tshDownButt4">No down levelling. Elevator travels though floor level </h3><img id='VideoSymbol' src='css/images/videoSymbol.png'/>
+                        <div id="trouble_53_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 8 closed too far. Filter of adjustment 8 contaminated or adjustment 8 is damaged.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn  out  adjustment  8  about  ½  turn,  clean  the  filter  or change adjustment 8. </div>	</div>
+                        <div id="trouble_54_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Down levelling speed is too fast.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn in adjustment 9 until the lift stops level with the floor or to about 0.05 m/s (recommendation).	</div>	</div>
+						
+ 
+                        <div id="trouble_53_de"  class="troubleClass">
+						<div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div> Drossel 8 zu weit geschlossen. Filter von Drossel 8 verschmutzt oder Drossel 8 defekt.	</div>	
+						<div id="txt_trouble_de_rec" class="renditjatrouble_rec">	<div id="rec_txt_de"></div>	Drossel 8 etwa ½ Drehung "heraus" drehen. Filter reinigen oder Drossel 8 austauschen.	</div>	</div>
+						<div id="trouble_54_de"  class="troubleClass">		
+						<div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>Schleichfahrt abwärts zu schnell.	</div>	
+						<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>Einstellung 9 „hinein“ drehen, bis Aufzug bündig in der Haltestelle hält oder auf ca. 0,05 m/s (Empfehlung).	</div>	</div>
+	
+						
+						
+<!--    ###### Spanisch ######################################################################################################################################################
+		bajada
+		Down 4
+-->								
+							
+						
+						<div id="trouble_53_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 8 está demasiado cerrado. El filtro del ajuste es bloqueado o el ajuste 8 está dañado. </div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,afuera' el ajuste 8 una 1/2 vuelta, limpie el filtro o sustituya el ajuste 8. </div>	</div>
+                        <div id="trouble_54_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Velocidad de nivelación en bajada es muy rapida. 	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,adentro' el ajuste 9 hasta el ascensor para al nivel del piso o a approx. 0,05 m/s velocidad de nivelación.	</div>	</div>
+	
+<!-- NEUE ÜBERSCHRIFT - NEW HEADLINE  -->
+					
+					</div>
+					
+					
+                   
+                    <div id="tshDownButt5" class="tshClass" data-role="collapsible">
+                       <h3 id="h_tshDownButt5"> Elevator sinks quickly (only full speed) </h3><img id='VideoSymbol' src='css/images/videoSymbol.png'/>
+					   
+					    <div id="trouble_55_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Solenoid C: needle DN and seat DS contaminated or damaged. </div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Clean or change needle and seat.	</div>	</div>
+                        <div id="trouble_56_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Inner O-Ring FO on flange 7F is leaking.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Change O-Ring → see EV spare parts list.	</div>	</div>
+					   
+				<div id="trouble_55_de"  class="troubleClass">
+						<div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>		Magnetventil C: Magnetnadel DN und Sitz DS verschmutzt oder beschädigt.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Magnetnadel und Sitz reinigen oder austauschen.	</div>	</div>
+				<div id="trouble_56_de"  class="troubleClass">
+				<div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>			Innerer O-Ring FO am Flansch 7F undicht.	</div>	
+				<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>			O-Ring wechseln → siehe EV Ersatzteilliste.	</div>	</div>
+	
+                  <!--    ###### Spanisch ######################################################################################################################################################
+							bajada
+							Down 5
+					-->						
+						<div id="trouble_55_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Válvula magnética C: suciedad o daño entre la aguja DN  y el asiento DS. </div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Limpie la aguja y el asiento o sustituyalos.	</div>	</div>
+                        <div id="trouble_56_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La junta tórica interior FO de la brida 7F presenta fugas.  	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Sustituya la junta tórica - mira la lista de repuestos de la válvula EV.	</div>	</div>
+
+						
+             
+</div>
+                    <div id="tshDownButt6" class="tshClass" data-role="collapsible">
+					<h3 id="h_tshDownButt6">Elevator sinks slowly due to inner leakage (relevelling) </h3>	<img id='VideoSymbol' src='css/images/videoSymbol.png'/>	
+					
+					<div id="trouble_57_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Solenoid D tube not screwed down tight.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Tighten solenoid D tube.	</div>	</div>
+                        <div id="trouble_58_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Adjustment 8 is closed too far.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn out adjustment 8 about ½ turn.	</div>	</div>
+					 
+						<div id="trouble_59_gb"  class="troubleClass">
+						  <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Damage on down valve X or check valve V.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Check parts and change them if necessary.	</div>	</div>
+						
+						  
+												
+                        <div id="trouble_57_de"  class="troubleClass">
+						<div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>				Magnetventil D-Rohr nicht fest angezogen.	</div>	
+						<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>				Magnetventil D-Rohr fester anziehen.	</div>	</div>
+						<div id="trouble_58_de"  class="troubleClass">
+						<div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>		Drossel 8 zu weit geschlossen.	</div>	
+						<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>		Drossel 8 um etwa ½ Drehung "heraus" drehen.	</div>	</div>
+						<div id="trouble_59_de"  class="troubleClass">
+						<div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	Starke Beschädigung am Senkkolben X oder Rückschlagventil V.	</div>	
+						<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Teile prüfen und bei Bedarf austauschen.	</div>	</div>  
+						  
+						 						
+<!--    ###### Spanisch ######################################################################################################################################################
+		bajada
+		Down 6
+-->					
+						<div id="trouble_57_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Válvula magnética D: el tubo no esta apretado.		</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Apriete el tubo de la válvula magnética D.	</div>	</div>
+                        <div id="trouble_58_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	El ajuste 8 está demasiado cerrado. El filtro del ajuste es bloqueado o el ajuste 8 está dañado.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,afuera' el ajuste 8 una 1/2 vuelta.	</div>	</div>					 
+						<div id="trouble_59_es"  class="troubleClass">
+						  <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Válvula de bajada X o válvula de bajada lentísima Y son dañados.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Compruebelos y cambielos si es necesario.	</div>	</div>
+
+</div>
+
+                    
+                    <div id="tshDownButt7" class="tshClass" data-role="collapsible">
+					<h3 id="h_tshDownButt7">Elevator sinks due toinner leakage of auxiliary equipment </h3>	<img id='VideoSymbol' src='css/images/videoSymbol.png'/>	
+					<div id="trouble_60_gb"  class="troubleClass">
+					 <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	For possible down leakage points see technical documentation ‘System Leakage’.	</div></div>
+					<div id="trouble_61_gb"  class="troubleClass">  
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Solenoid D: needle DN and seat DS contaminated or damaged.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Clean or change needle and seat.	</div>	</div>
+                     <div id="trouble_62_gb"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>O-Ring XO of down valve X is leaking.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Change O-Ring → see EV spare parts list. When down valve is compensated, replace down valve.	</div>	</div>
+           			<div id="trouble_63_gb"  class="troubleClass">
+						 <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>O-Ring VO of check valve V is leaking.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Change check valve → see EV spare parts list.	</div>	</div>
+					<div id="trouble_64_gb"  class="troubleClass">		
+					<div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>O-Ring WO of check valve V is leaking.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Change O-Ring → see EV spare parts list.	</div>	</div>
+					<div id="trouble_65_gb"  class="troubleClass">	
+					<div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>Inner O-Ring FO in flange 4F is leaking.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Change O-Ring → see EV spare parts list.	</div>	</div>	
+					<div id="trouble_66_gb"  class="troubleClass">
+						<div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>O-Ring HO of manual lowering H is leaking.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Change O-Ring HO or change manual lowering.	</div>	</div>
+
+
+	<div id="trouble_60_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		Mögliche Senkleckagen-Ursachen siehe technische Dokumentation "Interne Undichtheit".	</div><!-- FÄLLT WEG ?	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Eine Dichtstelle ersetzen, bevor zur nächsten möglichen Leckagestelle weitergegangen wird.	</div>-->	</div>
+	<div id="trouble_61_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>
+		Magnetventil D: Magnetnadel DN und Sitz DS verschmutzt oder beschädigt.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Magnetnadel und Sitz reinigen oder austauschen.	</div>	</div>
+	<div id="trouble_62_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		O-Ring XO am Senkkolben X undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>
+		O-Ring wechseln → siehe EV Ersatzteilliste. Falls der Senkkolben kompensiert ist, den Kolben ersetzen.	</div>	</div>
+	<div id="trouble_63_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>
+		O-Ring VO am Rückschlag-Ventil V undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>
+		Rückschlag-Ventil wechseln → siehe EV Ersatzteilliste.	</div>	</div>
+	<div id="trouble_64_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		O-Ring WO am Stößel-Ventil V undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		O-Ring wechseln → siehe EV Ersatzteilliste.	</div>	</div>
+	<div id="trouble_65_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>
+		Innerer O-Ring FO am Flansch 4F undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		O-Ring wechseln → siehe EV Ersatzteilliste.</div>	</div>
+	<div id="trouble_66_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		O-Ring HO am Notablass H undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		O-Ring HO wechseln oder Notablass ersetzen.	</div>	</div>	
+
+								
+<!--    ###### Spanisch ######################################################################################################################################################
+		bajada
+		Down 7
+-->							
+						
+						<div id="trouble_60_es"  class="troubleClass">
+					 <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Para posibles causas de fuga interna, mira el documento: Fugas del sistema.	</div></div>
+					<div id="trouble_61_es"  class="troubleClass">  
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Válvula magnética D: suciedad o daño entre la aguja DN  y el asiento DS.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Limpie la aguja y el asiento o sustituyalos.	</div>	</div>
+                     <div id="trouble_62_es"  class="troubleClass">
+                        <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>La junta tórica XO de la válvula de bajada X presenta fugas.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Sustituya la junta tórica - mira la lista de repuestos de la válvula EV. Si la válvula esta compensada, sustituyala.	</div>	</div>
+           			<div id="trouble_63_es"  class="troubleClass">
+						 <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>La junta tórica VO de la válvula de retención V presenta fugas.		</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Sustituya la junta tórica - mira la lista de repuestos de la válvula EV.	</div>	</div>
+					<div id="trouble_64_es"  class="troubleClass">		
+					<div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>La junta tórica WO de la válvula de retención V presenta fugas.		</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Sustituya la junta tórica - mira la lista de repuestos de la válvula EV.	</div>	</div>
+					<div id="trouble_65_es"  class="troubleClass">	
+					<div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>La junta tórica interior FO de la brida 7F presenta fugas.		</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Sustituya la junta tórica - mira la lista de repuestos de la válvula EV.	</div>	</div>	
+					<div id="trouble_66_es"  class="troubleClass">
+						<div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>La junta tórica HO de la bajada manual H presenta fugas.	</div>
+                        <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Recomendado: Sustituya la junta tórica o la bajada manual - mira la lista de repuestos de la válvula EV.	</div>	</div>
+			
+
+</div>
+                    
+                   
+			
+			   <div id="tshDownButt8" class="tshClass" data-role="collapsible">
+					<h3 id="h_tshDownButt8">Elevator sinks due to inner leakage of auxiliary equipment</h3><img id='VideoSymbol' src='css/images/videoSymbol.png'/>
+	
+
+			
+                           <div id="trouble_67_gb"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	HP: Handpump is leaking. 	</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Seal the hand pump.	</div>	</div>
+                            <div id="trouble_68_gb"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	HX/MX: Adjustment 8M turned in too far.	</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Turn out adjustment 8M. </div>	</div>
+                            <div id="trouble_69_gb"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	HX/MX: Down valve 9M is leaking.Dirt or damage between the needle DN and seat DS.	</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Clean or change needle and seat. 	</div>	</div>
+                            <div id="trouble_70_gb"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	HX/MX: O-Ring XO of down valve YM is leaking. 	</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Change O-Ring → see EV spare parts list. 	</div>	</div>
+                            <div id="trouble_71_gb"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	HX/MX: Manual lowering is leaking (HX/MX). 	</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Change manual lowering. 	</div>	</div>
+                            <div id="trouble_72_gb"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Contraction of oil during cooling especially from 35°Cor above.	</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	Consider oil cooler if hot oil is a problem. 	</div>	</div>
+						
+						<!-- NEU  HINZU: -->
+						 <div id="trouble_73_gb"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_gb"></div>	Micro drive MD, door lock valve L10 orL20 are leaking.	</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_gb"></div>	When possible isolate and check.  	</div>	</div>
+				
+				
+						
+				
+                         
+    <div id="trouble_67_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+								HP Handpumpe undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+								Handpumpe abdichten.	</div>	</div>
+	<div id="trouble_68_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>
+		HX/MX: Drossel 8M zu weit geschlossen. </div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>
+		Drossel 8 "heraus" drehen.	</div>	</div>
+	<div id="trouble_69_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		HX/MX: 9M Drossel undicht, verschmutzt oder beschädigt zwischen Magnetnadel DN und Sitz DS.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Magnetnadel und Sitz reinigen oder austauschen.	</div>	</div>
+	<div id="trouble_70_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		HX/MX: O-Ring XO am Senkventil YM undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		O-Ring wechseln → siehe EV Ersatzteilliste.	</div>	</div>
+	<div id="trouble_71_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>	
+		HX/MX: Notablass undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+		Notablass ersetzen.	</div>	</div>
+	<div id="trouble_72_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>
+		Kontraktion durch Ölabkühlung, besonders bei über 35°C Öltemperatur.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	Eventuell Ölkühlung vorsehen.	</div>	</div>
+						
+						<!-- NEU HINZU: -->
+						
+						<div id="trouble_73_de"  class="troubleClass"><div id="txt_trouble_de" class="renditjatrouble">	<div id="possible_txt_de"></div>
+		Micro Drive MD, Drucksperrventil L10 oder L20 undicht.	</div>	<div id="txt_trouble_de_rec" class="renditjatrouble_rec"><div id="rec_txt_de"></div>	
+							Zusatzkomponenten durch Absperren einzeln prüfen und nach Anleitung abdichten.	</div>	</div>
+									<!-- NEU HINZU ENDE -->
+     						
+<!--    ###### Spanisch ######################################################################################################################################################
+		bajada
+		Down 7
+-->								
+						
+						 <div id="trouble_67_es"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	HP: La bomba manual presenta fugas. 	</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Retire el tubo de aspiración y observe si la bomba manual presenta fugas. Sustituya la bomba manual si es necesario.	</div>	</div>
+                            <div id="trouble_68_es"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	HX/MX: El ajuste 8M está demasiado cerrado. 	</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Gire ,afuera' el ajuste 8M. </div>	</div>
+                            <div id="trouble_69_es"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	HX/MX: La válvula abajo 9M presenta fugas. Suciedad o daño entre la aguja DN y el asiento DS. 	</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Limpie la aguja y el asiento o sustituyalos.	</div>	</div>
+                            <div id="trouble_70_es"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	HX/MX: La junta tórica XO de la válvula de bajada YM presenta fugas. 	</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Sustituya la junta tórica - mira la lista de repuestos de la válvula EV. 	</div>	</div>
+                            <div id="trouble_71_es"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	HX/MX: La bajada manual presenta fugas (HX/MX). 	</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Sustituya la bajada manual.	</div>	</div>
+                            <div id="trouble_72_es"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	Contracción del aceite durante el enfriamiento, especialmente desde 35 °C o más.	</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Considere un refrigerador del aceite si aceite caliente es un problema.	</div>	</div>
+						 <div id="trouble_73_es"  class="troubleClass">
+                            <div id="txt_trouble" class="renditjatrouble"><div id="possible_txt_es"></div>	La “Propulsión-Precisión” MD o las  válvulas de seguridad L10; L20 presentan fugas.		</div>
+                            <div id="txt_trouble" class="renditjatrouble_rec"><div id="rec_txt_es"></div>	Si es posible aísle los componentes y revíselos. 	</div>	</div>
+
+				   
+				   
+     </div>
+                    
+  
+   </div><!--  -----Ende problem down --------------------------------------------------------------------------------->
+   
+         <div id="trouble_75_gb" class="troubleClass"><strong>!  Valves are already adjusted according to available data.</strong> Check electrical operation before changing valve settings.<br />
+            <br />
+			 <strong>A** </strong>To check the operation of the coils, remove hexagon nut (19 mm). By lifting the coil, the noticeable magnetic force of a live coil can be felt. In addition, the lift function can be changed by lifting off the coils, for example, it is possible to simulate levelling speeds, to test accelerations and decelerations.<br /><br />
+				If the coil gets too hot, the coil has to be mounted onto the solenoid and the following adjustments have to be carried out on normal travels from floor to floor until the coil cooled down again.<br />
+			<br />
+			<strong>Standard settings</strong>: adj. <strong>1</strong> level with flange face, adjust bypass pressure (see document quick adjustments); adj. 4 level with flange face, then turn out adj. <strong>4</strong> for ½ a turn; turn in pressure relief valve <strong>S</strong> completely, then turn out <strong>S</strong> for 1½ turns; turn in adj.<strong> 2,3 & 5</strong> completely, turn out adj. <strong>3 & 5</strong> for 2½ turns and turn out adj.<strong> 2</strong> for EV ¾”: 1½ turns and for EV 1½” - 2½”: 2½ turns.<br />
+<br />
+
+
+          				
+  </div>
+        <div id="trouble_74_gb" class="troubleClass">
+       
+           
+			<strong>! Valves are already adjusted according to available data.</strong> Check electrical operation before changing valve settings.<br />
+<br />
+			<strong>A** </strong>To check the operation of the coils, remove hexagon nut (19 mm). By lifting the coil, the noticeable magnetic force of a live coil can be felt. In addition, the lift function can be changed by lifting off the coils, for example, it is possible to simulate levelling speeds, to test accelerations and decelerations.<br />
+<br />
+			If the coil gets too hot, the coil has to be mounted onto the solenoid and the following adjustments have to be carried out on normal travels from floor to floor until the coil cooled down again.<br />
+<br />
+
+		<strong>Standard settings:</strong> adj. <strong>7 & 9</strong> level with flange faces, then turn out adj. <strong>9</strong> for ½ a turn; turn in adj.<strong> 6 & 8</strong> completely, then for EV¾”: turn out adj. <strong>6</strong> for 2½ turns and turn out adj. <strong>8</strong> for <strong>1</strong> turn; for EV1½” - 2½”: turn adj. <strong>6</strong> for 2 to 2½ turns out and adj. <strong>8</strong> for 1½ turns out.
+			
+        </div>    
+        
+        <div id="trouble_75_de" class="troubleClass">
+               
+			<strong>! Steuerblöcke sind bereits entsprechend vorliegender Daten eingestellt.</strong>
+			Überprüfen sie die elektrische Funktion, bevor Einstellungsänderungen am Steuerblock vorgenommen werden.<br />
+<br />
+			<strong>A** </strong>Zur Prüfung, ob Magnetspulen unter Spannung sind, 6-Kant Mutter (19 mm) entfernen. Durch Abheben der Spule lässt sich die spürbare magnetische Kraft einer unter Strom stehenden Spule überprüfen. Außerdem lässt sich die Aufzugsfunktion umsteuern. So können durch das Abheben der Spule Schleichfahrten simuliert, sowie Anfahrten und Abbremsungen getestet werden.<br />
+<br />
+			Wenn die Spule in der Hand merklich zu warm wird, muss die Spule wieder auf das Magnetrohr aufgesetzt werden und sämtliche Einstellungen bei normalen Fahrten von Etage zu Etage ausgeführt werden, bis sich die Spule wieder abgekühlt hat.<br />
+<br />
+			<strong>Ausgangs-Einstellungen Hubfahrt:</strong> Einstellung <strong>1</strong> bündig mit Flansch, Umlaufdruck einstellen (siehe Dokument Schnelleinstellungen); Einstellung <strong>4</strong>, bündig mit Flansch und dann ½ Umdrehung „heraus“; Überdruckventil <strong>S</strong> ganz „hinein“ drehen, dann 1½ Umdrehungen „heraus“; Drosseln <strong>2, 3 & 5</strong> ganz „hinein“ drehen und dann: für EV ¾“: 1½ Umdrehungen „heraus“ drehen und für EV 1½“ - 2½“: 2 Umdrehungen „heraus“ drehen der Drossel <strong>2</strong>; 2½ Umdrehungen „heraus“ drehen der Drosseln <strong>3 & 5</strong>.
+			
+         </div>
+                <div id="trouble_74_de" class="troubleClass">
+              <strong>! Steuerblöcke sind bereits entsprechend vorliegender Daten eingestellt.</strong>
+			Überprüfen sie die elektrische Funktion, bevor Einstellungsänderungen am Steuerblock vorgenommen werden.<br />
+<br /> 
+              	<strong>A** </strong>Zur Prüfung, ob Magnetspulen unter Spannung sind, 6-Kant Mutter (19 mm) entfernen. Durch Abheben der Spule lässt sich die spürbare magnetische Kraft einer unter Strom stehenden Spule überprüfen. Außerdem lässt sich die Aufzugsfunktion umsteuern. So können durch das Abheben der Spule Schleichfahrten simuliert, sowie Anfahrten und Abbremsungen getestet werden.<br />
+<br />
+					Wenn die Spule in der Hand merklich zu warm wird, muss die Spule wieder auf das Magnetrohr aufgesetzt werden und sämtliche Einstellungen bei normalen Fahrten von Etage zu Etage ausgeführt werden, bis sich die Spule wieder abgekühlt hat.<br />
+<br />
+				<strong>Ausgangs-Einstellungen Senkfahrt:</strong> Einstellung <strong>7 & 9</strong> bündig mit Flansch, dann die Einstellung <strong>9</strong> ½ Umdrehung "heraus" drehen; Drosseln <strong>6 & 8</strong> ganz "hinein" drehen, dann für EV ¾": 2 ½ Umdrehungen "heraus" drehen der Drossel <strong>6</strong> und 1 Umdrehung "heraus" drehen der Drossel <strong>8</strong> und für EV 1½" - 2½": 2 bis 2½ Umdrehungen "heraus" drehen der Drossel <strong>6</strong> und 1½ Umdrehungen "heraus" drehen der Drossel <strong>8</strong>.				
+        </div>                     
+                                 
+
+ <!--    ###### Spanisch ######################################################################################################################################################
+		subida
+		Standard settings
+-->									
+ <div id="trouble_75_es" class="troubleClass"><strong>!  Las válvulas ya están ajustadas segun datos disponibles.</strong> Compruebe el funcionamiento eléctrico antes de cambiar la configuración de la válvula. <br />
+            <br />
+			 <strong>A** </strong>Para comprobar el funcionamiento de de las bobinas, retire las tuercas superiores. Levantando las bobinas unos pocos milímetros se puede sentir la fuerza de atracción magnética de la bobina. Además, la función de elevación se puede ser cambiado levantando las bobinas. Por ejemplo, es posible simular velocidades de nivelación, probar aceleraciones y desaceleraciones.<br />
+			<br />
+			Si la bobina se calienta demasiado, la bobina tiene que ser montada encima de la válvula magnética. Los siguientes ajustes tienen que ser realizados en viajes normales de piso a piso. 
+			<br />
+			<strong>Configuración estándar:</strong> Ajuste <strong>1</strong> en nivel con la cara de la brida (ajuste la presión de derivación en respecto al documento "ajustes estandar"); Ajuste <strong>4</strong> en nivel con la cara de la brida, luego gire afuera ajuste <strong>4</strong> una 1/2 vuelta; gire adentro la válvula de sobrepresión <strong>S</strong> completamente, luego gire afuera S por 1 1/2 vuelta; gire adentro ajustes <strong> 2,3,5</strong> completamente, luego para EV de <strong>3/4":</strong> gire afuera ajuste 2 por 1 1/2 vuelta y ajustes 3 & 5 por 2 1/2 vueltas, 
+para EV <strong>1 1/2" - 2 1/2":</strong>  gire afuera ajuste 2, 3 & 5 por 2 1/2 vueltas.<br />
+<br />
+
+
+          				
+  </div>
+  
+  
+  
+  
+  <!--    ###### Spanisch ######################################################################################################################################################
+		bajada
+		Standard settings
+-->								
+		
+        <div id="trouble_74_es" class="troubleClass">
+       
+           
+			<strong>! Las válvulas ya están ajustadas segun datos disponibles.</strong> Compruebe el funcionamiento eléctrico antes de cambiar la configuración de la válvula. <br />
+<br />
+			<strong>A** </strong>Para comprobar el funcionamiento de de las bobinas, retire las tuercas superiores. Levantando las bobinas unos pocos milímetros se puede sentir la fuerza de atracción magnética de la bobina. Además, la función de elevación se puede ser cambiado levantando las bobinas. Por ejemplo, es posible simular velocidades de nivelación, probar aceleraciones y desaceleraciones.<br />
+<br />
+			Si la bobina se calienta demasiado, la bobina tiene que ser montada encima de la válvula magnética. Los siguientes ajustes tienen que ser realizados en viajes normales de piso a piso. <br />
+<br />
+
+		<strong>Configuración estándar:</strong> Ajustes <strong>7 & 9</strong> en nivel con la cara del la brida, luego gire afuera ajuste <strong>9</strong> por 1/2 vuelta; gire adentro ajustes <strong> 6 & 8</strong> completamente, luego para EV de <strong>3/4":</strong>  gire afuera ajuste <strong>6</strong> por 2 1/2 vueltas y ajuste <strong>8</strong> por 1 vuelta, 
+para EV <strong>1 1/2" - 2 1/2":</strong> gire afuera ajuste <strong>6</strong> por 2 - 2 1/2 vueltas y ajuste <strong>8</strong> por 1 1/2 vuelta.
+			
+        </div>  
+
+
+
+
+
+</div>
+</body>
+</html>

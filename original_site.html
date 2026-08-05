@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blain Türkiye</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Language Selector -->
+        <div class="language-selector">
+            <select class="lang-dropdown" onchange="switchLanguage(this.value)">
+                <option value="tr" selected data-flag="tr.png">TR</option>
+                <option value="en" data-flag="en.png">EN</option>
+                <option value="de" data-flag="de.png">DE</option>
+            </select>
+        </div>
+
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo-section">
+                <div class="logo-container">
+                    <img src="assets/logo.png" alt="Blain Logo" class="logo-image">
+                </div>
+                <div class="logo-text">
+                    <h1 class="main-title" data-tr="Blain Türkiye" data-en="Blain Turkey" data-de="Blain Türkei">Blain Türkiye</h1>
+                    <p class="subtitle" data-tr="Asansör Kontrol Valfleri" data-en="Elevator Control Valves" data-de="Aufzugskontrollventile">Asansör Kontrol Valfleri</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Action Buttons Section -->
+            <section class="action-buttons">
+                <button class="action-button" onclick="handleSales()">
+                    <i class="fas fa-handshake"></i>
+                    <span data-tr="Satış" data-en="Sales" data-de="Verkauf">Satış</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </button>
+                
+                <button class="action-button" onclick="handleTechnicalService()">
+                    <i class="fas fa-tools"></i>
+                    <span data-tr="Teknik Destek" data-en="Technical Support" data-de="Technischer Support">Teknik Destek</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </button>
+                
+                <button class="action-button" onclick="handleCatalog()">
+                    <i class="fas fa-book"></i>
+                    <span data-tr="Ürün Kataloğu" data-en="Product Catalog" data-de="Produktkatalog">Ürün Kataloğu</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </button>
+                
+                <button class="action-button" onclick="handleSetupVideos()">
+                    <i class="fas fa-video"></i>
+                    <span data-tr="Ayar Videoları" data-en="Setup Videos" data-de="Einrichtungsvideos">Ayar Videoları</span>
+                    <span class="coming-soon" data-tr="Yakında" data-en="Coming Soon" data-de="Bald">Yakında</span>
+                </button>
+            </section>
+
+            <!-- Contact Information Section -->
+            <section class="contact-section">
+                <div class="contact-header">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span data-tr="Bizimle İletişime Geçin" data-en="Contact Us" data-de="Kontaktieren Sie uns">Bizimle İletişime Geçin</span>
+                </div>
+                
+                <div class="contact-divider"></div>
+                
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <span class="contact-label" data-tr="İletişim Numarası" data-en="Call Us" data-de="Anrufen">İletişim Numarası</span>
+                        <a href="tel:+902165920800" class="contact-value contact-link">(0216) 592 08 00</a>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <span class="contact-label" data-tr="E-posta Adresi" data-en="Email" data-de="E-Mail">E-posta Adresi</span>
+                        <a href="mailto:info@blain.com.tr" class="contact-value contact-link">info@blain.com.tr</a>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <span class="contact-label" data-tr="Adres" data-en="Address" data-de="Adresse">Adres</span>
+                        <div class="contact-value address">
+                            <div>AYTOP Sanayi Sitesi</div>
+                            <div>Battalgazi Mh. Melekotu Sk. No:2G17</div>
+                            <div>Sultanbeyli/İstanbul 34935</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="location-button" onclick="openLocation()">
+                    <i class="fas fa-paper-plane"></i>
+                    <span data-tr="Konum" data-en="Location" data-de="Standort">Konum</span>
+                </button>
+            </section>
+        </main>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-tr="İletişim Kanallarımız" data-en="Our Contact Channels" data-de="Unsere Kontaktkanäle">İletişim Kanallarımız</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="contact-buttons">
+                        <button id="quoteAction" class="contact-btn quote-btn" onclick="openQuoteForm()" style="display:none">
+                            <i class="fas fa-file-signature"></i>
+                            <span data-tr="Hidrolik Sistem Teklif" data-en="Hydraulic System Quote" data-de="Hydrauliksystem Angebot">Hidrolik Sistem Teklif</span>
+                        </button>
+                    <button class="contact-btn whatsapp-btn" onclick="openWhatsApp()">
+                        <i class="fab fa-whatsapp"></i>
+                        <span data-tr="WhatsApp" data-en="WhatsApp" data-de="WhatsApp">WhatsApp</span>
+                    </button>
+                    <button class="contact-btn phone-btn" onclick="callPhone()">
+                        <i class="fas fa-phone"></i>
+                        <span data-tr="Bizi Arayın" data-en="Call Us" data-de="Rufen Sie uns an">Bizi Arayın</span>
+                    </button>
+                    <button class="contact-btn email-btn" onclick="sendEmail()">
+                        <i class="fas fa-envelope"></i>
+                        <span data-tr="E-posta" data-en="Email" data-de="E-Mail">E-posta</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Quote Modal -->
+        <div id="quoteModal" class="modal" style="display:none">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 data-tr="Hidrolik Sistem Teklif" data-en="Hydraulic System Quote" data-de="Hydrauliksystem Angebot">Hidrolik Sistem Teklif</h2>
+                    <button class="modal-close" onclick="closeQuoteModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="quote-form" onsubmit="event.preventDefault(); sendQuoteViaWhatsApp();">
+                        <div class="form-row">
+                            <label data-tr="Kapasite" data-en="Capacity" data-de="Kapazität">Kapasite</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="kapasiteType" value="kisi" checked onchange="updateKapasiteInput()">
+                                    <span data-tr="Kişi Sayısı" data-en="Number of People" data-de="Anzahl der Personen">Kişi Sayısı</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="kapasiteType" value="kg" onchange="updateKapasiteInput()">
+                                    <span data-tr="Kilogram" data-en="Kilogram" data-de="Kilogramm">Kilogram</span>
+                                </label>
+                            </div>
+                            <input type="text" id="kapasite" placeholder="Örn: 6" inputmode="numeric" pattern="[0-9]*" oninput="sanitizeIntegerInput(this); updateQuoteSubmitState()">
+                        </div>
+                        <div class="form-row">
+                            <label for="karkas" data-tr="Kabin karkas ağırlığı (kg)" data-en="Cabin frame weight (kg)" data-de="Kabinenrahmengewicht (kg)">Kabin karkas ağırlığı (kg)</label>
+                            <input type="text" id="karkas" placeholder="Örn: 600" inputmode="numeric" pattern="[0-9]*" oninput="sanitizeIntegerInput(this); updateQuoteSubmitState()">
+                        </div>
+                        <div class="form-row">
+                            <label data-tr="Seyir Mesafesi" data-en="Travel Distance" data-de="Fahrstrecke">Seyir Mesafesi</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="seyirType" value="durak" checked onchange="updateSeyirInput(); updateQuoteSubmitState()">
+                                    <span data-tr="Durak Sayısı" data-en="Number of Stops" data-de="Anzahl der Haltestellen">Durak Sayısı</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="seyirType" value="mm" onchange="updateSeyirInput(); updateQuoteSubmitState()">
+                                    <span data-tr="Seyir Mesafesi (mm)" data-en="Travel Distance (mm)" data-de="Fahrstrecke (mm)">Seyir Mesafesi (mm)</span>
+                                </label>
+                            </div>
+                            <input type="text" id="seyir" placeholder="Örn: 5" inputmode="numeric" pattern="[0-9]*" oninput="sanitizeIntegerInput(this); updateQuoteSubmitState()">
+                        </div>
+                        <div class="form-row">
+                            <label for="hiz" data-tr="Kabin hızı" data-en="Cabin speed" data-de="Kabingeschwindigkeit">Kabin hızı</label>
+                            <select id="hiz" onchange="updateQuoteSubmitState()">
+                                <option value="" data-tr="Hız seçiniz" data-en="Select speed" data-de="Geschwindigkeit wählen">Hız seçiniz</option>
+                                <option value="0.15">0.15 m/s</option>
+                                <option value="0.20">0.20 m/s</option>
+                                <option value="0.25">0.25 m/s</option>
+                                <option value="0.30">0.30 m/s</option>
+                                <option value="0.35">0.35 m/s</option>
+                                <option value="0.40">0.40 m/s</option>
+                                <option value="0.50">0.50 m/s</option>
+                                <option value="0.63">0.63 m/s</option>
+                                <option value="1.00">1.00 m/s</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <label data-tr="Uygulanacak Regülasyon" data-en="Applicable Regulation" data-de="Anwendbare Vorschrift">Uygulanacak Regülasyon</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="regulation" value="md" checked onchange="updateQuoteSubmitState()">
+                                    <span data-tr="Makine Direktifi (2006/42/EC)" data-en="Machinery Directive (2006/42/EC)" data-de="Maschinenrichtlinie (2006/42/EC)">Makine Direktifi (2006/42/EC)</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="regulation" value="ts" onchange="updateQuoteSubmitState()">
+                                    <span data-tr="TS EN 81-20/50" data-en="TS EN 81-20/50" data-de="TS EN 81-20/50">TS EN 81-20/50</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label for="firma" data-tr="Firma adı" data-en="Company name" data-de="Firmenname">Firma adı</label>
+                            <input type="text" id="firma" placeholder="Örn: ABC Asansör" oninput="updateQuoteSubmitState()">
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="contact-btn email-btn" onclick="backToContactModal()" data-tr="Geri" data-en="Back" data-de="Zurück">Geri</button>
+                            <button id="quoteSubmit" type="submit" class="contact-btn whatsapp-btn" disabled><span style="flex:1; text-align:center;" data-tr="Teklif Al" data-en="Get Quote" data-de="Angebot anfordern">Teklif Al</span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
