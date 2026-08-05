@@ -704,7 +704,8 @@ export default function PortalPage() {
                   }
                 };
 
-                const apiUrl = process.env.NEXT_PUBLIC_CRM_API_URL || 'https://sonproje-production.up.railway.app'; // Or fallback url
+                const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const apiUrl = process.env.NEXT_PUBLIC_CRM_API_URL || (isLocalhost ? 'http://localhost:3000' : 'https://sonproje-production.up.railway.app'); 
                 
                 // Using a no-cors or simple try-catch. If CORS fails, we still want to open whatsapp.
                 try {
