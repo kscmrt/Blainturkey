@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-type ViewState = 'hub' | 'quote' | 'service' | 'login';
+type ViewState = 'hub' | 'quote' | 'service' | 'login' | 'calculator';
 
 export default function PortalPage() {
   const [activeView, setActiveView] = useState<ViewState>('hub');
@@ -29,6 +29,16 @@ export default function PortalPage() {
   // Login Form State
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+
+  // Calculator Form State
+  const [calcCapacity, setCalcCapacity] = useState('630');
+  const [calcCarcass, setCalcCarcass] = useState('500');
+  const [calcTravel, setCalcTravel] = useState('15'); // meters
+  const [calcSpeed, setCalcSpeed] = useState('0.63');
+  const [calcSuspension, setCalcSuspension] = useState<'1:1' | '2:1'>('2:1');
+  const [calcCylDiameter, setCalcCylDiameter] = useState('100');
+  const [calcCylThickness, setCalcCylThickness] = useState('5');
+  const [calcResult, setCalcResult] = useState<any>(null);
 
   const handleQuoteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,6 +72,48 @@ export default function PortalPage() {
     alert('Giriş bilgileri hatalı veya yetkiniz yok.');
   };
 
+  const handleCalculate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Dynamically import the calculator logic so it doesn't block initial page load
+    const calc = await import('@/lib/calculator');
+    
+    const inputs = {
+      capacity: Number(calcCapacity),
+      carcassWeight: Number(calcCarcass),
+      travelDistance: Number(calcTravel) * 1000, // convert meters to mm for calculator
+      buffer: 0,
+      cylinderCount: 1,
+      suspension: calcSuspension,
+      speed: Number(calcSpeed),
+    };
+    
+    const spec = {
+      d: Number(calcCylDiameter),
+      t: Number(calcCylThickness),
+    };
+
+    const result = calc.performEngineeringCalculation(inputs, spec);
+    setCalcResult(result);
+  };
+
+  const sendCalcToWhatsApp = () => {
+    if (!calcResult) return;
+    const message = `*Teknik Hesaplama Sonucu*\n\n` +
+      `Kapasite: ${calcCapacity} kg\n` +
+      `Karkas: ${calcCarcass} kg\n` +
+      `Seyir: ${calcTravel} m\n` +
+      `Hız: ${calcSpeed} m/s\n` +
+      `Silindir: Ø${calcCylDiameter}x${calcCylThickness} mm\n` +
+      `Askı: ${calcSuspension}\n\n` +
+      `*Sonuçlar:*\n` +
+      `Dinamik Basınç: ${calcResult.dynamicPressure} bar\n` +
+      `Statik Basınç: ${calcResult.staticPressure} bar\n` +
+      `Motor Gücü: ${calcResult.motorPowerReq} kW\n` +
+      `Pompa Debisi: ${calcResult.pumpFlow} L/dk`;
+    
+    window.open(`https://wa.me/905424862821?text=${encodeURIComponent(message)}`, '_blank');
+  };
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -90,6 +142,14 @@ export default function PortalPage() {
               <div>
                 <span className="title">Yeni Teklif İste</span>
                 <span className="desc">Hidrolik projeleriniz için detaylı fiyat talebi oluşturun.</span>
+              </div>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+
+            <button className="minimal-menu-item" onClick={() => setActiveView('calculator')}>
+              <div>
+                <span className="title">Teknik Hesaplama</span>
+                <span className="desc">Basınç, motor gücü ve debi değerlerini hesaplayın.</span>
               </div>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
@@ -277,6 +337,87 @@ export default function PortalPage() {
               </div>
               <button type="submit" className="minimal-submit">Giriş Yap</button>
             </form>
+          )}
+
+          {/* --- CALCULATOR FORM --- */}
+          {activeView === 'calculator' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+              {!calcResult ? (
+                <form onSubmit={handleCalculate} style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+                  <div className="floating-input">
+                    <input type="number" required value={calcCapacity} onChange={(e) => setCalcCapacity(e.target.value)} />
+                    <label>Kapasite (kg)</label>
+                  </div>
+                  <div className="floating-input">
+                    <input type="number" required value={calcCarcass} onChange={(e) => setCalcCarcass(e.target.value)} />
+                    <label>Karkas Ağırlığı (kg)</label>
+                  </div>
+                  <div className="floating-input">
+                    <input type="number" required value={calcTravel} onChange={(e) => setCalcTravel(e.target.value)} />
+                    <label>Seyir Mesafesi (Metre)</label>
+                  </div>
+                  <div className="floating-input">
+                    <input type="number" required step="0.01" value={calcSpeed} onChange={(e) => setCalcSpeed(e.target.value)} />
+                    <label>Kabin Hızı (m/s)</label>
+                  </div>
+                  <div className="minimal-group">
+                    <label className="minimal-label">Askı Tipi</label>
+                    <SegmentedControl 
+                      options={[{label: '1:1', value: '1:1'}, {label: '2:1', value: '2:1'}]} 
+                      value={calcSuspension} 
+                      onChange={(v: any) => setCalcSuspension(v)} 
+                    />
+                  </div>
+                  <div style={{ display: 'flex', gap: '1rem' }}>
+                    <div className="floating-input" style={{ flex: 1 }}>
+                      <input type="number" required value={calcCylDiameter} onChange={(e) => setCalcCylDiameter(e.target.value)} />
+                      <label>Piston Çapı (mm)</label>
+                    </div>
+                    <div className="floating-input" style={{ flex: 1 }}>
+                      <input type="number" required value={calcCylThickness} onChange={(e) => setCalcCylThickness(e.target.value)} />
+                      <label>Et Kalınlığı (mm)</label>
+                    </div>
+                  </div>
+                  <button type="submit" className="minimal-submit">Hesapla</button>
+                </form>
+              ) : (
+                <div style={{ animation: 'fadeUp 0.6s ease' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                    <h2 style={{ fontSize: '1.5rem', fontWeight: 600, margin: 0 }}>Hesaplama Sonuçları</h2>
+                    <button onClick={() => setCalcResult(null)} style={{ background: 'none', border: 'none', color: '#0066cc', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500 }}>Yeniden Hesapla</button>
+                  </div>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '2rem' }}>
+                    <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+                      <div style={{ fontSize: '0.85rem', color: '#86868b', marginBottom: '0.5rem' }}>Statik Basınç</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 600 }}>{calcResult.staticPressure} <span style={{fontSize:'1rem', color:'#86868b', fontWeight:400}}>bar</span></div>
+                    </div>
+                    <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+                      <div style={{ fontSize: '0.85rem', color: '#86868b', marginBottom: '0.5rem' }}>Dinamik Basınç</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 600 }}>{calcResult.dynamicPressure} <span style={{fontSize:'1rem', color:'#86868b', fontWeight:400}}>bar</span></div>
+                    </div>
+                    <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+                      <div style={{ fontSize: '0.85rem', color: '#86868b', marginBottom: '0.5rem' }}>Gerekli Motor</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 600 }}>{calcResult.motorPowerReq} <span style={{fontSize:'1rem', color:'#86868b', fontWeight:400}}>kW</span></div>
+                    </div>
+                    <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+                      <div style={{ fontSize: '0.85rem', color: '#86868b', marginBottom: '0.5rem' }}>Pompa Debisi</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 600 }}>{calcResult.pumpFlow} <span style={{fontSize:'1rem', color:'#86868b', fontWeight:400}}>L/dk</span></div>
+                    </div>
+                    <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+                      <div style={{ fontSize: '0.85rem', color: '#86868b', marginBottom: '0.5rem' }}>Piston Burkulma Faktörü</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 600, color: calcResult.isBucklingSafe ? '#34c759' : '#ff3b30' }}>
+                        {calcResult.bucklingFactor}
+                      </div>
+                    </div>
+                  </div>
+
+                  <button onClick={sendCalcToWhatsApp} className="minimal-submit" style={{ width: '100%', background: '#34c759' }}>
+                    Bu Projeyi WhatsApp'tan Gönder
+                  </button>
+                </div>
+              )}
+            </div>
           )}
 
         </div>
