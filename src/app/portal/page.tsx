@@ -173,6 +173,13 @@ export default function PortalPage() {
                 <input type="number" required value={travelValue} onChange={(e) => setTravelValue(e.target.value)} />
                 <label>Seyir Mesafesi ({travelType === 'stops' ? 'Durak' : 'mm'})</label>
               </div>
+              
+              {travelType === 'stops' && (
+                <div style={{ fontSize: '0.85rem', color: '#86868b', marginTop: '-1.5rem', lineHeight: 1.5 }}>
+                  * Standart kabul edilen seyir mesafeleri:<br/>
+                  2 Durak: 4m | 3 Durak: 7m | 4 Durak: 10m | 5 Durak: 13m | 6 Durak: 15m
+                </div>
+              )}
 
               <div className="floating-select">
                 <select required value={speed} onChange={(e) => setSpeed(e.target.value)}>
