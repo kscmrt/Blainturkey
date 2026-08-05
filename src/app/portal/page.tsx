@@ -35,10 +35,21 @@ export default function PortalPage() {
   const [calcCarcass, setCalcCarcass] = useState('500');
   const [calcTravel, setCalcTravel] = useState('15'); // meters
   const [calcSpeed, setCalcSpeed] = useState('0.63');
-  const [calcSuspension, setCalcSuspension] = useState<'1:1' | '2:1'>('2:1');
+  const [calcSuspension, setCalcSuspension] = useState<'1:1' | '2:1' | '4:1'>('2:1');
   const [calcCylDiameter, setCalcCylDiameter] = useState('100');
   const [calcCylThickness, setCalcCylThickness] = useState('5');
   const [calcResult, setCalcResult] = useState<any>(null);
+  
+  // Comprehensive Calculator States
+  const [calcStartsPerHour, setCalcStartsPerHour] = useState('<5');
+  const [calcPitDepth, setCalcPitDepth] = useState('1200'); // mm
+  const [calcTopFloor, setCalcTopFloor] = useState('3500'); // mm
+  const [calcBuffer, setCalcBuffer] = useState('100'); // mm
+  const [calcMountingType, setCalcMountingType] = useState('side');
+  const [calcCylinderCount, setCalcCylinderCount] = useState('1');
+  const [calcCylinderType, setCalcCylinderType] = useState('standard');
+  const [calcStages, setCalcStages] = useState('2');
+  const [calcRopeWeight, setCalcRopeWeight] = useState('50');
   
   // Accessories State
   const [calcUserValve, setCalcUserValve] = useState('');
@@ -86,11 +97,17 @@ export default function PortalPage() {
     const inputs = {
       capacity: Number(calcCapacity),
       carcassWeight: Number(calcCarcass),
-      travelDistance: Number(calcTravel) * 1000, // convert meters to mm for calculator
-      buffer: 0,
-      cylinderCount: 1,
+      travelDistance: Number(calcTravel) * 1000,
+      buffer: Number(calcBuffer),
+      pitDepth: Number(calcPitDepth),
+      topFloor: Number(calcTopFloor),
+      cylinderCount: Number(calcCylinderCount),
       suspension: calcSuspension,
       speed: Number(calcSpeed),
+      mountingType: calcMountingType as 'side' | 'central',
+      cylinderType: calcCylinderType === 'telescopic' ? `telescopic-${calcStages}` as any : 'standard',
+      ropeWeight: Number(calcRopeWeight),
+      buildingType: calcStartsPerHour
     };
     
     const spec = {
@@ -316,41 +333,138 @@ export default function PortalPage() {
           {activeView === 'calculator' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
               {!calcResult ? (
-                <form onSubmit={handleCalculate} style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
-                  <div className="floating-input">
-                    <input type="number" required value={calcCapacity} onChange={(e) => setCalcCapacity(e.target.value)} />
-                    <label>Kapasite (kg)</label>
-                  </div>
-                  <div className="floating-input">
-                    <input type="number" required value={calcCarcass} onChange={(e) => setCalcCarcass(e.target.value)} />
-                    <label>Karkas Ağırlığı (kg)</label>
-                  </div>
-                  <div className="floating-input">
-                    <input type="number" required value={calcTravel} onChange={(e) => setCalcTravel(e.target.value)} />
-                    <label>Seyir Mesafesi (Metre)</label>
-                  </div>
-                  <div className="floating-input">
-                    <input type="number" required step="0.01" value={calcSpeed} onChange={(e) => setCalcSpeed(e.target.value)} />
-                    <label>Kabin Hızı (m/s)</label>
-                  </div>
-                  <div className="minimal-group">
-                    <label className="minimal-label">Askı Tipi</label>
-                    <SegmentedControl 
-                      options={[{label: '1:1', value: '1:1'}, {label: '2:1', value: '2:1'}]} 
-                      value={calcSuspension} 
-                      onChange={(v: any) => setCalcSuspension(v)} 
-                    />
-                  </div>
-                  <div style={{ display: 'flex', gap: '1rem' }}>
-                    <div className="floating-input" style={{ flex: 1 }}>
-                      <input type="number" required value={calcCylDiameter} onChange={(e) => setCalcCylDiameter(e.target.value)} />
-                      <label>Piston Çapı (mm)</label>
+                <form onSubmit={handleCalculate} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                  
+                  {/* GRUP 1: Yük & Performans */}
+                  <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, borderBottom: '1px solid #e5e5ea', paddingBottom: '0.5rem', marginBottom: '1.5rem', color: '#1d1d1f' }}>Yük & Performans</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                        <div className="floating-input">
+                          <input type="number" required value={calcCapacity} onChange={(e) => setCalcCapacity(e.target.value)} />
+                          <label>Kapasite (kg)</label>
+                        </div>
+                        <div className="floating-input">
+                          <input type="number" required value={calcCarcass} onChange={(e) => setCalcCarcass(e.target.value)} />
+                          <label>Karkas Ağırlığı (kg)</label>
+                        </div>
+                      </div>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                        <div className="floating-input">
+                          <input type="number" required step="0.01" value={calcSpeed} onChange={(e) => setCalcSpeed(e.target.value)} />
+                          <label>Kabin Hızı (m/s)</label>
+                        </div>
+                        <div className="floating-select" style={{ position: 'relative' }}>
+                          <select required value={calcStartsPerHour} onChange={(e) => setCalcStartsPerHour(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                            <option value="<5">&lt;5 (Düşük Yoğunluk)</option>
+                            <option value="5-15">5-15 (Orta)</option>
+                            <option value="16-25">16-25 (Yüksek)</option>
+                            <option value="26-35">26-35 (Çok Yüksek)</option>
+                            <option value="36+">36+ (Aşırı Yoğun)</option>
+                          </select>
+                          <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Motor Kalkış (Saat)</label>
+                        </div>
+                      </div>
                     </div>
-                    <div className="floating-input" style={{ flex: 1 }}>
-                      <input type="number" required value={calcCylThickness} onChange={(e) => setCalcCylThickness(e.target.value)} />
-                      <label>Et Kalınlığı (mm)</label>
+                  </div>
+
+                  {/* GRUP 2: Kuyu Ölçüleri */}
+                  <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, borderBottom: '1px solid #e5e5ea', paddingBottom: '0.5rem', marginBottom: '1.5rem', color: '#1d1d1f' }}>Kuyu Ölçüleri</h3>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                      <div className="floating-input">
+                        <input type="number" required value={calcTravel} onChange={(e) => setCalcTravel(e.target.value)} />
+                        <label>Seyir Mesafesi (Metre)</label>
+                      </div>
+                      <div className="floating-input">
+                        <input type="number" required value={calcPitDepth} onChange={(e) => setCalcPitDepth(e.target.value)} />
+                        <label>Kuyu Dibi (mm)</label>
+                      </div>
+                      <div className="floating-input">
+                        <input type="number" required value={calcTopFloor} onChange={(e) => setCalcTopFloor(e.target.value)} />
+                        <label>Son Kat (mm)</label>
+                      </div>
+                      <div className="floating-input">
+                        <input type="number" required value={calcBuffer} onChange={(e) => setCalcBuffer(e.target.value)} />
+                        <label>Tampon Mesafesi (mm)</label>
+                      </div>
                     </div>
                   </div>
+
+                  {/* GRUP 3: Mekanik Yapı */}
+                  <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, borderBottom: '1px solid #e5e5ea', paddingBottom: '0.5rem', marginBottom: '1.5rem', color: '#1d1d1f' }}>Mekanik Yapı</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                        <div className="floating-select" style={{ position: 'relative' }}>
+                          <select required value={calcSuspension} onChange={(e) => setCalcSuspension(e.target.value as any)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                            <option value="1:1">1:1</option>
+                            <option value="2:1">2:1</option>
+                            <option value="4:1">4:1</option>
+                          </select>
+                          <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Askı Tipi</label>
+                        </div>
+                        <div className="floating-select" style={{ position: 'relative' }}>
+                          <select required value={calcMountingType} onChange={(e) => setCalcMountingType(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                            <option value="side">Yandan Süspansiyon</option>
+                            <option value="central">Merkezi / Alttan</option>
+                          </select>
+                          <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Montaj Yönü</label>
+                        </div>
+                      </div>
+                      
+                      <div className="floating-input">
+                        <input type="number" required value={calcRopeWeight} onChange={(e) => setCalcRopeWeight(e.target.value)} />
+                        <label>Halat / Kasnak Ağırlığı Toplamı (kg)</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* GRUP 4: Piston Bilgileri */}
+                  <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, borderBottom: '1px solid #e5e5ea', paddingBottom: '0.5rem', marginBottom: '1.5rem', color: '#1d1d1f' }}>Silindir / Piston Değerleri</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                        <div className="floating-select" style={{ position: 'relative' }}>
+                          <select required value={calcCylinderCount} onChange={(e) => setCalcCylinderCount(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                            <option value="1">1 Piston</option>
+                            <option value="2">2 Piston</option>
+                            <option value="4">4 Piston</option>
+                          </select>
+                          <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Piston Sayısı</label>
+                        </div>
+                        <div className="floating-select" style={{ position: 'relative' }}>
+                          <select required value={calcCylinderType} onChange={(e) => setCalcCylinderType(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                            <option value="standard">Standart (Tek Parça)</option>
+                            <option value="telescopic">Teleskopik</option>
+                          </select>
+                          <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Silindir Tipi</label>
+                        </div>
+                      </div>
+
+                      {calcCylinderType === 'telescopic' && (
+                        <div className="floating-select" style={{ position: 'relative' }}>
+                          <select required value={calcStages} onChange={(e) => setCalcStages(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                            <option value="2">2 Kademeli</option>
+                            <option value="3">3 Kademeli</option>
+                          </select>
+                          <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Teleskopik Kademe Sayısı</label>
+                        </div>
+                      )}
+
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                        <div className="floating-input">
+                          <input type="number" required value={calcCylDiameter} onChange={(e) => setCalcCylDiameter(e.target.value)} />
+                          <label>Dış Çap (mm)</label>
+                        </div>
+                        <div className="floating-input">
+                          <input type="number" required value={calcCylThickness} onChange={(e) => setCalcCylThickness(e.target.value)} />
+                          <label>Et Kalınlığı (mm)</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <button type="submit" className="minimal-submit">Hesapla</button>
                 </form>
               ) : (
@@ -425,10 +539,20 @@ export default function PortalPage() {
                       `*-- SİSTEM VERİLERİ --*\n` +
                       `Kapasite: ${calcCapacity} kg\n` +
                       `Karkas: ${calcCarcass} kg\n` +
+                      `Kabin Hızı: ${calcSpeed} m/s\n` +
+                      `Motor Kalkış: ${calcStartsPerHour} (Saat)\n\n` +
+                      `*-- KUYU ÖLÇÜLERİ --*\n` +
                       `Seyir: ${calcTravel} m\n` +
-                      `Hız: ${calcSpeed} m/s\n` +
-                      `Silindir Ölçüsü: Ø${calcCylDiameter}x${calcCylThickness} mm\n` +
-                      `Askı Tipi: ${calcSuspension}\n\n` +
+                      `Kuyu Dibi: ${calcPitDepth} mm\n` +
+                      `Son Kat: ${calcTopFloor} mm\n` +
+                      `Tampon: ${calcBuffer} mm\n\n` +
+                      `*-- MEKANİK YAPI --*\n` +
+                      `Askı Tipi: ${calcSuspension}\n` +
+                      `Montaj: ${calcMountingType === 'side' ? 'Yandan' : 'Merkezi'}\n` +
+                      `Halat/Kasnak Ağ.: ${calcRopeWeight} kg\n` +
+                      `Silindir Tipi: ${calcCylinderType === 'standard' ? 'Standart' : 'Teleskopik (' + calcStages + ' Kademe)'}\n` +
+                      `Piston Sayısı: ${calcCylinderCount}\n` +
+                      `Silindir Ölçüsü: Ø${calcCylDiameter}x${calcCylThickness} mm\n\n` +
                       `*-- SONUÇLAR --*\n` +
                       `Pompa Debisi: ${calcResult.pumpFlow} L/dk\n` +
                       `Motor Gücü: ${calcResult.motorPowerReq} kW\n` +
