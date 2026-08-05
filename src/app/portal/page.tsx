@@ -200,12 +200,25 @@ export default function PortalPage() {
               .login-wrapper {
                 padding: 3rem 2rem;
               }
+              .form-header-title {
+                font-size: 1.15rem;
+                font-weight: 600;
+                color: #ffffff;
+                margin: 0;
+              }
               @media (max-width: 600px) {
-                .portal-wrapper { padding: 1rem; }
-                .hub-card { padding: 2rem 1rem; }
-                .form-wrapper { padding: 1.5rem 1rem; }
-                .form-header { padding: 1rem; }
-                .login-wrapper { padding: 2rem 1rem; }
+                .portal-wrapper { padding: 1rem; box-sizing: border-box; }
+                .hub-card { padding: 2rem 1rem; box-sizing: border-box; }
+                .form-wrapper { padding: 1.5rem 1rem; box-sizing: border-box; }
+                .form-header { 
+                  padding: 1rem; 
+                  flex-direction: column; 
+                  align-items: flex-start !important; 
+                  gap: 0.75rem; 
+                  box-sizing: border-box; 
+                }
+                .form-header-title { font-size: 1.1rem; }
+                .login-wrapper { padding: 2rem 1rem; box-sizing: border-box; }
                 .grid-container { grid-template-columns: 1fr !important; }
               }
             `}</style>
@@ -232,14 +245,17 @@ export default function PortalPage() {
               backgroundColor: '#2b4478',
               display: 'flex',
               justifyContent: 'space-between',
-              alignItems: 'center'
+              alignItems: 'center',
+              boxSizing: 'border-box'
             }}>
-              <h1 style={{ color: '#ffffff', margin: 0, fontSize: '1.15rem', fontWeight: 600 }}>
+              <div className="form-header-title">
                 {activeView === 'quote' && 'Hidrolik Sistem Teklif'}
                 {activeView === 'service' && 'Teknik Servis Talebi'}
                 {activeView === 'login' && 'Müşteri Girişi'}
-              </h1>
-              <BackButton />
+              </div>
+              <div style={{ alignSelf: 'flex-end' }}>
+                <BackButton />
+              </div>
             </div>
 
             {/* QUOTE FORM */}
@@ -377,7 +393,8 @@ const inputStyle: React.CSSProperties = {
   fontSize: '1rem',
   outline: 'none',
   transition: 'border-color 0.2s',
-  fontFamily: 'inherit'
+  fontFamily: 'inherit',
+  boxSizing: 'border-box'
 };
 
 const handleFocus = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
