@@ -17,6 +17,10 @@ export default function PortalPage() {
   const [regulation, setRegulation] = useState<'machine' | 'en81'>('machine');
   const [companyName, setCompanyName] = useState('');
   
+  // Optional Quote Fields
+  const [pistonCount, setPistonCount] = useState<'1' | '2' | '4'>('1');
+  const [driveType, setDriveType] = useState<'1:1' | '2:1'>('2:1');
+  
   // Service Form State
   const [serviceName, setServiceName] = useState('');
   const [serviceSerial, setServiceSerial] = useState('');
@@ -34,6 +38,8 @@ export default function PortalPage() {
       `Karkas Ağırlığı: ${cabinWeight} kg\n` +
       `Seyir Mesafesi: ${travelValue} ${travelType === 'stops' ? 'Durak' : 'mm'}\n` +
       `Kabin Hızı: ${speed} m/s\n` +
+      `Piston Sayısı: ${pistonCount}\n` +
+      `Tahrik Biçimi: ${driveType}\n` +
       `Regülasyon: ${regulation === 'machine' ? 'Makine Direktifi' : 'TS EN 81-20/50'}`;
     
     window.open(`https://wa.me/905424862821?text=${encodeURIComponent(message)}`, '_blank');
@@ -180,6 +186,24 @@ export default function PortalPage() {
                 </select>
                 <label>Kabin Hızı</label>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+
+              <div className="minimal-group">
+                <label className="minimal-label">Piston Sayısı (Opsiyonel)</label>
+                <SegmentedControl 
+                  options={[{label: '1', value: '1'}, {label: '2', value: '2'}, {label: '4', value: '4'}]} 
+                  value={pistonCount} 
+                  onChange={(v: any) => setPistonCount(v)} 
+                />
+              </div>
+
+              <div className="minimal-group">
+                <label className="minimal-label">Tahrik Biçimi (Opsiyonel)</label>
+                <SegmentedControl 
+                  options={[{label: '1:1', value: '1:1'}, {label: '2:1', value: '2:1'}]} 
+                  value={driveType} 
+                  onChange={(v: any) => setDriveType(v)} 
+                />
               </div>
 
               <div className="minimal-group">
