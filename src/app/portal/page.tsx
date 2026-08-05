@@ -156,6 +156,13 @@ export default function PortalPage() {
                 <label>Kapasite Miktarı ({capacityType === 'person' ? 'Kişi' : 'kg'})</label>
               </div>
 
+              {capacityType === 'person' && (
+                <div style={{ fontSize: '0.85rem', color: '#86868b', marginTop: '-2rem', lineHeight: 1.5 }}>
+                  * Kapasite karşılıkları:<br/>
+                  3 Kişi: 240kg | 4 Kişi: 320kg | 5 Kişi: 400kg | 6 Kişi: 480kg | 8 Kişi: 630kg | 10 Kişi: 800kg | 13 Kişi: 1000kg | 15 Kişi: 1500kg
+                </div>
+              )}
+
               <div className="floating-input">
                 <input type="number" required value={cabinWeight} onChange={(e) => setCabinWeight(e.target.value)} />
                 <label>Kabin Karkas Ağırlığı (kg)</label>
