@@ -481,3 +481,23 @@ export default function PortalPage() {
     </div>
   );
 }
+
+const SegmentedControl = ({ options, value, onChange }: { options: {label: string, value: string}[], value: string, onChange: (val: string) => void }) => {
+  return (
+    <div className="minimal-segmented">
+      {options.map(opt => {
+        const isActive = value === opt.value;
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            className={isActive ? 'active' : ''}
+            onClick={() => onChange(opt.value)}
+          >
+            {opt.label}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
