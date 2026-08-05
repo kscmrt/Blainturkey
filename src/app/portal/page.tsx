@@ -78,12 +78,11 @@ export default function PortalPage() {
         WebkitBackdropFilter: 'blur(20px)',
       }}></div>
 
-      <div style={{ 
+      <div className="portal-wrapper" style={{ 
         position: 'relative', 
         zIndex: 10, 
         width: '100%', 
         maxWidth: activeView === 'hub' ? '1000px' : '500px', 
-        padding: '2rem', 
         transition: 'max-width 0.4s cubic-bezier(0.25, 1, 0.5, 1)' 
       }}>
         
@@ -95,16 +94,16 @@ export default function PortalPage() {
             <h1 style={{ color: '#fff', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 700, letterSpacing: '-0.5px', marginBottom: '1rem' }}>Müşteri Portalı</h1>
             <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.1rem', marginBottom: '3.5rem' }}>Lütfen yapmak istediğiniz işlemi seçin.</p>
             
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+            <div className="grid-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
               
               {/* Teklif İste Card */}
               <div 
+                className="hub-card"
                 onClick={() => setActiveView('quote')}
                 style={{
                   background: 'rgba(255,255,255,0.08)',
                   border: '1px solid rgba(255,255,255,0.15)',
                   borderRadius: '24px',
-                  padding: '3rem 2rem',
                   cursor: 'pointer',
                   transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
                   display: 'flex',
@@ -124,12 +123,12 @@ export default function PortalPage() {
 
               {/* Servis İste Card */}
               <div 
+                className="hub-card"
                 onClick={() => setActiveView('service')}
                 style={{
                   background: 'rgba(255,255,255,0.08)',
                   border: '1px solid rgba(255,255,255,0.15)',
                   borderRadius: '24px',
-                  padding: '3rem 2rem',
                   cursor: 'pointer',
                   transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
                   display: 'flex',
@@ -149,12 +148,12 @@ export default function PortalPage() {
 
               {/* Müşteri Girişi Card */}
               <div 
+                className="hub-card"
                 onClick={() => setActiveView('login')}
                 style={{
                   background: 'rgba(255,255,255,0.08)',
                   border: '1px solid rgba(255,255,255,0.15)',
                   borderRadius: '24px',
-                  padding: '3rem 2rem',
                   cursor: 'pointer',
                   transition: 'all 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
                   display: 'flex',
@@ -186,6 +185,29 @@ export default function PortalPage() {
                 from { opacity: 0; transform: translateY(10px); }
                 to { opacity: 1; transform: translateY(0); }
               }
+              .portal-wrapper {
+                padding: 2rem;
+              }
+              .hub-card {
+                padding: 3rem 2rem;
+              }
+              .form-wrapper {
+                padding: 2rem 1.5rem;
+              }
+              .form-header {
+                padding: 1.25rem 1.5rem;
+              }
+              .login-wrapper {
+                padding: 3rem 2rem;
+              }
+              @media (max-width: 600px) {
+                .portal-wrapper { padding: 1rem; }
+                .hub-card { padding: 2rem 1rem; }
+                .form-wrapper { padding: 1.5rem 1rem; }
+                .form-header { padding: 1rem; }
+                .login-wrapper { padding: 2rem 1rem; }
+                .grid-container { grid-template-columns: 1fr !important; }
+              }
             `}</style>
           </div>
         )}
@@ -206,9 +228,8 @@ export default function PortalPage() {
           }}>
             
             {/* Form Header */}
-            <div style={{
+            <div className="form-header" style={{
               backgroundColor: '#2b4478',
-              padding: '1.25rem 1.5rem',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center'
@@ -223,7 +244,7 @@ export default function PortalPage() {
 
             {/* QUOTE FORM */}
             {activeView === 'quote' && (
-              <form onSubmit={handleQuoteSubmit} style={{ padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <form className="form-wrapper" onSubmit={handleQuoteSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {/* Kapasite */}
                 <div>
                   <label style={{ display: 'block', color: '#2b4478', fontWeight: 600, marginBottom: '0.75rem', fontSize: '0.95rem' }}>Kapasite</label>
@@ -299,7 +320,7 @@ export default function PortalPage() {
 
             {/* SERVICE FORM */}
             {activeView === 'service' && (
-              <form onSubmit={handleServiceSubmit} style={{ padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <form className="form-wrapper" onSubmit={handleServiceSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <p style={{ color: '#666', fontSize: '0.95rem', marginBottom: '0.5rem' }}>Blain ürünleriyle ilgili yaşadığınız bir sorun veya bakım talebi için lütfen detayları bizimle paylaşın.</p>
                 <div>
                   <label style={{ display: 'block', color: '#2b4478', fontWeight: 600, marginBottom: '0.5rem', fontSize: '0.95rem' }}>Firma Adı / İletişim Kişisi</label>
@@ -323,7 +344,7 @@ export default function PortalPage() {
 
             {/* LOGIN FORM */}
             {activeView === 'login' && (
-              <div style={{ padding: '3rem 2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div className="login-wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <img src="/images/blainico-150x150.jpg" alt="Blain" style={{ width: '64px', borderRadius: '50%', marginBottom: '1.5rem', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
                 <h2 style={{ fontSize: '1.5rem', fontWeight: 600, color: '#111', marginBottom: '0.5rem' }}>Bayi Portalı Girişi</h2>
                 <p style={{ color: '#666', fontSize: '0.95rem', marginBottom: '2rem', textAlign: 'center' }}>Lütfen size verilen e-posta ve şifre ile giriş yapın.</p>
