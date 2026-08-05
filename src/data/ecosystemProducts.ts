@@ -34,7 +34,7 @@ export interface ProductDetail {
   imageGallery?: string[];
   features: ProductFeature[];
   matrix?: ProductMatrixItem[];
-  downloads: ProductDownload[];
+  downloads?: ProductDownload[];
   youtubeVideoId?: string;
 }
 
