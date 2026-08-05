@@ -448,7 +448,7 @@ export default function PortalPage() {
                         <div style={{ fontSize: '1.25rem', fontWeight: 600 }}>{calcResult.pressureEmpty} <span style={{fontSize:'0.9rem', color:'#86868b', fontWeight:400}}>bar</span></div>
                       </div>
                       <div style={{ background: '#fff', padding: '1.25rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', border: calcResult.isBucklingSafe ? '1px solid #34c759' : '1px solid #ff3b30' }}>
-                        <div style={{ fontSize: '0.8rem', color: '#86868b', marginBottom: '0.5rem' }}>Burkulma Faktörü (>1.0 olmalı)</div>
+                        <div style={{ fontSize: '0.8rem', color: '#86868b', marginBottom: '0.5rem' }}>Burkulma Faktörü (&gt;1.0 olmalı)</div>
                         <div style={{ fontSize: '1.25rem', fontWeight: 600, color: calcResult.isBucklingSafe ? '#34c759' : '#ff3b30' }}>
                           {calcResult.bucklingFactor} {calcResult.isBucklingSafe ? '✓' : '✗'}
                         </div>
