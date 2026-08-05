@@ -517,7 +517,6 @@ export default function PortalPage() {
                   {/* Top Recommended Components */}
                   <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: '#1d1d1f', marginBottom: '1rem' }}>Önerilen Ana Komponentler</h3>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-                    
                     {/* Valve Card - Premium Look */}
                     <div style={{ background: 'linear-gradient(145deg, #1d1d1f 0%, #434353 100%)', color: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.15)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <div>
@@ -529,6 +528,20 @@ export default function PortalPage() {
                       </div>
                       <div style={{ marginTop: '1rem', padding: '0.5rem', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', fontSize: '0.85rem' }}>
                         Debi Kapasitesi: {calcResult.pumpFlow} L/dk
+                      </div>
+                    </div>
+
+                    {/* Cylinder Card (New) */}
+                    <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #e5e5ea', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <div>
+                        <div style={{ fontSize: '0.8rem', color: '#86868b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Seçilen Piston</div>
+                        <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#1d1d1f', marginBottom: '0.2rem' }}>
+                          Ø{calcCylDiameter}x{calcCylThickness}
+                        </div>
+                        <div style={{ fontSize: '0.9rem', color: '#86868b' }}>{calcCylinderCount} Adet {calcCylinderType === 'standard' ? 'Standart' : 'Teleskopik'}</div>
+                      </div>
+                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: '#f5f5f7', borderRadius: '8px', fontSize: '0.85rem', color: '#1d1d1f', fontWeight: 500 }}>
+                        Durum: {calcResult.isBucklingSafe ? 'Güvenli (Onaylı)' : 'Riskli'}
                       </div>
                     </div>
 
