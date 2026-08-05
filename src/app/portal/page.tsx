@@ -30,6 +30,14 @@ export default function PortalPage() {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
 
+  // Contact Modal State (For Official Quotes)
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [contactName, setContactName] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactPhone, setContactPhone] = useState('');
+  const [contactCompany, setContactCompany] = useState('');
+  const [isSubmittingQuote, setIsSubmittingQuote] = useState(false);
+
   // Calculator Form State
   const [calcCapacity, setCalcCapacity] = useState('630');
   const [calcCarcass, setCalcCarcass] = useState('500');
@@ -659,32 +667,7 @@ export default function PortalPage() {
                     </div>
                   </details>
 
-                  <button onClick={() => {
-                    const accessories = [];
-                    if (calcHandPump) accessories.push('El Pompası');
-                    if (calcBallValve) accessories.push('Küresel Vana');
-                    if (calcRuptureValve) accessories.push('Boru Patlama Valfi');
-
-                    const recommendedValve = Number(calcResult?.pumpFlow || 0) < 125 ? 'EV100 3/4"' : Number(calcResult?.pumpFlow || 0) <= 800 ? 'EV100 1.5"' : 'EV100 2.5"';
-                    const finalValve = calcUserValve || recommendedValve;
-
-                    const message = `*Proje Konfigürasyon Onayı ve Teklif Talebi*\n\n` +
-                      `Mühendislik simülasyonu tamamlanmış proje için teklif rica ediyorum.\n\n` +
-                      `*-- ONAYLANAN KOMPONENTLER --*\n` +
-                      `Kapasite: ${calcCapacity} kg\n` +
-                      `Seyir: ${calcTravel} m\n` +
-                      `Hız: ${calcSpeed} m/s\n` +
-                      `Valf Seçimi: ${finalValve}\n` +
-                      `Motor Gücü: ${calcResult.motorPowerReq} kW\n` +
-                      `Yağ Hacmi: ${calcResult.oilVolume} Litre\n` +
-                      `Silindir Ölçüsü: Ø${calcCylDiameter}x${calcCylThickness} mm\n` +
-                      `Aksesuarlar: ${accessories.length > 0 ? accessories.join(', ') : 'Yok'}\n\n` +
-                      `*-- TEKNİK ONAY --*\n` +
-                      `Durum: ${calcResult.isBucklingSafe ? 'Güvenli (Onaylandı)' : 'Riskli (İnceleme Gerekli)'}\n` +
-                      `Statik Basınç: ${calcResult.staticPressure} bar`;
-                      
-                    window.open(`https://wa.me/905424862821?text=${encodeURIComponent(message)}`, '_blank');
-                  }} style={{ width: '100%', background: '#1d1d1f', color: '#fff', border: 'none', padding: '1.25rem', borderRadius: '12px', fontSize: '1.1rem', fontWeight: 600, cursor: 'pointer', transition: '0.2s', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}
+                  <button onClick={() => setShowContactModal(true)} style={{ width: '100%', background: '#1d1d1f', color: '#fff', border: 'none', padding: '1.25rem', borderRadius: '12px', fontSize: '1.1rem', fontWeight: 600, cursor: 'pointer', transition: '0.2s', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}
                      onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
                      onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
                     Bu Konfigürasyon ile Resmi Teklif İste
@@ -695,6 +678,106 @@ export default function PortalPage() {
             </div>
           )}
 
+        </div>
+      )}
+
+      {/* --- CONTACT MODAL --- */}
+      {showContactModal && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
+          <div style={{ background: '#fff', padding: '2.5rem', borderRadius: '24px', width: '100%', maxWidth: '500px', animation: 'fadeUp 0.3s ease' }}>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem', color: '#1d1d1f' }}>İletişim Bilgileri</h3>
+            <p style={{ color: '#86868b', marginBottom: '2rem', fontSize: '0.95rem' }}>Teklifin size ulaşabilmesi ve projenin sisteme kaydedilebilmesi için lütfen bilgilerinizi girin.</p>
+            
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              setIsSubmittingQuote(true);
+              try {
+                const payload = {
+                  contactInfo: { companyName: contactCompany, contactName: contactName, email: contactEmail, phone: contactPhone },
+                  projectData: {
+                    capacity: Number(calcCapacity), carcassWeight: Number(calcCarcass), travelDistance: Number(calcTravel) * 1000,
+                    buffer: Number(calcBuffer), pitDepth: Number(calcPitDepth), topFloor: Number(calcTopFloor),
+                    cylinderCount: Number(calcCylinderCount), suspension: calcSuspension, speed: Number(calcSpeed),
+                    mountingType: calcMountingType, cylinderType: calcCylinderType === 'telescopic' ? `telescopic-${calcStages}` : 'standard',
+                    ropeWeight: Number(calcRopeWeight), buildingType: calcStartsPerHour, calculationResult: calcResult,
+                    selectedCylinder: { d: calcCylDiameter, t: calcCylThickness }
+                  }
+                };
+
+                const apiUrl = process.env.NEXT_PUBLIC_CRM_API_URL || 'https://sonproje-production.up.railway.app'; // Or fallback url
+                
+                // Using a no-cors or simple try-catch. If CORS fails, we still want to open whatsapp.
+                try {
+                  await fetch(`${apiUrl}/api/external-quotes`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                  });
+                } catch(fetchErr) {
+                  console.warn("CRM API could not be reached or CORS blocked:", fetchErr);
+                }
+
+                alert("Sisteme başarıyla kaydedildi! Şimdi sizi WhatsApp yetkilisine yönlendiriyoruz.");
+                setShowContactModal(false);
+
+                const accessories = [];
+                if (calcHandPump) accessories.push('El Pompası');
+                if (calcBallValve) accessories.push('Küresel Vana');
+                if (calcRuptureValve) accessories.push('Boru Patlama Valfi');
+
+                const recommendedValve = Number(calcResult?.pumpFlow || 0) < 125 ? 'EV100 3/4"' : Number(calcResult?.pumpFlow || 0) <= 800 ? 'EV100 1.5"' : 'EV100 2.5"';
+                const finalValve = calcUserValve || recommendedValve;
+
+                const message = `*Proje Konfigürasyon Onayı*\n\n` +
+                  `Sistem üzerinden teklif talebimi ilettim (Firma: ${contactCompany}). Hızlı iletişim için WhatsApp'tan yazıyorum.\n\n` +
+                  `*-- ONAYLANAN KOMPONENTLER --*\n` +
+                  `Kapasite: ${calcCapacity} kg\n` +
+                  `Seyir: ${calcTravel} m\n` +
+                  `Hız: ${calcSpeed} m/s\n` +
+                  `Valf Seçimi: ${finalValve}\n` +
+                  `Motor Gücü: ${calcResult.motorPowerReq} kW\n` +
+                  `Yağ Hacmi: ${calcResult.oilVolume} Litre\n` +
+                  `Silindir Ölçüsü: Ø${calcCylDiameter}x${calcCylThickness} mm\n` +
+                  `Aksesuarlar: ${accessories.length > 0 ? accessories.join(', ') : 'Yok'}\n\n` +
+                  `*-- TEKNİK ONAY --*\n` +
+                  `Durum: ${calcResult.isBucklingSafe ? 'Güvenli (Onaylandı)' : 'Riskli (İnceleme Gerekli)'}`;
+                  
+                window.open(`https://wa.me/905424862821?text=${encodeURIComponent(message)}`, '_blank');
+              } catch(err) {
+                alert("Bir hata oluştu.");
+              } finally {
+                setIsSubmittingQuote(false);
+              }
+            }} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <div className="floating-input">
+                <input type="text" required value={contactCompany} onChange={(e) => setContactCompany(e.target.value)} />
+                <label>Firma Adı</label>
+              </div>
+              <div className="floating-input">
+                <input type="text" required value={contactName} onChange={(e) => setContactName(e.target.value)} />
+                <label>Yetkili Adı Soyadı</label>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div className="floating-input">
+                  <input type="email" required value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} />
+                  <label>E-posta</label>
+                </div>
+                <div className="floating-input">
+                  <input type="tel" required value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
+                  <label>Telefon</label>
+                </div>
+              </div>
+              
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                <button type="button" onClick={() => setShowContactModal(false)} style={{ flex: 1, padding: '1rem', background: '#f5f5f7', color: '#1d1d1f', border: 'none', borderRadius: '12px', fontWeight: 500, cursor: 'pointer' }}>
+                  İptal
+                </button>
+                <button type="submit" disabled={isSubmittingQuote} style={{ flex: 2, padding: '1rem', background: '#0066cc', color: '#fff', border: 'none', borderRadius: '12px', fontWeight: 600, cursor: 'pointer' }}>
+                  {isSubmittingQuote ? 'Gönderiliyor...' : 'Teklif İste & WhatsApp\'a Git'}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
 
