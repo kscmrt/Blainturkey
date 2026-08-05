@@ -102,7 +102,7 @@ export default function PortalPage() {
       pitDepth: Number(calcPitDepth),
       topFloor: Number(calcTopFloor),
       cylinderCount: Number(calcCylinderCount),
-      suspension: calcSuspension,
+      suspension: calcSuspension as any,
       speed: Number(calcSpeed),
       mountingType: calcMountingType as 'side' | 'central',
       cylinderType: calcCylinderType === 'telescopic' ? `telescopic-${calcStages}` as any : 'standard',
