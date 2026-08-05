@@ -102,7 +102,8 @@ export default function PortalPage() {
     setCalcResult(result);
     
     // Auto-recommend valve
-    const recommendedValve = result.pumpFlow < 125 ? '3/4" (EV100)' : result.pumpFlow <= 800 ? '1.5" / 2" (EV100)' : '2.5" (EV100)';
+    const pFlow = result?.pumpFlow || 0;
+    const recommendedValve = pFlow < 125 ? '3/4" (EV100)' : pFlow <= 800 ? '1.5" / 2" (EV100)' : '2.5" (EV100)';
     setCalcUserValve(recommendedValve);
   };
 
@@ -391,7 +392,7 @@ export default function PortalPage() {
                         <option value='KV (Küçük Valf)'>KV (Küçük Valf)</option>
                       </select>
                       <div style={{ fontSize: '0.8rem', color: '#86868b', marginTop: '0.5rem' }}>
-                        * Sistem debiye göre <strong>{calcResult.pumpFlow < 125 ? '3/4" (EV100)' : calcResult.pumpFlow <= 800 ? '1.5" / 2" (EV100)' : '2.5" (EV100)'}</strong> modelini önermektedir.
+                        * Sistem debiye göre <strong>{(calcResult?.pumpFlow || 0) < 125 ? '3/4" (EV100)' : (calcResult?.pumpFlow || 0) <= 800 ? '1.5" / 2" (EV100)' : '2.5" (EV100)'}</strong> modelini önermektedir.
                       </div>
                     </div>
 
