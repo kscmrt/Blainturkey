@@ -110,16 +110,47 @@ export default function PortalPage() {
       buildingType: calcStartsPerHour
     };
     
-    const spec = {
-      d: Number(calcCylDiameter),
-      t: Number(calcCylThickness),
-    };
+    let candidates = [];
+    if (calcCylinderType === 'telescopic') {
+      if (calcStages === '2') {
+        candidates = [ {d: 60, t: 5}, {d: 70, t: 5}, {d: 80, t: 5}, {d: 90, t: 5}, {d: 100, t: 6}, {d: 110, t: 6}, {d: 120, t: 6} ];
+      } else {
+        candidates = [ {d: 70, t: 5}, {d: 90, t: 5}, {d: 110, t: 6}, {d: 130, t: 6} ];
+      }
+    } else {
+      candidates = [
+        {d: 50, t: 5}, {d: 60, t: 5}, {d: 70, t: 5}, {d: 80, t: 5}, {d: 90, t: 5},
+        {d: 100, t: 5}, {d: 110, t: 5}, {d: 120, t: 5}, {d: 130, t: 5}, {d: 150, t: 5},
+        {d: 180, t: 5}, {d: 200, t: 5}, {d: 250, t: 6}
+      ];
+    }
 
-    const result = calc.performEngineeringCalculation(inputs, spec);
-    setCalcResult(result);
+    let bestResult = null;
+    let selectedCyl = candidates[candidates.length - 1]; // Default to largest if none safe
+
+    for (const cyl of candidates) {
+      const spec = { d: cyl.d, t: cyl.t };
+      const result = calc.performEngineeringCalculation(inputs, spec);
+      
+      // We look for a safe buckling factor and reasonable static pressure (e.g. < 60 bar)
+      if (result && !result.error && result.isBucklingSafe && Number(result.staticPressure) < 70) {
+        bestResult = result;
+        selectedCyl = cyl;
+        break; // Found the smallest suitable cylinder!
+      }
+    }
+
+    if (!bestResult) {
+      // If none are fully safe, just calculate with the largest one so we show something
+      bestResult = calc.performEngineeringCalculation(inputs, { d: selectedCyl.d, t: selectedCyl.t });
+    }
+
+    setCalcCylDiameter(selectedCyl.d.toString());
+    setCalcCylThickness(selectedCyl.t.toString());
+    setCalcResult(bestResult);
     
     // Auto-recommend valve
-    const pFlow = Number(result?.pumpFlow || 0);
+    const pFlow = Number(bestResult?.pumpFlow || 0);
     const recommendedValve = pFlow < 125 ? '3/4" (EV100)' : pFlow <= 800 ? '1.5" / 2" (EV100)' : '2.5" (EV100)';
     setCalcUserValve(recommendedValve);
   };
@@ -452,14 +483,9 @@ export default function PortalPage() {
                         </div>
                       )}
 
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                        <div className="floating-input">
-                          <input type="number" required value={calcCylDiameter} onChange={(e) => setCalcCylDiameter(e.target.value)} />
-                          <label>Dış Çap (mm)</label>
-                        </div>
-                        <div className="floating-input">
-                          <input type="number" required value={calcCylThickness} onChange={(e) => setCalcCylThickness(e.target.value)} />
-                          <label>Et Kalınlığı (mm)</label>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
+                        <div style={{ fontSize: '0.85rem', color: '#86868b', background: '#f5f5f7', padding: '1rem', borderRadius: '8px' }}>
+                          ℹ️ Sisteminiz için en uygun piston çapı ve et kalınlığı, girilen kuyu ve kapasite ölçülerine göre otomatik olarak hesaplanacaktır.
                         </div>
                       </div>
                     </div>
