@@ -16,10 +16,9 @@ export default function PortalPage() {
   const [speed, setSpeed] = useState('');
   const [regulation, setRegulation] = useState<'machine' | 'en81'>('machine');
   const [companyName, setCompanyName] = useState('');
-
+  
   // Service Form State
   const [serviceName, setServiceName] = useState('');
-  const [servicePhone, setServicePhone] = useState('');
   const [serviceSerial, setServiceSerial] = useState('');
   const [serviceDesc, setServiceDesc] = useState('');
 
@@ -29,13 +28,26 @@ export default function PortalPage() {
 
   const handleQuoteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Teklif talebiniz başarıyla alınmıştır.');
+    const message = `*Yeni Teklif Talebi*\n\n` +
+      `Firma Adı: ${companyName}\n` +
+      `Kapasite: ${capacityValue} ${capacityType === 'person' ? 'Kişi' : 'kg'}\n` +
+      `Karkas Ağırlığı: ${cabinWeight} kg\n` +
+      `Seyir Mesafesi: ${travelValue} ${travelType === 'stops' ? 'Durak' : 'mm'}\n` +
+      `Kabin Hızı: ${speed} m/s\n` +
+      `Regülasyon: ${regulation === 'machine' ? 'Makine Direktifi' : 'TS EN 81-20/50'}`;
+    
+    window.open(`https://wa.me/905424862821?text=${encodeURIComponent(message)}`, '_blank');
     setActiveView('hub');
   };
 
   const handleServiceSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Servis talebiniz teknik ekibimize iletilmiştir.');
+    const message = `*Teknik Servis Talebi*\n\n` +
+      `Firma/Kişi: ${serviceName}\n` +
+      (serviceSerial ? `Seri No: ${serviceSerial}\n` : '') +
+      `Talep/Arıza: ${serviceDesc}`;
+      
+    window.open(`https://wa.me/905360256494?text=${encodeURIComponent(message)}`, '_blank');
     setActiveView('hub');
   };
 
@@ -183,7 +195,7 @@ export default function PortalPage() {
                 <label>Firma Adı</label>
               </div>
 
-              <button type="submit" className="minimal-submit">Teklif Gönder</button>
+              <button type="submit" className="minimal-submit">WhatsApp'a Git</button>
             </form>
           )}
 
@@ -195,10 +207,6 @@ export default function PortalPage() {
                 <label>Firma Adı / İletişim Kişisi</label>
               </div>
               <div className="floating-input">
-                <input type="tel" required value={servicePhone} onChange={(e) => setServicePhone(e.target.value)} />
-                <label>Telefon Numaranız</label>
-              </div>
-              <div className="floating-input">
                 <input type="text" value={serviceSerial} onChange={(e) => setServiceSerial(e.target.value)} />
                 <label>Valf Seri Numarası (Opsiyonel)</label>
               </div>
@@ -206,7 +214,12 @@ export default function PortalPage() {
                 <textarea required rows={4} value={serviceDesc} onChange={(e) => setServiceDesc(e.target.value)} />
                 <label>Talep Detayı / Arıza Açıklaması</label>
               </div>
-              <button type="submit" className="minimal-submit">Talebi Gönder</button>
+              
+              <div style={{ fontSize: '0.85rem', color: '#86868b', marginTop: '-1rem' }}>
+                * Fotoğraf veya video eklemek isterseniz, lütfen WhatsApp ekranı açıldığında mesajınıza ekleyin.
+              </div>
+
+              <button type="submit" className="minimal-submit">WhatsApp'a Git</button>
             </form>
           )}
 
