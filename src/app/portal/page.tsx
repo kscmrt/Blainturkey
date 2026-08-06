@@ -677,29 +677,7 @@ export default function PortalPage() {
                   
 
 
-                  {/* Estimated Price Banner */}
-                  {(estimatedPrice !== null || isCalculatingPrice) && (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', borderRadius: '12px', marginBottom: '2rem', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)', border: '1px solid #bbf7d0', boxShadow: '0 4px 15px rgba(34,197,94,0.1)' }}>
-                      <div>
-                        <div style={{ fontWeight: 700, color: '#166534', fontSize: '1.2rem', marginBottom: '0.2rem' }}>
-                          Sistemin Tahmini Özel Fiyatı
-                        </div>
-                        <div style={{ fontSize: '0.9rem', color: '#15803d' }}>
-                          Belirttiğiniz özelliklere ve donanımlara göre hesaplanmıştır.
-                        </div>
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
-                        {isCalculatingPrice ? (
-                          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#166534', animation: 'pulse 1.5s infinite' }}>Hesaplanıyor...</div>
-                        ) : (
-                          <div style={{ fontSize: '2rem', fontWeight: 800, color: '#166534', display: 'flex', alignItems: 'baseline', gap: '0.2rem' }}>
-                            {estimatedPrice?.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            <span style={{ fontSize: '1.2rem', fontWeight: 700 }}>€</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
+                  {/* Estimated Price Banner removed as per user request */}
 
                   {/* Top Recommended Components */}
                   <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: '#1d1d1f', marginBottom: '1rem' }}>Önerilen Ana Komponentler</h3>
@@ -1074,6 +1052,92 @@ export default function PortalPage() {
           font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 2rem);
           transition: 0.2s ease all;
         }
+
+        /* Form Base Styles */
+        .floating-input, .floating-select {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          font-family: inherit;
+        }
+        .floating-input input, .floating-input textarea, .floating-select select {
+          width: 100%;
+          padding: 1.4rem 1rem 0.5rem 1rem;
+          font-size: 1rem;
+          font-family: inherit;
+          color: #1d1d1f;
+          background: #fff;
+          border: 1px solid #e5e5ea;
+          border-radius: 12px;
+          outline: none;
+          transition: all 0.2s ease;
+          box-sizing: border-box;
+          -webkit-appearance: none;
+          appearance: none;
+        }
+        .floating-input input:focus, .floating-input textarea:focus, .floating-select select:focus {
+          border-color: #0066cc;
+          box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+        .floating-input label, .floating-select label {
+          position: absolute;
+          left: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 0.95rem;
+          color: #86868b;
+          pointer-events: none;
+          transition: all 0.2s ease;
+          background: transparent;
+        }
+        .floating-input textarea ~ label {
+          top: 1.2rem;
+          transform: none;
+        }
+
+        /* Buttons */
+        .minimal-submit {
+          width: 100%;
+          background: #0066cc;
+          color: #ffffff;
+          border: none;
+          padding: 1.2rem;
+          border-radius: 12px;
+          font-size: 1.05rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: 0.2s ease all;
+          margin-top: 1rem;
+          font-family: inherit;
+          box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
+        }
+        .minimal-submit:hover {
+          background: #005bb5;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(0, 102, 204, 0.25);
+        }
+        .minimal-submit:active {
+          transform: translateY(0);
+        }
+
+        .minimal-back-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: transparent;
+          border: none;
+          color: #86868b;
+          font-size: 0.95rem;
+          font-weight: 500;
+          cursor: pointer;
+          padding: 0;
+          transition: 0.2s ease all;
+          font-family: inherit;
+        }
+        .minimal-back-btn:hover {
+          color: #1d1d1f;
+        }
+
         .floating-input input:focus ~ label, 
         .floating-input input:not(:placeholder-shown) ~ label,
         .floating-input input:valid ~ label,
