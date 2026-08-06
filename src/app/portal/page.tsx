@@ -1098,6 +1098,13 @@ export default function PortalPage() {
           transition: all 0.2s ease;
           appearance: none;
         }
+        .floating-input input::placeholder, .floating-input textarea::placeholder {
+          color: transparent;
+          transition: color 0.2s;
+        }
+        .floating-input input:focus::placeholder, .floating-input textarea:focus::placeholder {
+          color: #a0a0a5;
+        }
         .floating-input input:focus, .floating-input textarea:focus, .floating-select select:focus {
           border-color: #0066cc;
           background: #ffffff;
@@ -1109,7 +1116,7 @@ export default function PortalPage() {
           top: 1.1rem;
           color: #86868b;
           font-size: 1rem;
-          pointer-events: none;
+          pointer-events: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 2rem);
           transition: 0.2s ease all;
         }
         .floating-input input:focus ~ label, 
@@ -1136,7 +1143,7 @@ export default function PortalPage() {
           width: 16px;
           height: 16px;
           color: #86868b;
-          pointer-events: none;
+          pointer-events: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 2rem);
         }
 
         /* Minimal Segmented Control */
