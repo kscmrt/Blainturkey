@@ -186,7 +186,7 @@ export default function PortalPage() {
     setEstimatedPrice(null);
     try {
       const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-      const apiUrl = process.env.NEXT_PUBLIC_CRM_API_URL || (isLocalhost ? 'http://localhost:3000' : 'https://sonproje-production.up.railway.app');
+      const apiUrl = process.env.NEXT_PUBLIC_CRM_API_URL || (isLocalhost ? 'http://localhost:3000' : 'https://portal.blainturkey.com.tr');
       
       const priceReq = await fetch(`${apiUrl}/api/external-quotes/estimate`, {
         method: 'POST',
@@ -272,7 +272,7 @@ export default function PortalPage() {
             
             <button className="minimal-menu-item" onClick={() => {
               const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-              const crmUrl = process.env.NEXT_PUBLIC_CRM_API_URL || (isLocalhost ? 'http://localhost:3000' : 'https://sonproje-production.up.railway.app');
+              const crmUrl = process.env.NEXT_PUBLIC_CRM_API_URL || (isLocalhost ? 'http://localhost:3000' : 'https://portal.blainturkey.com.tr');
               window.location.href = `${crmUrl}/login`;
             }}>
               <div>
