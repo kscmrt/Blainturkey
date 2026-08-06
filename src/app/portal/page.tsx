@@ -41,7 +41,7 @@ export default function PortalPage() {
   // Calculator Form State
   const [calcCapacity, setCalcCapacity] = useState('630');
   const [calcCarcass, setCalcCarcass] = useState('500');
-  const [calcTravel, setCalcTravel] = useState('15'); // meters
+  const [calcTravel, setCalcTravel] = useState('15000'); // mm
   const [calcSpeed, setCalcSpeed] = useState('0.63');
   const [calcSuspension, setCalcSuspension] = useState<'1:1' | '2:1' | '4:1'>('2:1');
   const [calcCylDiameter, setCalcCylDiameter] = useState('100');
@@ -124,7 +124,7 @@ export default function PortalPage() {
     const inputs = {
       capacity: Number(calcCapacity),
       carcassWeight: Number(calcCarcass),
-      travelDistance: Number(calcTravel) * 1000,
+      travelDistance: Number(calcTravel),
       buffer: Number(calcBuffer),
       pitDepth: Number(calcPitDepth),
       topFloor: Number(calcTopFloor),
@@ -444,14 +444,28 @@ export default function PortalPage() {
                           <label>Kabin Hızı (m/s)</label>
                         </div>
                         <div className="floating-select" style={{ position: 'relative' }}>
-                          <select required value={calcStartsPerHour} onChange={(e) => setCalcStartsPerHour(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                          <select required value={calcStartsPerHour} onChange={(e) => setCalcStartsPerHour(e.target.value)}>
                             <option value="<5">&lt;5 (Düşük Yoğunluk)</option>
                             <option value="5-15">5-15 (Orta)</option>
                             <option value="16-25">16-25 (Yüksek)</option>
                             <option value="26-35">26-35 (Çok Yüksek)</option>
                             <option value="36+">36+ (Aşırı Yoğun)</option>
                           </select>
-                          <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Motor Kalkış (Saat)</label>
+                          <label>Motor Kalkış (Saat)</label>
+                        </div>
+                      </div>
+                      
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                        <div className="floating-select" style={{ position: 'relative' }}>
+                          <select required value={regulation} onChange={(e) => setRegulation(e.target.value as any)}>
+                            <option value="machine">Makine Direktifi</option>
+                            <option value="en81">TS EN 81-20/50</option>
+                          </select>
+                          <label>Yönetmelik</label>
+                        </div>
+                        <div className="floating-input">
+                          <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="Opsiyonel" />
+                          <label>Bina Tipi (Örn: Konut, Hastane)</label>
                         </div>
                       </div>
                     </div>
@@ -463,19 +477,19 @@ export default function PortalPage() {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                       <div className="floating-input">
                         <input type="number" required value={calcTravel} onChange={(e) => setCalcTravel(e.target.value)} />
-                        <label>Seyir Mesafesi (Metre)</label>
+                        <label>Seyir Mesafesi (mm)</label>
                       </div>
                       <div className="floating-input">
-                        <input type="number" required value={calcPitDepth} onChange={(e) => setCalcPitDepth(e.target.value)} />
-                        <label>Kuyu Dibi (mm)</label>
+                        <input type="number" required value={calcBuffer} onChange={(e) => setCalcBuffer(e.target.value)} />
+                        <label>Tampon Mesafesi (mm)</label>
                       </div>
                       <div className="floating-input">
                         <input type="number" required value={calcTopFloor} onChange={(e) => setCalcTopFloor(e.target.value)} />
                         <label>Son Kat (mm)</label>
                       </div>
                       <div className="floating-input">
-                        <input type="number" required value={calcBuffer} onChange={(e) => setCalcBuffer(e.target.value)} />
-                        <label>Tampon Mesafesi (mm)</label>
+                        <input type="number" required value={calcPitDepth} onChange={(e) => setCalcPitDepth(e.target.value)} />
+                        <label>Kuyu Dibi (mm)</label>
                       </div>
                     </div>
                   </div>
@@ -486,19 +500,19 @@ export default function PortalPage() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                         <div className="floating-select" style={{ position: 'relative' }}>
-                          <select required value={calcSuspension} onChange={(e) => setCalcSuspension(e.target.value as any)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                          <select required value={calcSuspension} onChange={(e) => setCalcSuspension(e.target.value as any)}>
                             <option value="1:1">1:1</option>
                             <option value="2:1">2:1</option>
                             <option value="4:1">4:1</option>
                           </select>
-                          <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Askı Tipi</label>
+                          <label>Askı Tipi</label>
                         </div>
                         <div className="floating-select" style={{ position: 'relative' }}>
-                          <select required value={calcMountingType} onChange={(e) => setCalcMountingType(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                          <select required value={calcMountingType} onChange={(e) => setCalcMountingType(e.target.value)}>
                             <option value="side">Yandan Süspansiyon</option>
                             <option value="central">Merkezi / Alttan</option>
                           </select>
-                          <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Montaj Yönü</label>
+                          <label>Montaj Yönü</label>
                         </div>
                       </div>
                       
@@ -515,40 +529,40 @@ export default function PortalPage() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                         <div className="floating-select" style={{ position: 'relative' }}>
-                          <select required value={calcCylinderCount} onChange={(e) => setCalcCylinderCount(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                          <select required value={calcCylinderCount} onChange={(e) => setCalcCylinderCount(e.target.value)}>
                             <option value="1">1 Piston</option>
                             <option value="2">2 Piston</option>
                             <option value="4">4 Piston</option>
                           </select>
-                          <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Piston Sayısı</label>
+                          <label>Piston Sayısı</label>
                         </div>
                         <div className="floating-select" style={{ position: 'relative' }}>
-                          <select required value={calcCylinderType} onChange={(e) => setCalcCylinderType(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                          <select required value={calcCylinderType} onChange={(e) => setCalcCylinderType(e.target.value)}>
                             <option value="standard">Standart (Tek Parça)</option>
                             <option value="telescopic">Teleskopik</option>
                           </select>
-                          <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Silindir Tipi</label>
+                          <label>Silindir Tipi</label>
                         </div>
                       </div>
 
                       {calcCylinderType === 'telescopic' && (
                         <div className="floating-select" style={{ position: 'relative' }}>
-                          <select required value={calcStages} onChange={(e) => setCalcStages(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                          <select required value={calcStages} onChange={(e) => setCalcStages(e.target.value)}>
                             <option value="2">2 Kademeli</option>
                             <option value="3">3 Kademeli</option>
                           </select>
-                          <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Teleskopik Kademe Sayısı</label>
+                          <label>Teleskopik Kademe Sayısı</label>
                         </div>
                       )}
 
                       <div className="floating-select" style={{ position: 'relative' }}>
-                        <select required value={calcPowerUnitCount} onChange={(e) => setCalcPowerUnitCount(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                        <select required value={calcPowerUnitCount} onChange={(e) => setCalcPowerUnitCount(e.target.value)}>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
                           <option value="4">4</option>
                         </select>
-                        <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Güç Ünitesi Sayısı</label>
+                        <label>Güç Ünitesi Sayısı</label>
                       </div>
 
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
@@ -576,12 +590,12 @@ export default function PortalPage() {
                       </div>
 
                       <div className="floating-select" style={{ position: 'relative' }}>
-                        <select value={calcOilViscosity} onChange={(e) => setCalcOilViscosity(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                        <select value={calcOilViscosity} onChange={(e) => setCalcOilViscosity(e.target.value)}>
                           <option value="32">VG 32</option>
                           <option value="46">VG 46</option>
                           <option value="68">VG 68</option>
                         </select>
-                        <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Yağ Viskozitesi</label>
+                        <label>Yağ Viskozitesi</label>
                       </div>
 
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -1071,82 +1085,57 @@ export default function PortalPage() {
         .floating-input {
           position: relative;
         }
-        .floating-input input, .floating-input textarea {
+        .floating-input input, .floating-input textarea, .floating-select select {
           width: 100%;
-          padding: 0.5rem 0;
-          font-size: 1.1rem;
+          padding: 1.75rem 1rem 0.5rem 1rem; height: 3.5rem; line-height: 1.2;
+          font-size: 1.05rem;
           color: #1d1d1f;
-          background: transparent;
-          border: none;
-          border-bottom: 1px solid #d2d2d7;
+          background: #f5f5f7;
+          border: 1px solid transparent;
           outline: none;
           font-family: inherit;
-          border-radius: 0;
-          transition: border-color 0.2s;
+          border-radius: 12px;
+          transition: all 0.2s ease;
+          appearance: none;
         }
-        .floating-input textarea {
-          padding-top: 1.25rem;
+        .floating-input input:focus, .floating-input textarea:focus, .floating-select select:focus {
+          border-color: #0066cc;
+          background: #ffffff;
+          box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
         }
-        .floating-input label {
+        .floating-input label, .floating-select label {
           position: absolute;
-          left: 0;
-          top: 0.5rem;
+          left: 1rem;
+          top: 1.1rem;
           color: #86868b;
-          font-size: 1.1rem;
+          font-size: 1rem;
           pointer-events: none;
           transition: 0.2s ease all;
         }
-        /* Float the label when focused or has value */
         .floating-input input:focus ~ label, 
+        .floating-input input:not(:placeholder-shown) ~ label,
         .floating-input input:valid ~ label,
         .floating-input textarea:focus ~ label, 
-        .floating-input textarea:valid ~ label {
-          top: -12px;
-          font-size: 0.85rem;
+        .floating-input textarea:valid ~ label,
+        .floating-select select:focus ~ label,
+        .floating-select select:valid ~ label {
+          top: 0.25rem;
+          font-size: 0.75rem;
           color: #0066cc;
         }
-        .floating-input input:focus, .floating-input textarea:focus {
-          border-bottom-color: #0066cc;
-        }
-
-        /* Custom Floating Select */
-        .floating-select {
-          position: relative;
-        }
-        .floating-select select {
-          width: 100%;
-          padding: 1.25rem 0 0.5rem 0;
-          font-size: 1.1rem;
-          color: #1d1d1f;
-          background: transparent;
-          border: none;
-          border-bottom: 1px solid #d2d2d7;
-          outline: none;
-          font-family: inherit;
-          border-radius: 0;
-          appearance: none;
-          transition: border-color 0.2s;
-          cursor: pointer;
-        }
-        .floating-select select:focus {
-          border-bottom-color: #0066cc;
-        }
-        .floating-select label {
-          position: absolute;
-          left: 0;
-          top: -12px;
-          font-size: 0.85rem;
+        .floating-input input:not(:focus):valid ~ label,
+        .floating-input textarea:not(:focus):valid ~ label,
+        .floating-select select:not(:focus):valid ~ label {
           color: #86868b;
-          pointer-events: none;
         }
         .floating-select svg {
           position: absolute;
-          right: 0;
+          right: 1rem;
           top: 50%;
-          transform: translateY(-20%);
+          transform: translateY(-50%);
           width: 16px;
           height: 16px;
-          color: #1d1d1f;
+          color: #86868b;
           pointer-events: none;
         }
 
