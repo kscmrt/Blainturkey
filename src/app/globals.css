@@ -23,24 +23,6 @@
   --font-sans: 'Neue Helvetica', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-@font-face {
-  font-family: 'Neue Helvetica';
-  font-style: normal;
-  font-weight: 400;
-  src: url('https://blain.de/wp-content/uploads/2025/07/6973Neue-Helveticaregular.woff') format('woff');
-}
-@font-face {
-  font-family: 'Neue Helvetica';
-  font-style: normal;
-  font-weight: 700;
-  src: url('https://blain.de/wp-content/uploads/2025/07/5944Neue-Helvetica-bold.woff') format('woff');
-}
-@font-face {
-  font-family: 'Neue Helvetica';
-  font-style: normal;
-  font-weight: 500;
-  src: url('https://blain.de/wp-content/uploads/2025/07/150Neue-Helvetica-medium.woff') format('woff');
-}
 
 * {
   box-sizing: border-box;

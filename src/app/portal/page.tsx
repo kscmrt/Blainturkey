@@ -887,7 +887,7 @@ export default function PortalPage() {
                 };
 
                 const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-                const apiUrl = process.env.NEXT_PUBLIC_CRM_API_URL || (isLocalhost ? 'http://localhost:3000' : 'https://sonproje-production.up.railway.app'); 
+                const apiUrl = process.env.NEXT_PUBLIC_CRM_API_URL || (isLocalhost ? 'http://localhost:3000' : 'https://portal.blainturkey.com.tr'); 
                 
                 // Using a no-cors or simple try-catch. If CORS fails, we still want to open whatsapp.
                 try {
