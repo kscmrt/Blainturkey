@@ -1045,78 +1045,7 @@ export default function PortalPage() {
           gap: 0.5rem;
           color: #0066cc;
           text-decoration: none;
-          font-size: 1rem;
-          font-weight: 500;
-        }
-        .minimal-link:hover { text-decoration: underline; }
-
-        .minimal-back-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.25rem;
-          background: none;
-          border: none;
-          color: #0066cc;
-          font-size: 1rem;
-          font-weight: 500;
-          padding: 0;
-          cursor: pointer;
-          transition: opacity 0.2s;
-        }
-        .minimal-back-btn:hover { opacity: 0.7; }
-
-        .minimal-submit {
-          background-color: #1d1d1f;
-          color: #fff;
-          border: none;
-          padding: 1rem;
-          border-radius: 8px;
-          font-size: 1.1rem;
-          font-weight: 500;
-          cursor: pointer;
-          transition: background-color 0.2s;
-          margin-top: 1rem;
-        }
-        .minimal-submit:hover {
-          background-color: #424245;
-        }
-
-        /* Floating Input Styles */
-        .floating-input {
-          position: relative;
-        }
-        .floating-input input, .floating-input textarea, .floating-select select {
-          width: 100%;
-          padding: 1.75rem 1rem 0.5rem 1rem; height: 3.5rem; line-height: 1.2;
-          font-size: 1.05rem;
-          color: #1d1d1f;
-          background: #f5f5f7;
-          border: 1px solid transparent;
-          outline: none;
-          font-family: inherit;
-          border-radius: 12px;
-          transition: all 0.2s ease;
-          appearance: none;
-        }
-        .floating-input input::placeholder, .floating-input textarea::placeholder {
-          color: transparent;
-          transition: color 0.2s;
-        }
-        .floating-input input:focus::placeholder, .floating-input textarea:focus::placeholder {
-          color: #a0a0a5;
-        }
-        .floating-input input:focus, .floating-input textarea:focus, .floating-select select:focus {
-          border-color: #0066cc;
-          background: #ffffff;
-          box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
-        }
-        .floating-input label, .floating-select label {
-          position: absolute;
-          left: 1rem;
-          top: 1.1rem;
-          color: #86868b;
-          font-size: 1rem;
-          pointer-events: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 2rem);
+          font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 2rem);
           transition: 0.2s ease all;
         }
         .floating-input input:focus ~ label, 
@@ -1126,8 +1055,8 @@ export default function PortalPage() {
         .floating-input textarea:valid ~ label,
         .floating-select select:focus ~ label,
         .floating-select select:valid ~ label {
-          top: 0.25rem;
-          font-size: 0.75rem;
+          top: 0.3rem;
+          font-size: 0.65rem;
           color: #0066cc;
         }
         .floating-input input:not(:focus):valid ~ label,
