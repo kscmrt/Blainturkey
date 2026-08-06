@@ -1,6 +1,7 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { RAW_POWER_UNITS, RAW_MOTORS, RAW_PUMPS } from '@/lib/catalogData';
 
 type ViewState = 'hub' | 'quote' | 'service' | 'login' | 'calculator';
 
@@ -221,6 +222,43 @@ export default function PortalPage() {
       setIsCalculatingPrice(false);
     }
   };
+  const powerUnitsList = useMemo(() => RAW_POWER_UNITS.map(u => ({
+    model: u.tank_model,
+    dead_zone: Number(u.dead_zone),
+    total_oil: Number(u.total_oil),
+    min_pump: Number(u.min_pump_size),
+    max_pump: Number(u.max_pump_size),
+    min_motor: Number(u.min_motor_size),
+    max_motor: Number(u.max_motor_size)
+  })).sort((a, b) => a.total_oil - b.total_oil), []);
+
+  const standardMotors = useMemo(() => [...new Set(RAW_MOTORS.map(m => Number(m.power_kw)))].sort((a, b) => a - b), []);
+  const standardPumps = useMemo(() => RAW_PUMPS.map(p => ({
+    desc: p.description,
+    flow: Number(p.flow_rate)
+  })).sort((a, b) => a.flow - b.flow), []);
+
+  let recommendedPowerUnit: any = null;
+  let recommendedMotor: any = null;
+  let recommendedPump: any = null;
+  
+  if (calcResult) {
+    const reqOil = calcResult.oilVolume;
+    const reqPump = Number(calcResult.pumpFlow);
+    const reqMotor = Number(calcResult.motorPowerReq);
+    
+    recommendedMotor = standardMotors.find(m => m >= reqMotor) || reqMotor;
+    recommendedPump = standardPumps.find(p => p.flow >= reqPump)?.desc || `${reqPump} L/dk`;
+
+    recommendedPowerUnit = powerUnitsList.find(unit => 
+      (unit.total_oil - unit.dead_zone) >= reqOil &&
+      reqPump >= unit.min_pump && reqPump <= unit.max_pump &&
+      recommendedMotor >= unit.min_motor && recommendedMotor <= unit.max_motor
+    ) || powerUnitsList.find(unit => 
+      (unit.total_oil - unit.dead_zone) >= reqOil &&
+      reqPump >= unit.min_pump && reqPump <= unit.max_pump
+    ) || powerUnitsList.find(unit => (unit.total_oil - unit.dead_zone) >= reqOil);
+  }
 
   return (
     <div style={{
@@ -637,18 +675,7 @@ export default function PortalPage() {
                   </div>
                   <p style={{ color: '#86868b', marginBottom: '2rem', fontSize: '1.05rem' }}>Mühendislik hesaplamaları tamamlandı. Sisteminiz için en uygun ve güvenli komponentler aşağıda listelenmiştir.</p>
                   
-                  {/* Validation Banner */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem 1.5rem', borderRadius: '12px', marginBottom: '2rem', background: calcResult.isBucklingSafe ? 'linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)' : 'linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%)', border: `1px solid ${calcResult.isBucklingSafe ? '#a5d6a7' : '#ef9a9a'}` }}>
-                    <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: calcResult.isBucklingSafe ? '#2e7d32' : '#c62828', boxShadow: `0 0 10px ${calcResult.isBucklingSafe ? '#4caf50' : '#f44336'}` }}></div>
-                    <div>
-                      <div style={{ fontWeight: 700, color: calcResult.isBucklingSafe ? '#1b5e20' : '#b71c1c', fontSize: '1.1rem' }}>
-                        {calcResult.isBucklingSafe ? 'Sistem Mühendislik Onayından Geçti' : 'Kritik Uyarı: Burkulma Riski Tespit Edildi'}
-                      </div>
-                      <div style={{ fontSize: '0.9rem', color: calcResult.isBucklingSafe ? '#2e7d32' : '#c62828', marginTop: '0.2rem' }}>
-                        Burkulma Faktörü: {calcResult.bucklingFactor} {calcResult.isBucklingSafe ? '(Güvenli sınırların içerisinde)' : '(Limitlerin altında, piston çapını artırmanız önerilir)'}
-                      </div>
-                    </div>
-                  </div>
+
 
                   {/* Estimated Price Banner */}
                   {(estimatedPrice !== null || isCalculatingPrice) && (
@@ -677,21 +704,7 @@ export default function PortalPage() {
                   {/* Top Recommended Components */}
                   <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: '#1d1d1f', marginBottom: '1rem' }}>Önerilen Ana Komponentler</h3>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-                    {/* Valve Card - Premium Look */}
-                    <div style={{ background: 'linear-gradient(145deg, #1d1d1f 0%, #434353 100%)', color: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.15)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                      <div>
-                        <div style={{ fontSize: '0.8rem', color: '#a1a1a6', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Kontrol Valfi</div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 700, marginBottom: '0.2rem' }}>
-                          {Number(calcResult?.pumpFlow || 0) < 125 ? 'EV100 3/4"' : Number(calcResult?.pumpFlow || 0) <= 800 ? 'EV100 1.5"' : 'EV100 2.5"'}
-                        </div>
-                        <div style={{ fontSize: '0.9rem', color: '#d2d2d7' }}>Entegre sistem kontrolü</div>
-                      </div>
-                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', fontSize: '0.85rem' }}>
-                        Debi Kapasitesi: {calcResult.pumpFlow} L/dk
-                      </div>
-                    </div>
-
-                    {/* Cylinder Card (New) */}
+                    {/* 1. Cylinder Card */}
                     <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #e5e5ea', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <div>
                         <div style={{ fontSize: '0.8rem', color: '#86868b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Seçilen Piston</div>
@@ -705,28 +718,56 @@ export default function PortalPage() {
                       </div>
                     </div>
 
-                    {/* Motor Card */}
+                    {/* 2. Pump Card */}
                     <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #e5e5ea', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <div>
-                        <div style={{ fontSize: '0.8rem', color: '#86868b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Motor & Pompa Grubu</div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#1d1d1f', marginBottom: '0.2rem' }}>
-                          {calcResult.motorPowerReq} <span style={{fontSize:'1.2rem'}}>kW</span>
+                        <div style={{ fontSize: '0.8rem', color: '#86868b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Pompa</div>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#1d1d1f', marginBottom: '0.2rem' }}>
+                          {recommendedPump}
                         </div>
-                        <div style={{ fontSize: '0.9rem', color: '#86868b' }}>Dalgıç tip asansör motoru</div>
+                        <div style={{ fontSize: '0.9rem', color: '#86868b' }}>Minimum Debi: {calcResult.pumpFlow} L/dk</div>
+                      </div>
+                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: '#f5f5f7', borderRadius: '8px', fontSize: '0.85rem', color: '#1d1d1f', fontWeight: 500 }}>
+                        Sistem Debi Kapasitesi
+                      </div>
+                    </div>
+
+                    {/* 3. Motor Card */}
+                    <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #e5e5ea', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <div>
+                        <div style={{ fontSize: '0.8rem', color: '#86868b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Motor</div>
+                        <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#1d1d1f', marginBottom: '0.2rem' }}>
+                          {recommendedMotor} <span style={{fontSize:'1.2rem'}}>kW</span>
+                        </div>
+                        <div style={{ fontSize: '0.9rem', color: '#86868b' }}>Minimum gereksinim: {calcResult.motorPowerReq} kW</div>
                       </div>
                       <div style={{ marginTop: '1rem', padding: '0.5rem', background: '#f5f5f7', borderRadius: '8px', fontSize: '0.85rem', color: '#1d1d1f', fontWeight: 500 }}>
                         Statik Basınç: {calcResult.staticPressure} Bar
                       </div>
                     </div>
 
-                    {/* Tank Card */}
+                    {/* 4. Valve Card - Premium Look */}
+                    <div style={{ background: 'linear-gradient(145deg, #1d1d1f 0%, #434353 100%)', color: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.15)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <div>
+                        <div style={{ fontSize: '0.8rem', color: '#a1a1a6', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Kontrol Valfi</div>
+                        <div style={{ fontSize: '1.8rem', fontWeight: 700, marginBottom: '0.2rem' }}>
+                          {Number(calcResult?.pumpFlow || 0) < 125 ? 'EV100 3/4"' : Number(calcResult?.pumpFlow || 0) <= 800 ? 'EV100 1.5"' : 'EV100 2.5"'}
+                        </div>
+                        <div style={{ fontSize: '0.9rem', color: '#d2d2d7' }}>Entegre sistem kontrolü</div>
+                      </div>
+                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', fontSize: '0.85rem' }}>
+                        Debi Kapasitesi: {calcResult.pumpFlow} L/dk
+                      </div>
+                    </div>
+
+                    {/* 5. Tank Card */}
                     <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #e5e5ea', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <div>
-                        <div style={{ fontSize: '0.8rem', color: '#86868b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Gerekli Yağ Hacmi</div>
+                        <div style={{ fontSize: '0.8rem', color: '#86868b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Güç Ünitesi</div>
                         <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#1d1d1f', marginBottom: '0.2rem' }}>
-                          {calcResult.oilVolume} <span style={{fontSize:'1.2rem'}}>Lt</span>
+                          {recommendedPowerUnit ? recommendedPowerUnit.model : "Özel Tank"}
                         </div>
-                        <div style={{ fontSize: '0.9rem', color: '#86868b' }}>Sistem strok ihtiyacı</div>
+                        <div style={{ fontSize: '0.9rem', color: '#86868b' }}>Sistem yağ ihtiyacı: {calcResult.oilVolume} Lt</div>
                       </div>
                       <div style={{ marginTop: '1rem', padding: '0.5rem', background: '#f5f5f7', borderRadius: '8px', fontSize: '0.85rem', color: '#1d1d1f', fontWeight: 500 }}>
                         Piston Strok: {calcResult.stroke} mm
@@ -735,67 +776,49 @@ export default function PortalPage() {
                   </div>
 
                   {/* Component Selections */}
-                  <div style={{ marginBottom: '2rem', padding: '1.5rem', background: '#fbfbfd', borderRadius: '16px', border: '1px solid #e5e5ea' }}>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '1.5rem', color: '#1d1d1f' }}>Ekstra Aksesuar ve Revizyon</h3>
+                  <div style={{ marginBottom: '2rem', padding: '1.5rem', background: '#fff', borderRadius: '16px', border: '1px solid #e5e5ea', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                      <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: '#1d1d1f', margin: 0 }}>Opsiyonel Donanımlar (Aksesuarlar)</h3>
+                      <span style={{ fontSize: '0.85rem', color: '#86868b', background: '#f5f5f7', padding: '0.25rem 0.75rem', borderRadius: '20px' }}>Birden fazla seçilebilir</span>
+                    </div>
                     
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
-                      <div className="minimal-group">
-                        <label className="minimal-label" style={{ fontWeight: 600 }}>Tercih Edilen Valf Modelini Değiştir (Opsiyonel)</label>
-                        <select 
-                          value={calcUserValve}
-                          onChange={(e) => setCalcUserValve(e.target.value)}
-                          style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #d2d2d7', fontSize: '1rem', background: '#fff', marginTop: '0.5rem' }}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1rem' }}>
+                      {[
+                        { id: 'handpump', label: 'El Pompası', desc: 'Acil kurtarma', state: calcHandPump, setter: setCalcHandPump },
+                        { id: 'ballvalve', label: 'Küresel Vana', desc: 'Bakım kolaylığı', state: calcBallValve, setter: setCalcBallValve },
+                        { id: 'rupture', label: 'Boru Patlama Valfi', desc: 'Güvenlik', state: calcRuptureValve, setter: setCalcRuptureValve },
+                        { id: 'a3', label: 'A3 Valfi (U33/UAB)', desc: 'Ekstra Güvenlik', state: calcA3Valve, setter: setCalcA3Valve },
+                        { id: 'lowpress', label: 'Alçak Basınç Şalteri', desc: 'Sistem Koruma', state: calcLowPressure, setter: setCalcLowPressure },
+                        { id: 'highpress', label: 'Yüksek Basınç Şalteri', desc: 'Aşırı Yük Koruma', state: calcHighPressure, setter: setCalcHighPressure },
+                        { id: 'overload', label: 'Aşırı Yük Şalteri', desc: 'Limit Kontrol', state: calcOverload, setter: setCalcOverload },
+                        { id: 'heater', label: 'Yağ Isıtıcı', desc: 'Soğuk İklimler İçin', state: calcHeater, setter: setCalcHeater },
+                        { id: 'micro', label: 'Mikro Seviyeleme', desc: 'Hassas Duruş', state: calcMicroLevel, setter: setCalcMicroLevel }
+                      ].map((item) => (
+                        <label 
+                          key={item.id} 
+                          style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'space-between',
+                            padding: '1rem', 
+                            background: item.state ? '#f0fdf4' : '#fbfbfd', 
+                            border: `1px solid ${item.state ? '#bbf7d0' : '#e5e5ea'}`, 
+                            borderRadius: '12px', 
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease',
+                            boxShadow: item.state ? '0 2px 8px rgba(34,197,94,0.1)' : 'none'
+                          }}
                         >
-                          <option value=''>Otomatik (Önerileni Kullan)</option>
-                          <option value='3/4" (EV100)'>3/4" (EV100)</option>
-                          <option value='1.5" (EV100)'>1.5" (EV100)</option>
-                          <option value='2" (EV100)'>2" (EV100)</option>
-                          <option value='2.5" (EV100)'>2.5" (EV100)</option>
-                          <option value='KV (Küçük Valf)'>KV (Küçük Valf)</option>
-                        </select>
-                      </div>
-
-                      <div className="minimal-group">
-                        <label className="minimal-label" style={{ fontWeight: 600, marginBottom: '1rem' }}>Opsiyonel Donanımlar</label>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
-                            <input type="checkbox" checked={calcHandPump} onChange={(e) => setCalcHandPump(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
-                            <span>El Pompası (Acil kurtarma)</span>
-                          </label>
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
-                            <input type="checkbox" checked={calcBallValve} onChange={(e) => setCalcBallValve(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
-                            <span>Küresel Vana (Bakım kolaylığı)</span>
-                          </label>
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
-                            <input type="checkbox" checked={calcRuptureValve} onChange={(e) => setCalcRuptureValve(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
-                            <span>Boru Patlama Valfi (Güvenlik)</span>
-                          </label>
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
-                            <input type="checkbox" checked={calcA3Valve} onChange={(e) => setCalcA3Valve(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
-                            <span>A3 Valfi (U33 / UAB)</span>
-                          </label>
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
-                            <input type="checkbox" checked={calcLowPressure} onChange={(e) => setCalcLowPressure(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
-                            <span>Alçak Basınç Şalteri</span>
-                          </label>
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
-                            <input type="checkbox" checked={calcHighPressure} onChange={(e) => setCalcHighPressure(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
-                            <span>Yüksek Basınç Şalteri</span>
-                          </label>
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
-                            <input type="checkbox" checked={calcOverload} onChange={(e) => setCalcOverload(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
-                            <span>Aşırı Yük Şalteri</span>
-                          </label>
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
-                            <input type="checkbox" checked={calcHeater} onChange={(e) => setCalcHeater(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
-                            <span>Yağ Isıtıcı (Tank Isıtıcısı)</span>
-                          </label>
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
-                            <input type="checkbox" checked={calcMicroLevel} onChange={(e) => setCalcMicroLevel(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
-                            <span>Mikro Seviyeleme</span>
-                          </label>
-                        </div>
-                      </div>
+                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <span style={{ fontWeight: 600, color: item.state ? '#166534' : '#1d1d1f', fontSize: '0.95rem' }}>{item.label}</span>
+                            <span style={{ fontSize: '0.8rem', color: item.state ? '#15803d' : '#86868b' }}>{item.desc}</span>
+                          </div>
+                          <div style={{ position: 'relative', width: '44px', height: '24px', background: item.state ? '#34c759' : '#e5e5ea', borderRadius: '12px', transition: '0.3s ease' }}>
+                            <div style={{ position: 'absolute', top: '2px', left: item.state ? '22px' : '2px', width: '20px', height: '20px', background: '#fff', borderRadius: '50%', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', transition: '0.3s ease' }} />
+                          </div>
+                          <input type="checkbox" checked={item.state} onChange={(e) => item.setter(e.target.checked)} style={{ display: 'none' }} />
+                        </label>
+                      ))}
                     </div>
                   </div>
 
@@ -877,6 +900,9 @@ export default function PortalPage() {
                     mountingType: calcMountingType, cylinderType: calcCylinderType === 'telescopic' ? `telescopic-${calcStages}` : 'standard',
                     ropeWeight: Number(calcRopeWeight), buildingType: calcStartsPerHour, calculationResult: calcResult,
                     selectedCylinder: { d: calcCylDiameter, t: calcCylThickness },
+                    recommendedMotor,
+                    recommendedPump,
+                    recommendedPowerUnit,
                     powerUnitCount: Number(calcPowerUnitCount),
                     maxAmbientTemp: calcMaxAmbientTemp ? Number(calcMaxAmbientTemp) : undefined,
                     travelFactor: calcTravelFactor ? Number(calcTravelFactor) : undefined,
