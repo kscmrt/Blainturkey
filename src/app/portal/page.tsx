@@ -47,6 +47,8 @@ export default function PortalPage() {
   const [calcCylDiameter, setCalcCylDiameter] = useState('100');
   const [calcCylThickness, setCalcCylThickness] = useState('5');
   const [calcResult, setCalcResult] = useState<any>(null);
+  const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null);
+  const [isCalculatingPrice, setIsCalculatingPrice] = useState(false);
   
   // Comprehensive Calculator States
   const [calcStartsPerHour, setCalcStartsPerHour] = useState('<5');
@@ -59,11 +61,28 @@ export default function PortalPage() {
   const [calcStages, setCalcStages] = useState('2');
   const [calcRopeWeight, setCalcRopeWeight] = useState('50');
   
+  // Advanced & Extra CRM fields
+  const [calcPowerUnitCount, setCalcPowerUnitCount] = useState('1');
+  const [calcMaxAmbientTemp, setCalcMaxAmbientTemp] = useState('');
+  const [calcTravelFactor, setCalcTravelFactor] = useState('');
+  const [calcOilViscosity, setCalcOilViscosity] = useState('46');
+  const [calcIsSplit, setCalcIsSplit] = useState(false);
+  const [calcIsExisting, setCalcIsExisting] = useState(false);
+  const [calcExistingRam, setCalcExistingRam] = useState('');
+  const [calcExistingThickness, setCalcExistingThickness] = useState('');
+  const [calcProjectNote, setCalcProjectNote] = useState('');
+  
   // Accessories State
   const [calcUserValve, setCalcUserValve] = useState('');
   const [calcHandPump, setCalcHandPump] = useState(false);
   const [calcBallValve, setCalcBallValve] = useState(false);
   const [calcRuptureValve, setCalcRuptureValve] = useState(false);
+  const [calcA3Valve, setCalcA3Valve] = useState(false);
+  const [calcLowPressure, setCalcLowPressure] = useState(false);
+  const [calcHighPressure, setCalcHighPressure] = useState(false);
+  const [calcOverload, setCalcOverload] = useState(false);
+  const [calcHeater, setCalcHeater] = useState(false);
+  const [calcMicroLevel, setCalcMicroLevel] = useState(false);
 
   const handleQuoteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -161,6 +180,46 @@ export default function PortalPage() {
     const pFlow = Number(bestResult?.pumpFlow || 0);
     const recommendedValve = pFlow < 125 ? '3/4" (EV100)' : pFlow <= 800 ? '1.5" / 2" (EV100)' : '2.5" (EV100)';
     setCalcUserValve(recommendedValve);
+
+    // Fetch live estimated price from CRM
+    setIsCalculatingPrice(true);
+    setEstimatedPrice(null);
+    try {
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const apiUrl = process.env.NEXT_PUBLIC_CRM_API_URL || (isLocalhost ? 'http://localhost:3000' : 'https://sonproje-production.up.railway.app');
+      
+      const priceReq = await fetch(`${apiUrl}/api/external-quotes/estimate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          projectData: {
+            calculationResult: bestResult,
+            cylinderCount: Number(calcCylinderCount),
+            powerUnitCount: Number(calcPowerUnitCount),
+            isExisting: calcIsExisting,
+            accessoriesFlags: {
+              handPump: calcHandPump,
+              ballValve: calcBallValve,
+              ruptureValve: calcRuptureValve,
+              a3Valve: calcA3Valve,
+              lowPressure: calcLowPressure,
+              highPressure: calcHighPressure,
+              overload: calcOverload,
+              heater: calcHeater,
+              microLevel: calcMicroLevel
+            }
+          }
+        })
+      });
+      if (priceReq.ok) {
+        const priceData = await priceReq.json();
+        setEstimatedPrice(priceData.customerTotal);
+      }
+    } catch (e) {
+      console.warn("Could not fetch estimated price", e);
+    } finally {
+      setIsCalculatingPrice(false);
+    }
   };
 
   return (
@@ -211,7 +270,11 @@ export default function PortalPage() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
             
-            <button className="minimal-menu-item" onClick={() => setActiveView('login')}>
+            <button className="minimal-menu-item" onClick={() => {
+              const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+              const crmUrl = process.env.NEXT_PUBLIC_CRM_API_URL || (isLocalhost ? 'http://localhost:3000' : 'https://sonproje-production.up.railway.app');
+              window.location.href = `${crmUrl}/login`;
+            }}>
               <div>
                 <span className="title">Bayi Girişi</span>
                 <span className="desc">Özel dokümanlarınıza ve geçmiş kayıtlarınıza erişin.</span>
@@ -353,20 +416,7 @@ export default function PortalPage() {
             </form>
           )}
 
-          {/* --- LOGIN FORM --- */}
-          {activeView === 'login' && (
-            <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
-              <div className="floating-input">
-                <input type="email" required value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} />
-                <label>E-posta Adresi</label>
-              </div>
-              <div className="floating-input">
-                <input type="password" required value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} />
-                <label>Şifre</label>
-              </div>
-              <button type="submit" className="minimal-submit">Giriş Yap</button>
-            </form>
-          )}
+
 
           {/* --- CALCULATOR FORM --- */}
           {activeView === 'calculator' && (
@@ -491,6 +541,16 @@ export default function PortalPage() {
                         </div>
                       )}
 
+                      <div className="floating-select" style={{ position: 'relative' }}>
+                        <select required value={calcPowerUnitCount} onChange={(e) => setCalcPowerUnitCount(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                        </select>
+                        <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Güç Ünitesi Sayısı</label>
+                      </div>
+
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
                         <div style={{ fontSize: '0.85rem', color: '#86868b', background: '#f5f5f7', padding: '1rem', borderRadius: '8px' }}>
                           ℹ️ Sisteminiz için en uygun piston çapı ve et kalınlığı, girilen kuyu ve kapasite ölçülerine göre otomatik olarak hesaplanacaktır.
@@ -498,6 +558,60 @@ export default function PortalPage() {
                       </div>
                     </div>
                   </div>
+
+                  {/* GRUP 5: Gelişmiş Parametreler (Opsiyonel) */}
+                  <details style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', border: '1px solid #e5e5ea', cursor: 'pointer' }}>
+                    <summary style={{ fontSize: '1.1rem', fontWeight: 600, color: '#1d1d1f', outline: 'none' }}>Gelişmiş Parametreler & Özel Durumlar</summary>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginTop: '1.5rem' }}>
+                      
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                        <div className="floating-input">
+                          <input type="number" value={calcMaxAmbientTemp} onChange={(e) => setCalcMaxAmbientTemp(e.target.value)} />
+                          <label>Ortam Sıcaklığı (°C) - Opsiyonel</label>
+                        </div>
+                        <div className="floating-input">
+                          <input type="number" value={calcTravelFactor} onChange={(e) => setCalcTravelFactor(e.target.value)} />
+                          <label>Seyir Frekansı (%) - Opsiyonel</label>
+                        </div>
+                      </div>
+
+                      <div className="floating-select" style={{ position: 'relative' }}>
+                        <select value={calcOilViscosity} onChange={(e) => setCalcOilViscosity(e.target.value)} style={{ width: '100%', padding: '1.25rem 1rem 0.5rem', fontSize: '1rem', border: '1px solid #d2d2d7', borderRadius: '12px', background: 'transparent' }}>
+                          <option value="32">VG 32</option>
+                          <option value="46">VG 46</option>
+                          <option value="68">VG 68</option>
+                        </select>
+                        <label style={{ position: 'absolute', top: '0.5rem', left: '1rem', fontSize: '0.75rem', color: '#86868b' }}>Yağ Viskozitesi</label>
+                      </div>
+
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        {calcCylinderType !== 'telescopic' && (
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
+                            <input type="checkbox" checked={calcIsSplit} onChange={(e) => setCalcIsSplit(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
+                            <span>İki Parçalı (Ekli) Piston</span>
+                          </label>
+                        )}
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
+                          <input type="checkbox" checked={calcIsExisting} onChange={(e) => setCalcIsExisting(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
+                          <span>Mevcut Piston (Sadece Revizyon / Piston değişmeyecek)</span>
+                        </label>
+                      </div>
+
+                      {calcIsExisting && (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', padding: '1rem', background: '#f5f5f7', borderRadius: '8px' }}>
+                          <div className="floating-input">
+                            <input type="number" required={calcIsExisting} value={calcExistingRam} onChange={(e) => setCalcExistingRam(e.target.value)} />
+                            <label>Mevcut Çap (mm)</label>
+                          </div>
+                          <div className="floating-input">
+                            <input type="number" required={calcIsExisting} value={calcExistingThickness} onChange={(e) => setCalcExistingThickness(e.target.value)} />
+                            <label>Mevcut Kalınlık (mm)</label>
+                          </div>
+                        </div>
+                      )}
+
+                    </div>
+                  </details>
 
                   <button type="submit" className="minimal-submit">Hesapla</button>
                 </form>
@@ -521,6 +635,30 @@ export default function PortalPage() {
                       </div>
                     </div>
                   </div>
+
+                  {/* Estimated Price Banner */}
+                  {(estimatedPrice !== null || isCalculatingPrice) && (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', borderRadius: '12px', marginBottom: '2rem', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)', border: '1px solid #bbf7d0', boxShadow: '0 4px 15px rgba(34,197,94,0.1)' }}>
+                      <div>
+                        <div style={{ fontWeight: 700, color: '#166534', fontSize: '1.2rem', marginBottom: '0.2rem' }}>
+                          Sistemin Tahmini Özel Fiyatı
+                        </div>
+                        <div style={{ fontSize: '0.9rem', color: '#15803d' }}>
+                          Belirttiğiniz özelliklere ve donanımlara göre hesaplanmıştır.
+                        </div>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        {isCalculatingPrice ? (
+                          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#166534', animation: 'pulse 1.5s infinite' }}>Hesaplanıyor...</div>
+                        ) : (
+                          <div style={{ fontSize: '2rem', fontWeight: 800, color: '#166534', display: 'flex', alignItems: 'baseline', gap: '0.2rem' }}>
+                            {estimatedPrice?.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            <span style={{ fontSize: '1.2rem', fontWeight: 700 }}>€</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Top Recommended Components */}
                   <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: '#1d1d1f', marginBottom: '1rem' }}>Önerilen Ana Komponentler</h3>
@@ -618,6 +756,30 @@ export default function PortalPage() {
                             <input type="checkbox" checked={calcRuptureValve} onChange={(e) => setCalcRuptureValve(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
                             <span>Boru Patlama Valfi (Güvenlik)</span>
                           </label>
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
+                            <input type="checkbox" checked={calcA3Valve} onChange={(e) => setCalcA3Valve(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
+                            <span>A3 Valfi (U33 / UAB)</span>
+                          </label>
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
+                            <input type="checkbox" checked={calcLowPressure} onChange={(e) => setCalcLowPressure(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
+                            <span>Alçak Basınç Şalteri</span>
+                          </label>
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
+                            <input type="checkbox" checked={calcHighPressure} onChange={(e) => setCalcHighPressure(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
+                            <span>Yüksek Basınç Şalteri</span>
+                          </label>
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
+                            <input type="checkbox" checked={calcOverload} onChange={(e) => setCalcOverload(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
+                            <span>Aşırı Yük Şalteri</span>
+                          </label>
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
+                            <input type="checkbox" checked={calcHeater} onChange={(e) => setCalcHeater(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
+                            <span>Yağ Isıtıcı (Tank Isıtıcısı)</span>
+                          </label>
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
+                            <input type="checkbox" checked={calcMicroLevel} onChange={(e) => setCalcMicroLevel(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
+                            <span>Mikro Seviyeleme</span>
+                          </label>
                         </div>
                       </div>
                     </div>
@@ -700,7 +862,27 @@ export default function PortalPage() {
                     cylinderCount: Number(calcCylinderCount), suspension: calcSuspension, speed: Number(calcSpeed),
                     mountingType: calcMountingType, cylinderType: calcCylinderType === 'telescopic' ? `telescopic-${calcStages}` : 'standard',
                     ropeWeight: Number(calcRopeWeight), buildingType: calcStartsPerHour, calculationResult: calcResult,
-                    selectedCylinder: { d: calcCylDiameter, t: calcCylThickness }
+                    selectedCylinder: { d: calcCylDiameter, t: calcCylThickness },
+                    powerUnitCount: Number(calcPowerUnitCount),
+                    maxAmbientTemp: calcMaxAmbientTemp ? Number(calcMaxAmbientTemp) : undefined,
+                    travelFactor: calcTravelFactor ? Number(calcTravelFactor) : undefined,
+                    oilViscosity: calcOilViscosity,
+                    isSplit: calcIsSplit,
+                    isExisting: calcIsExisting,
+                    existingRamDiameter: calcExistingRam ? Number(calcExistingRam) : undefined,
+                    existingWallThickness: calcExistingThickness ? Number(calcExistingThickness) : undefined,
+                    projectNote: calcProjectNote,
+                    accessoriesFlags: {
+                      handPump: calcHandPump,
+                      ballValve: calcBallValve,
+                      ruptureValve: calcRuptureValve,
+                      a3Valve: calcA3Valve,
+                      lowPressure: calcLowPressure,
+                      highPressure: calcHighPressure,
+                      overload: calcOverload,
+                      heater: calcHeater,
+                      microLevel: calcMicroLevel
+                    }
                   }
                 };
 
@@ -725,6 +907,12 @@ export default function PortalPage() {
                 if (calcHandPump) accessories.push('El Pompası');
                 if (calcBallValve) accessories.push('Küresel Vana');
                 if (calcRuptureValve) accessories.push('Boru Patlama Valfi');
+                if (calcA3Valve) accessories.push('A3 Valfi');
+                if (calcLowPressure) accessories.push('Alçak Basınç Şalteri');
+                if (calcHighPressure) accessories.push('Yüksek Basınç Şalteri');
+                if (calcOverload) accessories.push('Aşırı Yük Şalteri');
+                if (calcHeater) accessories.push('Yağ Isıtıcı');
+                if (calcMicroLevel) accessories.push('Mikro Seviyeleme');
 
                 const recommendedValve = Number(calcResult?.pumpFlow || 0) < 125 ? 'EV100 3/4"' : Number(calcResult?.pumpFlow || 0) <= 800 ? 'EV100 1.5"' : 'EV100 2.5"';
                 const finalValve = calcUserValve || recommendedValve;
@@ -767,6 +955,10 @@ export default function PortalPage() {
                   <input type="tel" required value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
                   <label>Telefon</label>
                 </div>
+              </div>
+              <div className="floating-input">
+                <textarea rows={2} value={calcProjectNote} onChange={(e) => setCalcProjectNote(e.target.value)} />
+                <label>Proje Notu (Opsiyonel)</label>
               </div>
               
               <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
