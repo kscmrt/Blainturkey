@@ -186,7 +186,7 @@ export default function DynamicValve() {
           {/* Arka plani siliyoruz (seffaf yapiyoruz) ki arkadaki yazilar gorunsun */}
           <ambientLight intensity={0.6} />
           <spotLight position={[10, 20, 10]} angle={0.4} penumbra={1} intensity={2} color="#ffffff" castShadow />
-          <Environment preset="studio" />
+          <Environment files="/studio.hdr" />
 
           <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.5}>
             <ValveModel activeModel={activeModel} materialType={materialType} scrollOffset={scrollOffset} />
