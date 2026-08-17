@@ -20,11 +20,11 @@ export default function EcosystemMap({ activeCategory = null }: { activeCategory
     { id: 'tank-heater', label: 'Tank Isıtıcısı', top: '80%', left: '60%', width: '8%', height: '10%', href: '/urunler/aksesuarlar/tank-isiticisi', img: '/images/TH-1024x819.png' },
     { id: 'mrl-h', label: 'MRL-H', top: '40%', left: '50%', width: '15%', height: '15%', href: '/urunler/aksesuarlar/mrl-h', img: '/images/MRL-H-1024x849.png' },
     { id: 'gv', label: 'GV Valfi', top: '35%', left: '35%', width: '12%', height: '15%', href: '/urunler/kontrol-valfleri/gv-valfi', img: '/images/GV-1-1024x968.png' },
-    { id: 'dh-dl', label: 'Basınç Şalteri', top: '0', left: '0', width: '0', height: '0', href: '/urunler/aksesuarlar/basinc-salteri', img: 'https://blain.de/wp-content/uploads/2024/02/DH-DL-e1709153847207-1-e1709202910232.png' },
-    { id: 'en', label: 'Acil İndirme Valfi', top: '0', left: '0', width: '0', height: '0', href: '/urunler/aksesuarlar/acil-indirme', img: 'https://blain.de/wp-content/uploads/2024/02/EN-1.png' },
-    { id: 'cx', label: 'Basınç Dengeleme', top: '0', left: '0', width: '0', height: '0', href: '/urunler/aksesuarlar/basinc-dengeleme', img: 'https://blain.de/wp-content/uploads/2024/02/CX-2.png' },
-    { id: 'il10-s', label: 'iL10-S', top: '0', left: '0', width: '0', height: '0', href: '/urunler/guvenlik-valfleri/il10-s', img: 'https://blain.de/wp-content/uploads/2025/06/il10s-2-300x200.png' },
-    { id: 'ksb', label: 'KSB Valfi', top: '0', left: '0', width: '0', height: '0', href: '/urunler/guvenlik-valfleri/ksb', img: 'https://blain.de/wp-content/uploads/2015/10/blain_KSB-1-2-zoll_rgb_029.jpg' },
+    { id: 'dh-dl', label: 'Basınç Şalteri', top: '0', left: '0', width: '0', height: '0', href: '/urunler/aksesuarlar/basinc-salteri', img: '/assets/wp-content/uploads/2024/02/DH-DL-e1709153847207-1-e1709202910232.png' },
+    { id: 'en', label: 'Acil İndirme Valfi', top: '0', left: '0', width: '0', height: '0', href: '/urunler/aksesuarlar/acil-indirme', img: '/assets/wp-content/uploads/2024/02/EN-1.png' },
+    { id: 'cx', label: 'Basınç Dengeleme', top: '0', left: '0', width: '0', height: '0', href: '/urunler/aksesuarlar/basinc-dengeleme', img: '/assets/wp-content/uploads/2024/02/CX-2.png' },
+    { id: 'il10-s', label: 'iL10-S', top: '0', left: '0', width: '0', height: '0', href: '/urunler/guvenlik-valfleri/il10-s', img: '/assets/wp-content/uploads/2025/06/il10s-2-300x200.png' },
+    { id: 'ksb', label: 'KSB Valfi', top: '0', left: '0', width: '0', height: '0', href: '/urunler/guvenlik-valfleri/ksb', img: '/assets/wp-content/uploads/2015/10/blain_KSB-1-2-zoll_rgb_029.jpg' },
   ];
 
   // Filtreleme: Eğer activeCategory varsa sadece href'i içinde o kelime geçenleri göster
