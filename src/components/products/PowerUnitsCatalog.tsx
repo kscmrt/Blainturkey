@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 const powerUnits = [
   { model: 'BTD-55', stock_code: '152-0055-0-0', dead_zone: 12, total_oil: 57, height: 977.5, length: 255, width: 270, min_pump: 8, max_pump: 55, min_motor: 2.2, max_motor: 5.8, img: '/1-2-Photoroom.png', type: 'home', valves: 'KV Series, EV ¾"' },
@@ -108,12 +109,14 @@ export default function PowerUnitsCatalog() {
 
       <div className="pu-grid">
         {powerUnits.map((unit, index) => (
-          <div key={index} className="pu-card" style={{
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            marginTop: '110px'
-          }}>
+          <Link key={index} href={`/products/power-units/${unit.model.toLowerCase()}`} style={{ textDecoration: 'none' }}>
+            <div className="pu-card" style={{
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              marginTop: '110px',
+              cursor: 'pointer'
+            }}>
             
             <div style={{ 
               position: 'absolute',
@@ -226,7 +229,8 @@ export default function PowerUnitsCatalog() {
               </div>
             </div>
 
-          </div>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
