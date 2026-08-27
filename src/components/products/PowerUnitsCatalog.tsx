@@ -214,9 +214,24 @@ export default function PowerUnitsCatalog() {
                 <div className="data-row" style={{ paddingBottom: '0.3rem', borderBottom: 'none' }}>
                   <div className="data-label">Valfler</div>
                   <div className="data-value">
-                    <Link href="/urunler/kontrol-valfleri" className="valves-link" style={{ fontSize: '0.7rem', textDecoration: 'none' }} onClick={(e) => e.stopPropagation()}>
+                    <span
+                      className="valves-link"
+                      style={{ fontSize: '0.7rem', cursor: 'pointer', display: 'inline-block' }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        window.location.href = '/urunler/kontrol-valfleri';
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.stopPropagation();
+                          window.location.href = '/urunler/kontrol-valfleri';
+                        }
+                      }}
+                    >
                       {unit.valves || 'Tüm valf tipleri'}
-                    </Link>
+                    </span>
                   </div>
                 </div>
 
