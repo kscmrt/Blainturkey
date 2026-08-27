@@ -1,35 +1,18 @@
-'use client';
 import Link from 'next/link';
 
+/* Server Component: yıl sunucuda hesaplanır, istemciye JS gitmez. */
 export default function Footer() {
   return (
-    <footer style={{ 
-      backgroundColor: '#fcfcfc', 
-      borderTop: '1px solid #eaeaea',
-      padding: '2rem', 
-      marginTop: 'auto',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-    }}>
-      <div style={{ 
-        maxWidth: '1200px', 
-        margin: '0 auto', 
-        display: 'flex', 
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        gap: '1rem',
-        fontSize: '0.85rem',
-        color: '#86868b'
-      }}>
+    <footer className="bg-[#fcfcfc] border-t border-[#eaeaea] p-8 mt-auto font-sans">
+      <div className="max-w-[1200px] mx-auto flex flex-row flex-wrap justify-between items-center gap-4 text-[0.85rem] text-[#86868b]">
         
         <div>
           &copy; {new Date().getFullYear()} BLAIN HYDRAULICS GmbH. Tüm hakları saklıdır.
         </div>
 
-        <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-          <Link href="/contact" style={{ color: '#555', textDecoration: 'none', transition: 'color 0.2s' }}>İletişim</Link>
-          <Link href="/updates" style={{ color: '#555', textDecoration: 'none', transition: 'color 0.2s' }}>Güncellemeler</Link>
+        <div className="flex gap-6 flex-wrap">
+          <Link href="/contact" className="text-[#555] no-underline transition-colors duration-200 hover:text-black">İletişim</Link>
+          <Link href="/updates" className="text-[#555] no-underline transition-colors duration-200 hover:text-black">Güncellemeler</Link>
         </div>
 
       </div>

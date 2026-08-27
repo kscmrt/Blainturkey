@@ -273,57 +273,97 @@ export default function PortalPage() {
       
       {/* 
         ====================================================
-        HUB VIEW (Minimalist List)
+        HUB VIEW (Modern Grid)
         ====================================================
       */}
       {activeView === 'hub' && (
-        <div style={{ width: '100%', maxWidth: '600px', padding: '2rem', animation: 'fadeUp 0.6s ease forwards' }}>
-          <div style={{ marginBottom: '4rem' }}>
-            <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', margin: '0 0 0.5rem 0' }}>Müşteri Portalı.</h1>
-            <p style={{ fontSize: '1.1rem', color: '#86868b', margin: 0 }}>Lütfen yapmak istediğiniz işlemi seçin.</p>
+        <div className="w-full max-w-4xl px-6 py-12" style={{ animation: 'fadeUp 0.6s ease forwards' }}>
+          <div className="text-center mb-16">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight mb-4">Müşteri Portalı</h1>
+            <p className="text-lg text-gray-500">Lütfen yapmak istediğiniz işlemi seçin.</p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <button className="minimal-menu-item" onClick={() => setActiveView('quote')}>
-              <div>
-                <span className="title">Yeni Teklif İste</span>
-                <span className="desc">Hidrolik projeleriniz için detaylı fiyat talebi oluşturun.</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Teklif İste Card */}
+            <button 
+              onClick={() => setActiveView('quote')}
+              className="group relative bg-white/60 backdrop-blur-xl border border-gray-200/50 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="w-14 h-14 bg-blue-50 text-[#1890d7] rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Yeni Teklif İste</h3>
+                <p className="text-gray-500">Hidrolik projeleriniz için detaylı fiyat talebi oluşturun.</p>
+                <div className="mt-6 text-[#1890d7] flex items-center gap-2 font-medium opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300">
+                  Devam Et <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                </div>
               </div>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
 
-            <button className="minimal-menu-item" onClick={() => setActiveView('calculator')}>
-              <div>
-                <span className="title">Teknik Hesaplama</span>
-                <span className="desc">Basınç, motor gücü ve debi değerlerini hesaplayın.</span>
+            {/* Teknik Hesaplama Card */}
+            <button 
+              onClick={() => setActiveView('calculator')}
+              className="group relative bg-white/60 backdrop-blur-xl border border-gray-200/50 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-100 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Teknik Hesaplama</h3>
+                <p className="text-gray-500">Basınç, motor gücü ve debi değerlerini hesaplayın.</p>
+                <div className="mt-6 text-indigo-600 flex items-center gap-2 font-medium opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300">
+                  Devam Et <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                </div>
               </div>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
             
-            <button className="minimal-menu-item" onClick={() => setActiveView('service')}>
-              <div>
-                <span className="title">Teknik Servis Talebi</span>
-                <span className="desc">Blain ürünleriniz için destek veya onarım talebi gönderin.</span>
+            {/* Teknik Servis Talebi Card */}
+            <button 
+              onClick={() => setActiveView('service')}
+              className="group relative bg-white/60 backdrop-blur-xl border border-gray-200/50 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-orange-100 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="w-14 h-14 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Teknik Servis Talebi</h3>
+                <p className="text-gray-500">Blain ürünleriniz için destek veya onarım talebi gönderin.</p>
+                <div className="mt-6 text-orange-500 flex items-center gap-2 font-medium opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300">
+                  Devam Et <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                </div>
               </div>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
             
-            <button className="minimal-menu-item" onClick={() => {
-              const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-              const crmUrl = process.env.NEXT_PUBLIC_CRM_API_URL || (isLocalhost ? 'http://localhost:3000' : 'https://portal.blainturkey.com.tr');
-              window.location.href = `${crmUrl}/login`;
-            }}>
-              <div>
-                <span className="title">Bayi Girişi</span>
-                <span className="desc">Özel dokümanlarınıza ve geçmiş kayıtlarınıza erişin.</span>
+            {/* Bayi Girişi Card */}
+            <button 
+              onClick={() => {
+                const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const crmUrl = process.env.NEXT_PUBLIC_CRM_API_URL || (isLocalhost ? 'http://localhost:3000' : 'https://portal.blainturkey.com.tr');
+                window.location.href = `${crmUrl}/login`;
+              }}
+              className="group relative bg-white/60 backdrop-blur-xl border border-gray-200/50 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-100 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Bayi Girişi</h3>
+                <p className="text-gray-500">Özel dokümanlarınıza ve geçmiş kayıtlarınıza erişin.</p>
+                <div className="mt-6 text-emerald-600 flex items-center gap-2 font-medium opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300">
+                  Devam Et <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                </div>
               </div>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
           </div>
 
-          <div style={{ marginTop: '4rem' }}>
-            <Link href="/" className="minimal-link">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          <div className="mt-12 text-center">
+            <Link href="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors">
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
               Ana Sayfaya Dön
             </Link>
           </div>

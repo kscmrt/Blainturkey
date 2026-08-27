@@ -1,208 +1,418 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss" source(none);
 
-:root {
-  /* Minimalist & Elegant Palette */
-  --background: #ffffff;
-  --foreground: #393939;
-  --primary: #003399; /* #039 */
-  --primary-foreground: #ffffff;
-  --primary-hover: #002266;
-  --bg-color: var(--background);
-  --bg-secondary: #f9f9f9;
-  --text-main: var(--foreground);
-  --text-muted: #757575;
-  --border-color: #e5e5e5;
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --secondary: #1890d7;
-  --secondary-foreground: #ffffff;
-  --accent: #003e73;
-  --accent-foreground: #ffffff;
-  
-  --font-sans: 'Neue Helvetica', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
+/* Otomatik kaynak taraması kapalı: proje kökünde 1 GB'ı aşan `public/`
+   (glb, hdr, csv) ve arşiv HTML'leri var; Tailwind bunları tarayınca derleyici
+   belleği tüketiyor. Sınıf isimleri yalnızca burada aranır. */
+@source "../../src/**/*.{ts,tsx}";
 
+/* ==========================================================================
+   BLAIN TÜRKİYE — DESIGN TOKENS (Tailwind v4 `@theme`)
+   Her token hem `bg-brand-600` gibi bir utility hem de `var(--color-brand-600)`
+   olarak kullanılabilir. Renkler HSL: ton/doygunluk tek yerden ayarlanabilir.
+   ========================================================================== */
+@theme {
+  /* --- Marka: derin mühendislik lacivertleri -------------------------- */
+  --color-brand-50: hsl(220 100% 97%);
+  --color-brand-100: hsl(220 96% 93%);
+  --color-brand-200: hsl(220 94% 86%);
+  --color-brand-300: hsl(220 92% 74%);
+  --color-brand-400: hsl(220 92% 60%);
+  --color-brand-500: hsl(220 96% 44%);
+  --color-brand-600: hsl(220 100% 30%); /* #003399 — kurumsal ana renk */
+  --color-brand-700: hsl(220 100% 24%);
+  --color-brand-800: hsl(221 100% 18%);
+  --color-brand-900: hsl(222 82% 13%);
+  --color-brand-950: hsl(222 60% 8%);
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+  /* --- Vurgu: parlak "hydraulic" mavisi ------------------------------- */
+  --color-accent-300: hsl(206 100% 76%);
+  --color-accent-400: hsl(206 100% 62%);
+  --color-accent-500: hsl(206 100% 50%);
+  --color-accent-600: hsl(208 95% 42%);
 
-body {
-  background-color: var(--bg-color);
-  color: var(--text-main);
-  font-family: var(--font-sans);
-  line-height: 1.7;
-  min-height: 100vh;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased; /* Super smooth font rendering */
-  -moz-osx-font-smoothing: grayscale;
-}
+  /* --- Nötr: soğuk alüminyum grileri ---------------------------------- */
+  --color-steel-50: hsl(210 40% 98%);
+  --color-steel-100: hsl(210 36% 96%);
+  --color-steel-200: hsl(214 28% 91%);
+  --color-steel-300: hsl(213 24% 84%);
+  --color-steel-400: hsl(215 18% 65%);
+  --color-steel-500: hsl(215 16% 47%);
+  --color-steel-600: hsl(215 19% 35%);
+  --color-steel-700: hsl(215 25% 27%);
+  --color-steel-800: hsl(217 33% 17%);
+  --color-steel-900: hsl(222 47% 11%);
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  /* --- Tipografi ------------------------------------------------------- */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-display: var(--font-outfit), var(--font-inter), ui-sans-serif,
+    system-ui, sans-serif;
 
-ul {
-  list-style: none;
-}
+  /* --- Yarıçap --------------------------------------------------------- */
+  --radius-card: 1.5rem;
+  --radius-pill: 999px;
 
-/* Elegant Typography */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
-  color: #0f172a;
-}
+  /* --- Yumuşak gölgeler (kutu değil, derinlik) ------------------------- */
+  --shadow-soft: 0 1px 2px hsl(222 47% 11% / 0.04),
+    0 8px 24px -12px hsl(222 47% 11% / 0.08);
+  --shadow-lift: 0 2px 4px hsl(222 47% 11% / 0.04),
+    0 24px 48px -20px hsl(222 47% 11% / 0.14);
+  --shadow-glass: 0 1px 0 hsl(0 0% 100% / 0.6) inset,
+    0 10px 40px -12px hsl(222 47% 11% / 0.12);
+  --shadow-glow: 0 0 0 1px hsl(220 100% 30% / 0.08),
+    0 12px 32px -8px hsl(220 100% 30% / 0.28);
 
-/* Soft Ethereal UI Elements */
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 20px;
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.04);
-}
+  /* --- Hareket --------------------------------------------------------- */
+  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-swift: cubic-bezier(0.25, 1, 0.5, 1);
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.875rem 2rem;
-  font-weight: 500;
-  border-radius: 30px; /* Pill shape for elegance */
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
-  border: none;
-  font-size: 1rem;
-  letter-spacing: -0.01em;
-  text-align: center;
-}
+  --animate-rise: rise 0.9s var(--ease-brand) both;
+  --animate-fade: fade 1.1s var(--ease-brand) both;
+  --animate-scroll-hint: scroll-hint 2.4s var(--ease-brand) infinite;
 
-.btn-primary {
-  background: var(--text-main); /* Using slate instead of harsh blue */
-  color: white;
-  box-shadow: 0 4px 15px rgba(30, 41, 59, 0.15);
-}
-.btn-primary:hover {
-  background: #0f172a;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(30, 41, 59, 0.25);
-}
-
-.btn-glass {
-  background: white;
-  color: var(--text-main);
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-}
-.btn-glass:hover {
-  background: #f8fafc;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 28px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes scroll-hint {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, -6px, 0);
+    }
+    35% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translate3d(0, 12px, 0);
+    }
+  }
 }
 
-/* Minimalist Form Elements */
-.form-input {
-  width: 100%;
-  padding: 0.75rem 0;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid #cbd5e1;
-  color: var(--text-main);
-  font-family: inherit;
-  font-size: 1.05rem;
-  transition: border-color 0.3s ease;
-  border-radius: 0;
-}
-.form-input:focus {
-  outline: none;
-  border-bottom: 2px solid var(--primary);
-}
-.form-label {
-  display: block;
-  margin-bottom: 0.25rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+/* ==========================================================================
+   TEMEL KATMAN
+   DİKKAT: Bu bloklar `@layer base` içinde OLMAK ZORUNDA. Katmansız yazılan
+   CSS, cascade layer'lardaki her şeyi — dolayısıyla tüm Tailwind utility'lerini
+   — yener. Katmansız bir `* { padding: 0 }` kuralı `px-4`'ü bile etkisiz
+   bırakır.
+   ========================================================================== */
+@layer base {
+  :root {
+    --header-h: 4rem;
+
+    --background: #ffffff;
+    --foreground: var(--color-steel-700);
+    --primary: var(--color-brand-600);
+    --primary-foreground: #ffffff;
+    --primary-hover: var(--color-brand-700);
+    --bg-color: var(--background);
+    --bg-secondary: var(--color-steel-50);
+    --text-main: var(--foreground);
+    --text-muted: var(--color-steel-500);
+    --border-color: var(--color-steel-200);
+    --glass-bg: hsl(0 0% 100% / 0.72);
+    --secondary: var(--color-accent-500);
+    --secondary-foreground: #ffffff;
+    --accent: var(--color-brand-700);
+    --accent-foreground: #ffffff;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Sticky bölümlerin header'ın altında kalmaması için */
+    scroll-padding-top: var(--header-h);
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  ::selection {
+    background: var(--color-brand-600);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-500);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* --- Tipografik hiyerarşi --------------------------------------------- */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+    color: var(--color-steel-900);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2.5rem;
+    }
+    h2 {
+      font-size: 2rem;
+    }
+  }
 }
 
-/* Container */
-.container {
-  max-width: 1100px; /* Narrower for more elegant whitespace */
-  margin: 0 auto;
-  padding: 0 2rem;
+/* ==========================================================================
+   BİLEŞEN KATMANI — utility'ler bunları geçersiz kılabilsin diye `components`
+   ========================================================================== */
+@layer components {
+  /* Uzun metin bloklarında optik denge */
+  .lede {
+    font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+    line-height: 1.65;
+    color: var(--text-muted);
+    max-width: 58ch;
+  }
+
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid hsl(0 0% 100% / 0.6);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-glass);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    font-weight: 500;
+    border-radius: var(--radius-pill);
+    transition: transform 0.4s var(--ease-brand),
+      box-shadow 0.4s var(--ease-brand), background-color 0.25s ease,
+      color 0.25s ease;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background: var(--color-brand-600);
+    color: #fff;
+    box-shadow: var(--shadow-glow);
+  }
+  .btn-primary:hover {
+    background: var(--color-brand-700);
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 1px hsl(220 100% 30% / 0.12),
+      0 18px 40px -10px hsl(220 100% 30% / 0.36);
+  }
+
+  .btn-glass {
+    background: #fff;
+    color: var(--text-main);
+    border: 1px solid var(--color-steel-200);
+    box-shadow: var(--shadow-soft);
+  }
+  .btn-glass:hover {
+    background: var(--color-steel-50);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .btn-invert {
+    background: hsl(0 0% 100% / 0.08);
+    color: #fff;
+    border: 1px solid hsl(0 0% 100% / 0.24);
+    backdrop-filter: blur(12px);
+  }
+  .btn-invert:hover {
+    background: hsl(0 0% 100% / 0.16);
+    transform: translateY(-2px);
+  }
+
+  /* --- Form -------------------------------------------------------------- */
+  .form-input {
+    width: 100%;
+    padding: 0.75rem 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-steel-300);
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 1.05rem;
+    transition: border-color 0.3s ease;
+    border-radius: 0;
+  }
+  .form-input:focus {
+    outline: none;
+    border-bottom: 2px solid var(--primary);
+  }
+  .form-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* --- Yerleşim ---------------------------------------------------------- */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* Bölüm etiketi: "01 — MÜHENDİSLİK" */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-brand-600);
+  }
+
+  .elegant-card {
+    position: relative;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--color-steel-200);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.5s var(--ease-brand),
+      box-shadow 0.5s var(--ease-brand);
+    padding: 3rem;
+  }
+  .elegant-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  /* Mevcut sayfaların kullandığı giriş animasyonları */
+  .animate-fade-in {
+    animation: rise 1s var(--ease-brand) forwards;
+  }
+  .delay-1 {
+    animation-delay: 0.15s;
+    opacity: 0;
+  }
+  .delay-2 {
+    animation-delay: 0.3s;
+    opacity: 0;
+  }
+  .delay-3 {
+    animation-delay: 0.45s;
+    opacity: 0;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0);
+    transition: opacity 1s var(--ease-brand), transform 1s var(--ease-brand);
+  }
+  .reveal.active {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 768px) {
+    .btn {
+      width: 100%;
+    }
+    .elegant-card {
+      padding: 2rem;
+    }
+  }
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-in { animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.delay-1 { animation-delay: 0.15s; opacity: 0; }
-.delay-2 { animation-delay: 0.3s; opacity: 0; }
-.delay-3 { animation-delay: 0.45s; opacity: 0; }
+/* ==========================================================================
+   MEVCUT SAYFALARIN KULLANDIĞI YARDIMCI SINIFLAR (geriye dönük uyumluluk)
+   Tailwind'in kendi utility'leriyle aynı katmanda: beklendiği gibi davranırlar.
+   ========================================================================== */
+@layer utilities {
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4rem; }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Utilities */
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.justify-center { justify-content: center; }
-.gap-4 { gap: 1rem; }
-.gap-6 { gap: 1.5rem; }
-.gap-8 { gap: 2rem; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
-.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4rem; }
-
-/* Elegant Card */
-.elegant-card {
-  position: relative;
-  border-radius: 24px;
-  overflow: hidden;
-  background: white;
-  border: 1px solid rgba(0,0,0,0.03);
-  box-shadow: 0 4px 40px -10px rgba(0, 0, 0, 0.05);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  padding: 3rem;
-}
-.elegant-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.08);
+  @media (max-width: 768px) {
+    .mobile-col { flex-direction: column !important; align-items: stretch !important; }
+    .mobile-col-center { flex-direction: column !important; align-items: center !important; text-align: center; }
+    .mobile-grid-1 { grid-template-columns: 1fr !important; }
+    .mobile-grid-2 { grid-template-columns: repeat(2, 1fr) !important; }
+    .mobile-text-center { text-align: center; }
+    .mobile-p-top { padding-top: 4rem !important; }
+    .mobile-hide { display: none !important; }
+    .mobile-gap-4 { gap: 1rem !important; }
+    .mobile-mt-4 { margin-top: 1rem !important; }
+  }
 }
 
-/* Mobile Utilities */
-@media (max-width: 768px) {
-  .mobile-col { flex-direction: column !important; align-items: stretch !important; }
-  .mobile-col-center { flex-direction: column !important; align-items: center !important; text-align: center; }
-  .mobile-grid-1 { grid-template-columns: 1fr !important; }
-  .mobile-grid-2 { grid-template-columns: repeat(2, 1fr) !important; }
-  .mobile-text-center { text-align: center; }
-  .mobile-p-top { padding-top: 4rem !important; }
-  .mobile-hide { display: none !important; }
-  .mobile-gap-4 { gap: 1rem !important; }
-  .mobile-mt-4 { margin-top: 1rem !important; }
-  
-  h1 { font-size: 2.5rem !important; }
-  h2 { font-size: 2rem !important; }
-  
-  .btn { width: 100%; }
+/* ==========================================================================
+   ERİŞİLEBİLİRLİK — hareket hassasiyeti
+   Scroll-tied kurgu kapanır, içerik statik ve tam okunur kalır.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

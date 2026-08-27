@@ -1,232 +1,107 @@
-'use client';
-import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+"use client";
 
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useMotionValueEvent, useScroll } from "motion/react";
+
+import BrandMark from "./header/BrandMark";
+import DesktopNav from "./header/DesktopNav";
+import MobileNav from "./header/MobileNav";
+
+/**
+ * Header kabuğu. Tek sorumluluğu durum yönetmek:
+ *  - sayfa kaydırıldı mı (cam efektinin yoğunluğu için)
+ *  - mobil menü açık mı
+ * Görsel parçalar `./header/*` altında ayrı bileşenlerde.
+ */
 export default function Header() {
   const pathname = usePathname();
-  const navRef = useRef<HTMLElement>(null);
-  const [hoveredPath, setHoveredPath] = useState<string | null>(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { scrollY } = useScroll();
 
-  const isActive = (path: string) => {
-    if (path === '/') return pathname === '/';
-    return pathname.startsWith(path);
-  };
+  /* Scroll değeri MotionValue olarak okunur. Aynı boolean tekrar set edilince
+     React render'ı atlar; yani her karede değil, yalnızca eşik geçilince
+     yeniden render olur. */
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setIsScrolled(latest > 8);
+  });
 
-  const navLinks = [
-    { name: 'Ana Sayfa', path: '/' },
-    { name: 'Ürünler', path: '/urunler' },
-    { name: 'Modernizasyon', path: '/modernization' },
-    { name: 'Servis', path: '/service' },
-    { name: 'Dokümanlar', path: '/downloads' },
-    { name: 'Hakkımızda', path: '/about-us' }
-  ];
+  /* Menü açıkken arka plan kaymasın ve Esc ile kapansın. */
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsMenuOpen(false);
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isMenuOpen]);
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `
-        .header-container {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0 4rem;
-          background-color: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-          height: 64px;
-          position: sticky;
-          top: 0;
-          z-index: 100;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-        .header-nav {
-          display: flex;
-          align-items: center;
-          position: relative;
-          gap: 0.5rem;
-          padding: 0;
-          background: transparent;
-        }
-        .mobile-menu-btn {
-          display: none;
-          background: none;
-          border: none;
-          cursor: pointer;
-          padding: 0.5rem;
-          color: #003399;
-        }
-        .mobile-dropdown {
-          display: none;
-        }
-        @media (max-width: 900px) {
-          .header-container {
-            padding: 0 1.5rem;
-          }
-          .header-nav {
-            display: none;
-          }
-          .mobile-menu-btn {
-            display: block;
-          }
-          .mobile-dropdown {
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            top: 64px;
-            left: 0;
-            right: 0;
-            background: white;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            padding: 1rem 0;
-            z-index: 99;
-          }
-        }
-      `}} />
-      <header className="header-container">
-      {/* Logo */}
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
-          <img 
-            src="/images/BHlogo-forweb-e1747046392803.png" 
-            alt="Blain Hydraulics Logo" 
-            style={{ height: '40px', cursor: 'pointer', opacity: 0.9 }}
-          />
-          <span style={{ 
-            fontSize: '0.75rem', 
-            fontWeight: 700, 
-            letterSpacing: '1.5px', 
-            color: '#003399', 
-            borderLeft: '1px solid rgba(0,0,0,0.15)', 
-            paddingLeft: '12px',
-            opacity: 0.8
-          }}>
-            TÜRKİYE
-          </span>
-        </Link>
-      </div>
+      <header
+        className={`sticky top-0 z-[100] h-[var(--header-h)] w-full border-b transition-[background-color,border-color,box-shadow] duration-500 ease-brand ${
+          isScrolled
+            ? "border-steel-900/8 bg-white/80 shadow-soft backdrop-blur-xl backdrop-saturate-150"
+            : "border-transparent bg-white/60 backdrop-blur-md"
+        }`}
+      >
+        <div className="mx-auto flex h-full max-w-[1400px] items-center justify-between gap-6 px-5 sm:px-8 lg:px-12">
+          <BrandMark />
 
-      {/* Navigation - Elevator Cabin Effect */}
-      <nav className="header-nav" onMouseLeave={() => setHoveredPath(null)}>
+          <DesktopNav pathname={pathname} />
 
-        {navLinks.map((link) => {
-          const isCurrent = isActive(link.path) || hoveredPath === link.path;
-          return (
-            <Link 
-              key={link.path} 
-              href={link.path}
-              onMouseEnter={() => setHoveredPath(link.path)}
-              style={{
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                padding: '0.5rem 1rem 0.5rem 1.8rem', /* Sol tarafta ray için boşluk */
-                textDecoration: 'none',
-                color: isCurrent ? '#003399' : '#555',
-                fontWeight: isCurrent ? 600 : 500,
-                fontSize: '0.85rem',
-                transition: 'color 0.3s ease',
-                overflow: 'hidden' /* Kabinin yukarı çıkıp kaybolması için */
-            }}>
-              
-              {/* Asansör Rayı (Kılavuz Ray) */}
-              <div style={{
-                position: 'absolute',
-                left: '0.8rem',
-                top: 0,
-                bottom: 0,
-                width: '2px',
-                background: 'rgba(0, 0, 0, 0.05)',
-                borderRadius: '1px'
-              }} />
-
-              {/* Asansör Kabini */}
-              <div style={{
-                position: 'absolute',
-                left: 'calc(0.8rem - 3px)', /* 2px rayın tam ortasına 8px kabini hizalama */
-                width: '8px',
-                height: '10px',
-                background: '#003399',
-                borderRadius: '2px',
-                boxShadow: '0 2px 4px rgba(0, 51, 153, 0.4)',
-                /* Animasyon Mantığı: Aktifse ortaya in, değilse yukarı kaç */
-                top: isCurrent ? '50%' : '-15px',
-                opacity: isCurrent ? 1 : 0,
-                transform: 'translateY(-50%)',
-                transition: 'top 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease'
-              }} />
-
-              {link.name}
-            </Link>
-          );
-        })}
-      </nav>
-
-      {/* Right Actions: Language & Portal Login */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-        
-
-
-        {/* Portal Login Button */}
-        <Link href="/portal" style={{
-          backgroundColor: '#0071e3', /* Apple Blue */
-          color: '#fff',
-          padding: '0.4rem 1.2rem',
-          borderRadius: '20px',
-          fontSize: '0.8rem',
-          fontWeight: 500,
-          textDecoration: 'none',
-          letterSpacing: '-0.2px',
-          boxShadow: '0 2px 8px rgba(0, 113, 227, 0.3)',
-          transition: 'all 0.2s ease'
-        }}>
-          Müşteri Portalı
-        </Link>
-        
-        {/* Mobile Menu Toggle Button */}
-        <button 
-          className="mobile-menu-btn" 
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Menüyü Aç"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            {isMobileMenuOpen 
-              ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            }
-          </svg>
-        </button>
-      </div>
-    </header>
-    
-    {/* Mobile Dropdown Menu */}
-    {isMobileMenuOpen && (
-      <div className="mobile-dropdown">
-        {navLinks.map((link) => {
-          const isCurrent = isActive(link.path);
-          return (
-            <Link 
-              key={link.path} 
-              href={link.path}
-              onClick={() => setIsMobileMenuOpen(false)}
-              style={{
-                padding: '1rem 2rem',
-                textDecoration: 'none',
-                color: isCurrent ? '#003399' : '#555',
-                fontWeight: isCurrent ? 700 : 500,
-                fontSize: '1rem',
-                borderLeft: isCurrent ? '4px solid #003399' : '4px solid transparent',
-                backgroundColor: isCurrent ? '#f8fafc' : 'transparent'
-              }}
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link
+              href="/portal"
+              className="rounded-full bg-brand-600 px-4 py-2 text-[0.8rem] font-medium tracking-tight text-white shadow-glow transition-all duration-300 ease-brand hover:-translate-y-0.5 hover:bg-brand-700 sm:px-5"
             >
-              {link.name}
+              Müşteri Portalı
             </Link>
-          );
-        })}
-      </div>
-    )}
+
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen((open) => !open)}
+              aria-label={isMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+              className="-mr-2 grid size-10 place-items-center rounded-full text-brand-600 transition-colors hover:bg-brand-50 lg:hidden"
+            >
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+                aria-hidden
+              >
+                {isMenuOpen ? (
+                  <path d="M6 18 18 6M6 6l12 12" />
+                ) : (
+                  <path d="M4 7h16M4 12h16M4 17h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <MobileNav
+        open={isMenuOpen}
+        pathname={pathname}
+        onClose={() => setIsMenuOpen(false)}
+      />
     </>
   );
 }
