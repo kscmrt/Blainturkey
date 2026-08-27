@@ -47,13 +47,13 @@ export default function StoryFinale() {
 
       <motion.div
         style={reduceMotion ? undefined : { opacity: ctaOpacity, y: ctaY }}
-        className="pointer-events-auto flex flex-col items-center gap-3 sm:flex-row"
+        className="pointer-events-auto flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row"
       >
-        <Link href="/urunler" className="btn btn-primary">
+        <Link href="/urunler" className="btn btn-primary w-full sm:w-auto">
           Tüm Ürünleri İncele
           <span aria-hidden>&rarr;</span>
         </Link>
-        <Link href="/contact" className="btn btn-glass">
+        <Link href="/contact" className="btn btn-glass w-full sm:w-auto">
           Teknik Danışmanlık
         </Link>
       </motion.div>

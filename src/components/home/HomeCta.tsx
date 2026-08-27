@@ -39,7 +39,7 @@ export default function HomeCta() {
             Kabin yükü, kat sayısı ve debi bilgilerinizi paylaşın; Blain Türkiye
             teknik ekibi doğru seriyi ve ayar değerlerini önersin.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
             <Link href="/contact" className="btn btn-primary">
               Teklif İsteyin
             </Link>
