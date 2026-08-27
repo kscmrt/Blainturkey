@@ -40,7 +40,7 @@ export const STORY_CHAPTERS: readonly StoryChapterData[] = [
     id: "durability",
     eyebrow: "02 — Dayanıklılık",
     title: "On Yıllarca Dayanıklılık",
-    body: "Hassas işlenmemiş iç yüzeyler, yüksek basınç toleransı ve uzun ömürlü tasarım; bakım aralığını yıllara, gövde ömrünü on yıllara taşır.",
+    body: "Hassas işlenmiş iç yüzeyler, yüksek basınç toleransı ve uzun ömürlü tasarım; bakım aralığını yıllara, gövde ömrünü on yıllara taşır.",
     metric: { value: "10+ yıl", label: "gövde ömrü" },
     align: "right",
     tone: "dark",
