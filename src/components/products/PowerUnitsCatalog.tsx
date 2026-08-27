@@ -45,7 +45,7 @@ export default function PowerUnitsCatalog() {
           transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .pu-card:hover {
-          transform: translateY(-8px);
+          transform: translateY(-8px) scale(1.03);
         }
         .pu-card-inner {
           transition: box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
