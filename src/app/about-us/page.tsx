@@ -175,15 +175,19 @@ export default function AboutUs() {
               <div className="relative group">
                 {videoPlaying ? (
                   <div className="aspect-video bg-black rounded-3xl shadow-2xl overflow-hidden border border-slate-700/50">
-                    <iframe
+                    <video
                       width="100%"
                       height="100%"
-                      src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
-                      title="Blain Hydraulics"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="border-0"
-                    />
+                      controls
+                      autoPlay
+                      className="w-full h-full object-cover"
+                    >
+                      <source
+                        src="https://blain.de/wp-content/uploads/2024/04/Blain-Hydraulics-Imagefilm-Deutsch.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
                   </div>
                 ) : (
                   <div
