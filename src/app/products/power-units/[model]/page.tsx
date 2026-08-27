@@ -81,7 +81,7 @@ export default function PowerUnitDetailPage({ params }: { params: Promise<{ mode
                 )}
               </div>
               <motion.a
-                href="https://wa.me/905424862821?text=Merhaba, {unit.model} güç ünitesi hakkında detaylı bilgi almak istiyorum."
+                href={`https://wa.me/905424862821?text=Merhaba, ${unit.model} güç ünitesi hakkında detaylı bilgi almak istiyorum.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
@@ -169,7 +169,7 @@ export default function PowerUnitDetailPage({ params }: { params: Promise<{ mode
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.a
-                href="https://wa.me/905424862821?text=Merhaba, {unit.model} güç ünitesi hakkında bilgi almak istiyorum."
+                href={`https://wa.me/905424862821?text=Merhaba, ${unit.model} güç ünitesi hakkında bilgi almak istiyorum.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
