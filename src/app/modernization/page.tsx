@@ -146,13 +146,13 @@ export default function Modernization() {
             <FeatureCard
               index={1}
               title="Uygun Maliyetli ve Enerji Tasarruflu Çözüm"
-              description="EV40 sistemi, yukarı yöndeki seyir için Yaskawa'nın L1000H veya GA700 VVVF sürücüsü ile kusursuz bir şekilde entegre olur.\n\nAşağı yönlü seyri ise doğrudan EV40 valfinin kendisi yöneterek, uygun maliyetli ve enerji tasarruflu bir çözüm sağlar."
+              description="EV40 sistemi, yukarı yöndeki seyir için Yaskawa'nın L1000H VVVF sürücüsü ile kusursuz bir şekilde entegre olur.\n\nAşağı yönlü seyri ise doğrudan EV40 valfinin kendisi yöneterek, uygun maliyetli ve enerji tasarruflu bir çözüm sağlar."
             />
 
             <FeatureCard
               index={2}
               title="EV40'a Yükseltme Basit Bir İşlemdir"
-              description="Blain olmayan bir valf, Blain EV40 ile kolayca değiştirilebilir.\n\nMevcut valf bir Blain EV100 ise, mevcut asansör kumanda panosunu değiştirmeye gerek kalmadan, bir eklenti (retrofit) kiti kullanılarak 10 dakikadan daha kısa bir sürede EV40'a yükseltilebilir."
+              description="Blain olmayan bir valf, Blain EV40 ile kolayca değiştirilebilir.\n\nMevcut valf bir Blain EV100 ise, mevcut asansör kumanda panosunu değiştirmeye gerek kalmadan, bir eklenti (retrofit) kiti kullanılarak EV40'a hızlı bir şekilde yükseltilebilir."
             />
 
             <FeatureCard

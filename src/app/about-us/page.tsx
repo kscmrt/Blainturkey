@@ -157,7 +157,7 @@ export default function AboutUs() {
                 </p>
 
                 <p className="text-base text-slate-600 leading-relaxed">
-                  Her yıl, Blain Hydraulics'in olağanüstü kalitesine ve güvenilirliğine inanan müşteriler tarafından yaklaşık on dört bin EV 100 valf satın alınmaktadır. Almanya'nın Heilbronn kentinde bulunan modern üretim tesisimizde yaklaşık 80 kendini adamış profesyonel istihdam edilmektedir.
+                  Dünya çapında, Blain Hydraulics'in olağanüstü kalitesine ve güvenilirliğine inanan müşteriler tarafından binlerce EV 100 valf satın alınmaktadır. Almanya'nın Heilbronn kentinde bulunan modern üretim tesisimizde yaklaşık 80 kendini adamış profesyonel istihdam edilmektedir.
                 </p>
 
                 <p className="text-base text-blue-700 leading-relaxed font-semibold">
