@@ -5,16 +5,56 @@ import { useState } from 'react';
 import { useInView } from '@/hooks/useInView';
 import Troubleshooting from '@/components/Troubleshooting';
 
+interface FormErrors {
+  name?: string;
+  company?: string;
+  valve?: string;
+  issue?: string;
+  general?: string;
+}
+
 export default function ServicePage() {
   const { ref: heroRef, inView: heroInView } = useInView({ triggerOnce: true, threshold: 0.3 });
   const { ref: contentRef, inView: contentInView } = useInView({ triggerOnce: true, threshold: 0.2 });
   const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
+  const [formSuccess, setFormSuccess] = useState(false);
+
+  const validateForm = (formData: FormData): FormErrors => {
+    const errors: FormErrors = {};
+
+    const name = String(formData.get('name') || '').trim();
+    if (!name) errors.name = 'Ad soyad gereklidir';
+    if (name.length < 3) errors.name = 'Ad soyad en az 3 karakter olmalıdır';
+
+    const company = String(formData.get('company') || '').trim();
+    if (!company) errors.company = 'Firma adı gereklidir';
+    if (company.length < 2) errors.company = 'Firma adı en az 2 karakter olmalıdır';
+
+    const valve = String(formData.get('valve') || '').trim();
+    if (!valve) errors.valve = 'Valf modeli seçiniz';
+
+    const issue = String(formData.get('issue') || '').trim();
+    if (!issue) errors.issue = 'Sorunu açıklayınız';
+    if (issue.length < 10) errors.issue = 'Sorun açıklaması en az 10 karakter olmalıdır';
+
+    return errors;
+  };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFormSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
+    const errors = validateForm(formData);
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
+    setFormErrors({});
+    setFormSubmitting(true);
+
     const name = formData.get('name');
     const company = formData.get('company');
     const valve = formData.get('valve');
@@ -24,7 +64,12 @@ export default function ServicePage() {
     const waUrl = `https://wa.me/905360256494?text=${encodeURIComponent(message)}`;
     window.open(waUrl, '_blank');
 
-    setTimeout(() => setFormSubmitting(false), 1000);
+    setFormSuccess(true);
+    setTimeout(() => {
+      setFormSubmitting(false);
+      setFormSuccess(false);
+      e.currentTarget.reset();
+    }, 2000);
   };
 
   return (
@@ -125,6 +170,19 @@ export default function ServicePage() {
 
                 {/* Form */}
                 <form onSubmit={handleFormSubmit} className="space-y-5">
+                  {/* Success Message */}
+                  {formSuccess && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded-lg text-sm flex items-center gap-2"
+                    >
+                      <span>✓</span>
+                      <span>Formunuz başarıyla gönderildi! WhatsApp'ta sizi bekliyoruz.</span>
+                    </motion.div>
+                  )}
+
                   <div>
                     <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
                       Adınız Soyadınız
@@ -132,10 +190,16 @@ export default function ServicePage() {
                     <input
                       type="text"
                       name="name"
-                      required
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none transition-all text-sm"
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-lg outline-none transition-all text-sm ${
+                        formErrors.name
+                          ? 'border-red-500 focus:ring-2 focus:ring-red-100'
+                          : 'border-slate-300 focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100'
+                      }`}
                       placeholder="Ahmet Yılmaz"
                     />
+                    {formErrors.name && (
+                      <p className="text-xs text-red-600 mt-1">{formErrors.name}</p>
+                    )}
                   </div>
 
                   <div>
@@ -145,10 +209,16 @@ export default function ServicePage() {
                     <input
                       type="text"
                       name="company"
-                      required
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none transition-all text-sm"
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-lg outline-none transition-all text-sm ${
+                        formErrors.company
+                          ? 'border-red-500 focus:ring-2 focus:ring-red-100'
+                          : 'border-slate-300 focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100'
+                      }`}
                       placeholder="ABC Asansör"
                     />
+                    {formErrors.company && (
+                      <p className="text-xs text-red-600 mt-1">{formErrors.company}</p>
+                    )}
                   </div>
 
                   <div>
@@ -157,15 +227,22 @@ export default function ServicePage() {
                     </label>
                     <select
                       name="valve"
-                      required
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none transition-all text-sm cursor-pointer"
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-lg outline-none transition-all text-sm cursor-pointer ${
+                        formErrors.valve
+                          ? 'border-red-500 focus:ring-2 focus:ring-red-100'
+                          : 'border-slate-300 focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100'
+                      }`}
                     >
+                      <option value="">Seçiniz</option>
                       <option value="EV Serisi">EV Serisi</option>
                       <option value="KV Serisi">KV Serisi</option>
                       <option value="Diğer / Emin Değilim">Diğer / Emin Değilim</option>
                       <option value="L Serisi">L Serisi (Güvenlik)</option>
                       <option value="EV40">EV40 (Akıllı)</option>
                     </select>
+                    {formErrors.valve && (
+                      <p className="text-xs text-red-600 mt-1">{formErrors.valve}</p>
+                    )}
                   </div>
 
                   <div>
@@ -174,11 +251,17 @@ export default function ServicePage() {
                     </label>
                     <textarea
                       name="issue"
-                      required
                       rows={4}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none transition-all text-sm resize-none"
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-lg outline-none transition-all text-sm resize-none ${
+                        formErrors.issue
+                          ? 'border-red-500 focus:ring-2 focus:ring-red-100'
+                          : 'border-slate-300 focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100'
+                      }`}
                       placeholder="Karşılaştığınız teknik sorunu kısaca özetleyin..."
                     />
+                    {formErrors.issue && (
+                      <p className="text-xs text-red-600 mt-1">{formErrors.issue}</p>
+                    )}
                   </div>
 
                   <motion.button
