@@ -30,7 +30,7 @@ export const STORY_CHAPTERS: readonly StoryChapterData[] = [
     id: "ride",
     eyebrow: "01 — Sürüş Konforu",
     title: "Kusursuz Seyahat",
-    body: "Dahili türbülans bastırıcılar ve sıcaklık/basınç dengeleme sistemi, kabini her mevsim aynı eğride durdurur. Yolcu ivmeyi değil, sessizliği hisseder.",
+    body: "Çift hızlı iniş kontrolü — pürüzsüz kalkış ve hassas duruş. Tüm yüklerde ve mevsim koşullarında, yolcular ivmeyi değil, sessizliği hisseder.",
     metric: { value: "±3 mm", label: "kat hizalama toleransı" },
     align: "left",
     tone: "light",
