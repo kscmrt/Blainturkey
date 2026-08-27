@@ -10,16 +10,16 @@ import Reveal from "@/components/ui/Reveal";
 
 const HIGHLIGHTS = [
   {
-    title: "Yumuşak duruş eğrisi",
-    body: "Ayrı ayarlanabilen yavaşlama ve duruş rampaları ile kabin, yükten bağımsız aynı konforda oturur.",
+    title: "Çift hızlı iniş kontrolü",
+    body: "Hem tam hız hem de yavaşlama (seviyeleme) hızlarının kullanıcılar tarafından ayarlanabilen kontrolü ile yükten bağımsız tutarlı bir konfor sağlar.",
   },
   {
-    title: "Sıcaklık dengeleme",
-    body: "Yağ viskozitesi değişse de valf aynı hızı korur; yazın ve kışın seyahat süresi sabit kalır.",
+    title: "Sıcaklık bağımsızlığı",
+    body: "Soğuk veya sıcak yağda, yaz veya kış koşullarında her zaman sabit kalkış ve duruş mesafeleri — viskozite değişimleri hız kontrolünü etkilemez.",
   },
   {
-    title: "Kendini temizleyen filtre",
-    body: "Kademeli filtre yapısı partikülleri tutar, bakım aralığını uzatır, arıza riskini düşürür.",
+    title: "Kendi kendini temizleyen filtreler",
+    body: "Pilot ve ana hat filtreleri, partikülleri tutar ve otomatik olarak temizlenir — bakım aralığını uzatır, sistem ömrünü artırır.",
   },
 ];
 
