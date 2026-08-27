@@ -210,7 +210,9 @@ export default function PowerUnitsCatalog() {
                 <div className="data-row" style={{ paddingBottom: '0.3rem', borderBottom: 'none' }}>
                   <div className="data-label">Valfler</div>
                   <div className="data-value">
-                    <a href="/urunler/kontrol-valfleri" className="valves-link" style={{ fontSize: '0.7rem' }}>{unit.valves || 'Tüm valf tipleri'}</a>
+                    <Link href="/urunler/kontrol-valfleri" className="valves-link" style={{ fontSize: '0.7rem', textDecoration: 'none' }} onClick={(e) => e.stopPropagation()}>
+                      {unit.valves || 'Tüm valf tipleri'}
+                    </Link>
                   </div>
                 </div>
 
