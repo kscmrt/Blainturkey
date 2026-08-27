@@ -104,11 +104,15 @@ export default function PowerUnitDetailPage({ params }: { params: Promise<{ mode
               className="relative flex items-center justify-center h-[300px] md:h-[450px]"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-blue-100/50 via-sky-50/30 to-transparent rounded-3xl blur-2xl" />
-              <img
-                src={unit.img}
-                alt={unit.model}
-                className="relative max-w-full max-h-full object-contain drop-shadow-2xl"
-              />
+              <picture>
+                <source srcSet={unit.img.replace(/\.(png|jpg)$/, '.webp')} type="image/webp" />
+                <img
+                  src={unit.img}
+                  alt={unit.model}
+                  loading="lazy"
+                  className="relative max-w-full max-h-full object-contain drop-shadow-2xl"
+                />
+              </picture>
             </motion.div>
           </div>
         </div>

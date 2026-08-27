@@ -129,16 +129,20 @@ export default function PowerUnitsCatalog() {
               alignItems: 'flex-end',
               zIndex: 5
             }}>
-              <img 
-                src={unit.img} 
-                alt={unit.model} 
-                style={{ 
-                  maxHeight: '100%', 
-                  maxWidth: '100%',
-                  objectFit: 'contain',
-                  filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.1))'
-                }} 
-              />
+              <picture>
+                <source srcSet={unit.img.replace(/\.(png|jpg)$/, '.webp')} type="image/webp" />
+                <img
+                  src={unit.img}
+                  alt={unit.model}
+                  loading="lazy"
+                  style={{
+                    maxHeight: '100%',
+                    maxWidth: '100%',
+                    objectFit: 'contain',
+                    filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.1))'
+                  }}
+                />
+              </picture>
             </div>
 
             <div className="pu-card-inner" style={{
