@@ -39,9 +39,9 @@ export default function EngineeringBento() {
             Tek gövdede dört ayrı görev
           </h2>
           <p className="lede mt-4">
-            Blain valfi yalnızca bir yön kontrol elemanı değil; hız, basınç,
-            sıcaklık ve emniyeti aynı döküm gövde içinde yöneten bütünleşik bir
-            hidrolik beyindir.
+            Blain EV100 valfi, yön kontrolü, hız regülasyonu ve güvenlik
+            mekanizmalarını tek bir döküm gövde içinde birleştiren, 50+ yıl
+            kanıtlanmış bir asansör kontrol sistemidir.
           </p>
         </Reveal>
 
