@@ -5,6 +5,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Signature } from "@/components/Signature";
+import CookieConsent from "@/components/CookieConsent";
 import "./globals.css";
 
 /* Gövde metni: yüksek okunabilirlik, Türkçe diyakritikler için latin-ext. */
@@ -93,8 +94,44 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const schemaOrgData = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Blain Türkiye',
+    url: SITE_URL,
+    logo: `${SITE_URL}/icon.png`,
+    description: 'Asansör kontrolünde Alman kalitesi, Türkiye güvencesi. Blain hidrolik asansör valfleri, güç üniteleri ve modernizasyon çözümleri.',
+    sameAs: [
+      'https://www.blain.de',
+      'https://www.linkedin.com/company/blain-hydraulics',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+90-536-025-6494',
+      contactType: 'Customer Support',
+      areaServed: 'TR',
+      availableLanguage: ['tr', 'en', 'de'],
+    },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Heilbronn',
+      addressCountry: 'DE',
+    },
+    foundingDate: '1971',
+    founder: {
+      '@type': 'Person',
+      name: 'Roy Blain',
+    },
+  };
+
   return (
     <html lang="tr" className={`${inter.variable} ${outfit.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgData) }}
+        />
+      </head>
       <body className="font-sans antialiased">
         <a
           href="#main"
@@ -107,6 +144,7 @@ export default function RootLayout({
         <main id="main">{children}</main>
         <Footer />
         <Signature />
+        <CookieConsent />
 
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
