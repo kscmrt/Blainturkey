@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { useInView } from '@/hooks/useInView';
 
 function TimelineCard({ year, title, description, index }: { year: string; title: string; description: string; index: number }) {
@@ -93,6 +94,7 @@ function BioCard({ name, role, bio, image, imagePosition = 'left' }: {
 }
 
 export default function AboutUs() {
+  const [videoPlaying, setVideoPlaying] = useState(false);
   const { ref: heroRef, inView: heroInView } = useInView({ triggerOnce: true, threshold: 0.3 });
   const { ref: introRef, inView: introInView } = useInView({ triggerOnce: true, threshold: 0.2 });
 
@@ -164,41 +166,61 @@ export default function AboutUs() {
               </div>
             </motion.div>
 
-            {/* Right: Video Placeholder */}
+            {/* Right: Video */}
             <motion.div
               initial={{ opacity: 0, x: 40, scale: 0.95 }}
               animate={introInView ? { opacity: 1, x: 0, scale: 1 } : { opacity: 0, x: 40, scale: 0.95 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <div className="relative group">
-                <div className="aspect-video bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl shadow-2xl overflow-hidden border border-slate-700/50">
-                  {/* Play Button */}
-                  <div className="absolute inset-0 flex items-center justify-center group">
-                    <motion.div
-                      animate={{ scale: [1, 1.1, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                      className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors group-hover:scale-110"
-                    >
-                      <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </motion.div>
+                {videoPlaying ? (
+                  <div className="aspect-video bg-black rounded-3xl shadow-2xl overflow-hidden border border-slate-700/50">
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+                      title="Blain Hydraulics"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="border-0"
+                    />
                   </div>
+                ) : (
+                  <div
+                    onClick={() => setVideoPlaying(true)}
+                    className="aspect-video bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl shadow-2xl overflow-hidden border border-slate-700/50 cursor-pointer"
+                  >
+                    {/* Play Button */}
+                    <div className="absolute inset-0 flex items-center justify-center group">
+                      <motion.div
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-colors group-hover:scale-110"
+                      >
+                        <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </motion.div>
+                    </div>
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                </div>
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                  </div>
+                )}
 
                 {/* Info Badge */}
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={introInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="mt-6 inline-block bg-white px-6 py-3 rounded-lg shadow-lg"
-                >
-                  <p className="text-sm font-semibold text-slate-900">Blain Hydraulics Kurulması Hikâyesi</p>
-                  <p className="text-xs text-slate-600 mt-1">2:37 dakika</p>
-                </motion.div>
+                {!videoPlaying && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={introInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    className="mt-6 inline-block bg-white px-6 py-3 rounded-lg shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+                    onClick={() => setVideoPlaying(true)}
+                  >
+                    <p className="text-sm font-semibold text-slate-900">Blain Hydraulics Kurulması Hikâyesi</p>
+                    <p className="text-xs text-slate-600 mt-1">2:37 dakika</p>
+                  </motion.div>
+                )}
               </div>
             </motion.div>
           </div>
