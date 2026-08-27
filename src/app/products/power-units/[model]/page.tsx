@@ -1,5 +1,6 @@
 'use client';
 
+import { use } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -20,9 +21,10 @@ const toGal = (l: number) => Math.round(l / 3.785);
 const toIn = (mm: number) => Math.round(mm / 25.4);
 const toHp = (kw: number) => Math.round(kw * 1.341);
 
-export default function PowerUnitDetailPage({ params }: { params: { model: string } }) {
+export default function PowerUnitDetailPage({ params }: { params: Promise<{ model: string }> }) {
+  const { model } = use(params);
   const { ref: heroRef, inView: heroInView } = useInView({ triggerOnce: true, threshold: 0.3 });
-  const unit = powerUnits.find(u => u.model.toLowerCase() === params.model.toLowerCase());
+  const unit = powerUnits.find(u => u.model.toLowerCase() === model.toLowerCase());
 
   if (!unit) {
     return (
