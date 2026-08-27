@@ -11,15 +11,15 @@ import Reveal from "@/components/ui/Reveal";
 const HIGHLIGHTS = [
   {
     title: "Çift hızlı iniş kontrolü",
-    body: "Hem tam hız hem de yavaşlama (seviyeleme) hızlarının kullanıcılar tarafından ayarlanabilen kontrolü ile yükten bağımsız tutarlı bir konfor sağlar.",
+    body: "Tüm EV modelleri, tam hız ve yavaşlama (seviyeleme) hızlarının ayrı ayarlanabilmesini sağlar — kolay mekanik ayarlama, sarsıntısız seyahat.",
   },
   {
-    title: "Sıcaklık bağımsızlığı",
-    body: "Soğuk veya sıcak yağda, yaz veya kış koşullarında her zaman sabit kalkış ve duruş mesafeleri — viskozite değişimleri hız kontrolünü etkilemez.",
+    title: "Pürüzsüz ve güvenilir çalışma",
+    body: "Zorlu yük ve sıcaklık koşullarında dahi, yolcular için güvenli ve konforlu bir deneyim — 50+ yıllık Almanca mühendislik kanıtı.",
   },
   {
-    title: "Kendi kendini temizleyen filtreler",
-    body: "Pilot ve ana hat filtreleri, partikülleri tutar ve otomatik olarak temizlenir — bakım aralığını uzatır, sistem ömrünü artırır.",
+    title: "Geniş akış ve basınç aralığı",
+    body: "3/4\" ile 2.5\" arası bağlantılarda 10-1530 l/min aralığında — tüm asansör konfigürasyonlarında kusursuz uyum.",
   },
 ];
 
