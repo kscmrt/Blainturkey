@@ -41,6 +41,18 @@ export default function PowerUnitsCatalog() {
         @media (max-width: 600px) {
           .pu-grid { grid-template-columns: 1fr; row-gap: 6rem; }
         }
+        .pu-card {
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .pu-card:hover {
+          transform: translateY(-8px);
+        }
+        .pu-card-inner {
+          transition: box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .pu-card:hover .pu-card-inner {
+          box-shadow: 0 20px 40px rgba(0,0,0,0.12) !important;
+        }
         .data-row {
           display: flex;
           justify-content: space-between;
@@ -96,7 +108,7 @@ export default function PowerUnitsCatalog() {
 
       <div className="pu-grid">
         {powerUnits.map((unit, index) => (
-          <div key={index} style={{ 
+          <div key={index} className="pu-card" style={{
             position: 'relative',
             display: 'flex',
             flexDirection: 'column',
@@ -126,10 +138,10 @@ export default function PowerUnitsCatalog() {
               />
             </div>
 
-            <div style={{ 
+            <div className="pu-card-inner" style={{
               position: 'relative',
               zIndex: 10,
-              background: '#FFFFFF', 
+              background: '#FFFFFF',
               flex: 1,
               borderRadius: '12px',
               boxShadow: '0 8px 30px rgba(0,0,0,0.06)',
