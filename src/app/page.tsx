@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import EngineeringBento from "@/components/home/EngineeringBento";
 import HomeCta from "@/components/home/HomeCta";
 import TrustStrip from "@/components/home/TrustStrip";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 /**
  * Ana sayfa bir Server Component'tir. `'use client'` yalnızca gerçekten
@@ -36,6 +37,7 @@ export default function HomePage() {
       <ValveStory />
       <TrustStrip />
       <EngineeringBento />
+      <NewsletterSignup />
       <HomeCta />
     </>
   );
