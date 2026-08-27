@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     siteName: "Blain Türkiye",
     title: "Blain Türkiye | Asansör Kontrol Valfleri",
     description:
-      "1960'tan bu yana hidrolik asansör kontrolünde dünya standardı. EV100, KV1P ve güç ünitesi çözümleri.",
+      "1971'den bu yana hidrolik asansör kontrolünde dünya standardı. EV100, KV1P ve güç ünitesi çözümleri.",
     images: [
       {
         url: "/images/EV-Series-2-1024x708.png",

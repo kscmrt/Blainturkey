@@ -1,7 +1,7 @@
 import Reveal from "@/components/ui/Reveal";
 
 const FACTS = [
-  { value: "1960", label: "Kuruluş yılı" },
+  { value: "1971", label: "Kuruluş yılı" },
   { value: "60+", label: "Ülkeye sevkiyat" },
   { value: "ISO 9001", label: "Sertifikalı üretim" },
   { value: "%100", label: "Almanya'da üretim" },
