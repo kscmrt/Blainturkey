@@ -6,7 +6,6 @@ import HomeCta from "@/components/home/HomeCta";
 import TrustStrip from "@/components/home/TrustStrip";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import FAQSection from "@/components/FAQSection";
-import Testimonials from "@/components/Testimonials";
 
 /**
  * Ana sayfa bir Server Component'tir. `'use client'` yalnızca gerçekten
@@ -41,7 +40,6 @@ export default function HomePage() {
       <EngineeringBento />
       <NewsletterSignup />
       <FAQSection />
-      <Testimonials />
       <HomeCta />
     </>
   );

@@ -25,18 +25,12 @@ const FAQ_ITEMS = [
   },
   {
     id: 4,
-    question: 'Nereye kurulum yapıyorsunuz?',
-    answer:
-      'Blain Türkiye olarak İstanbul ve çevresine hizmet vermekteyiz. Ankara, İzmir ve diğer şehirler için bölge temsilcileriyle çalışıyoruz. Teknik destek için lütfen WhatsApp üzerinden iletişime geçiniz.',
-  },
-  {
-    id: 5,
     question: 'Teknik destek saatleri nedir?',
     answer:
       'Pazartesi-Cuma 08:00-17:00 saatleri arasında teknik destek vermekteyiz. Acil arızalar için 24/7 WhatsApp destek hattımız aktiftir. Bize +90-536-025-6494 numarası üzerinden ulaşabilirsiniz.',
   },
   {
-    id: 6,
+    id: 5,
     question: 'Modernizasyon hizmetleri neler kapsar?',
     answer:
       'Eski sistemlerinizi EV40 akıllı valf sistemi ile upgrade edebiliriz. Bu işlem mevcut kumanda panosunu değiştirmeden yapılır. Enerji tasarrufu, daha iyi kontrol ve uzun vade bahçesinde tasarruf sağlar.',
