@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "skills": {
+    "gemini-api-dev": {
+      "source": "google-gemini/gemini-skills",
+      "sourceType": "github",
+      "skillPath": "skills/gemini-api-dev/SKILL.md",
+      "computedHash": "a9d35719dcd4c86fa9aac39f28909fc55ad6b2a50d21599ce0fdda4be97ed74e"
+    },
+    "gemini-interactions-api": {
+      "source": "google-gemini/gemini-skills",
+      "sourceType": "github",
+      "skillPath": "skills/gemini-interactions-api/SKILL.md",
+      "computedHash": "8c63dfb3cb13acd6e6d1d5d5a07088e1f3af08a6d3dfc07cc1e0259da433429d"
+    },
+    "gemini-live-api-dev": {
+      "source": "google-gemini/gemini-skills",
+      "sourceType": "github",
+      "skillPath": "skills/gemini-live-api-dev/SKILL.md",
+      "computedHash": "9e71b98f5004af7e10e731fa5b196d5e737bfe45593e7e5fe41482b4eb4cb8e8"
+    },
+    "gemini-omni-flash-api": {
+      "source": "google-gemini/gemini-skills",
+      "sourceType": "github",
+      "skillPath": "skills/gemini-omni-flash-api/SKILL.md",
+      "computedHash": "95a3fddb10b9ff8b5e006bc13a008d1a47802c2f25c381545f3cb5bf18142d3b"
+    }
+  }
+}
