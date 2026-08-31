@@ -11,7 +11,7 @@ import { VALVE_MATERIALS, type MaterialId, type ValveId } from "./valveCatalog";
 
 /** Modele özgü pivot düzeltmeleri — döküm gövdelerin merkezleri farklı. */
 const PIVOT_OFFSETS: Record<string, [number, number, number]> = {
-  "EV100_1.5_2": [0, 0, 0],
+  "EV100_1_5_2": [0, 0, 0],
   EV100_3_4: [-0.6, 0, 0],
   KV1P: [0.4, 0, 0],
 };

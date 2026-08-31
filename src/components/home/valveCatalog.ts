@@ -1,7 +1,7 @@
 /** Sahnede gösterilen modeller ve yüzey seçenekleri. */
 
 export const VALVE_MODELS = [
-  { id: "EV100_1.5_2", name: '1.5" EV100', caption: "Standart yolcu asansörü" },
+  { id: "EV100_1_5_2", name: '1.5" EV100', caption: "Standart yolcu asansörü" },
   { id: "EV100_3_4", name: '3/4" EV100', caption: "Kompakt / ev tipi" },
   { id: "KV1P", name: "KV1P", caption: "Manuel kontrol valfi" },
 ] as const;

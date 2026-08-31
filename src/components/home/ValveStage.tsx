@@ -35,7 +35,7 @@ export default function ValveStage() {
   const reduceMotion = useReducedMotion() ?? false;
   const isDesktop = useIsDesktopLayout();
 
-  const [valveId, setValveId] = useState<ValveId>("EV100_1.5_2");
+  const [valveId, setValveId] = useState<ValveId>("EV100_1_5_2");
   const [materialId, setMaterialId] = useState<MaterialId>("parlak");
   const [isVisible, setIsVisible] = useState(true);
 
