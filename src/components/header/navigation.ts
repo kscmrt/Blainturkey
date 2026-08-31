@@ -11,7 +11,7 @@ export const NAV_LINKS: readonly NavLink[] = [
   { name: "Modernizasyon", path: "/modernization", description: "Mevcut tesisatın yenilenmesi" },
   { name: "Servis", path: "/service", description: "Teknik destek ve devreye alma" },
   { name: "Dokümanlar", path: "/downloads", description: "Kataloglar ve kılavuzlar" },
-  { name: "Hakkımızda", path: "/about-us", description: "1960'tan bu yana" },
+  { name: "Hakkımızda", path: "/about-us", description: "1971'den bu yana" },
 ] as const;
 
 /** Ana sayfa yalnızca tam eşleşmede, diğerleri alt rotalarda da aktiftir. */

@@ -34,7 +34,7 @@ export default function StoryIntro() {
         className="lede mt-5 animate-rise text-center"
         style={{ animationDelay: "160ms" }}
       >
-        1960&apos;tan bu yana Almanya&apos;da tasarlanan Blain kontrol valfleri,
+        1971&apos;den bu yana Almanya&apos;da tasarlanan Blain kontrol valfleri,
         hidrolik asansörün hızını, duruşunu ve sessizliğini tek gövdede yönetir.
       </p>
 
