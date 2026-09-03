@@ -8,6 +8,7 @@ import { useMotionValueEvent, useScroll } from "motion/react";
 import BrandMark from "./header/BrandMark";
 import DesktopNav from "./header/DesktopNav";
 import MobileNav from "./header/MobileNav";
+import ThemeToggle from "./header/ThemeToggle";
 
 /**
  * Header kabuğu. Tek sorumluluğu durum yönetmek:
@@ -61,6 +62,8 @@ export default function Header() {
           <DesktopNav pathname={pathname} />
 
           <div className="flex items-center gap-2 sm:gap-4">
+            <ThemeToggle />
+
             <Link
               href="/portal"
               className="rounded-full bg-brand-600 px-4 py-2 text-[0.8rem] font-medium tracking-tight text-white shadow-glow transition-all duration-300 ease-brand hover:-translate-y-0.5 hover:bg-brand-700 sm:px-5"

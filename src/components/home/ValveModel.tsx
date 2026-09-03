@@ -8,6 +8,7 @@ import * as THREE from "three";
 
 import { TOTAL_TURNS, valvePosition, valveScale } from "./valveMotion";
 import { VALVE_MATERIALS, type MaterialId, type ValveId } from "./valveCatalog";
+import ValveHotspots from "./ValveHotspots";
 
 /** Modele özgü pivot düzeltmeleri — döküm gövdelerin merkezleri farklı. */
 const PIVOT_OFFSETS: Record<string, [number, number, number]> = {
@@ -26,6 +27,7 @@ type ValveModelProps = {
   materialId: MaterialId;
   progress: MotionValue<number>;
   reduceMotion: boolean;
+  showHotspots?: boolean;
 };
 
 export default function ValveModel({
@@ -33,6 +35,7 @@ export default function ValveModel({
   materialId,
   progress,
   reduceMotion,
+  showHotspots = false,
 }: ValveModelProps) {
   const groupRef = useRef<THREE.Group>(null);
   const { scene } = useGLTF(`/${valveId}.glb`);
@@ -102,6 +105,7 @@ export default function ValveModel({
     <group ref={groupRef}>
       <group position={PIVOT_OFFSETS[valveId] ?? [0, 0, 0]}>
         <primitive object={scene} scale={modelScale} />
+        <ValveHotspots valveId={valveId} showHotspots={showHotspots} />
       </group>
     </group>
   );

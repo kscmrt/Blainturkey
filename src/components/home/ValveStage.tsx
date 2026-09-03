@@ -37,6 +37,7 @@ export default function ValveStage() {
 
   const [valveId, setValveId] = useState<ValveId>("EV100_1_5_2");
   const [materialId, setMaterialId] = useState<MaterialId>("parlak");
+  const [showHotspots, setShowHotspots] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
   const stageRef = useRef<HTMLDivElement>(null);
@@ -109,6 +110,7 @@ export default function ValveStage() {
                 materialId={materialId}
                 progress={progress}
                 reduceMotion={reduceMotion}
+                showHotspots={showHotspots}
               />
             </Float>
 
@@ -127,8 +129,10 @@ export default function ValveStage() {
       <StageControls
         valveId={valveId}
         materialId={materialId}
+        showHotspots={showHotspots}
         onValveChange={setValveId}
         onMaterialChange={setMaterialId}
+        onToggleHotspots={() => setShowHotspots((prev) => !prev)}
       />
     </div>
   );

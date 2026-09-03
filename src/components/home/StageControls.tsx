@@ -11,8 +11,10 @@ import {
 type StageControlsProps = {
   valveId: ValveId;
   materialId: MaterialId;
+  showHotspots: boolean;
   onValveChange: (id: ValveId) => void;
   onMaterialChange: (id: MaterialId) => void;
+  onToggleHotspots: () => void;
 };
 
 /**
@@ -23,43 +25,67 @@ type StageControlsProps = {
 export default function StageControls({
   valveId,
   materialId,
+  showHotspots,
   onValveChange,
   onMaterialChange,
+  onToggleHotspots,
 }: StageControlsProps) {
   return (
     <div className="pointer-events-none absolute inset-x-0 bottom-6 z-[60] flex flex-col items-center gap-3 px-4 sm:bottom-10">
-      {/* Yüzey seçici */}
-      <fieldset className="pointer-events-auto flex items-center gap-3 rounded-full border border-white/60 bg-white/70 px-4 py-2 shadow-glass backdrop-blur-xl">
-        <legend className="sr-only">Yüzey işlemi</legend>
+      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+        {/* Hotspot (Ayar Noktaları) Aç/Kapa Düğmesi */}
+        <button
+          type="button"
+          onClick={onToggleHotspots}
+          aria-pressed={showHotspots}
+          title={showHotspots ? "Ayar noktalarını gizle" : "Valf ayar noktalarını göster"}
+          className={`pointer-events-auto flex items-center gap-2 rounded-full border px-4 py-2 text-[0.78rem] font-semibold shadow-glass backdrop-blur-xl transition-all duration-300 ${
+            showHotspots
+              ? "border-brand-500 bg-brand-600 text-white shadow-glow"
+              : "border-white/60 bg-white/70 text-steel-700 hover:bg-white dark:border-steel-700 dark:bg-steel-800/80 dark:text-steel-200"
+          }`}
+        >
+          <span
+            className={`size-2.5 rounded-full transition-colors ${
+              showHotspots ? "animate-pulse bg-white" : "bg-brand-500"
+            }`}
+          />
+          <span>{showHotspots ? "Ayar Noktaları: Açık" : "Ayar Noktaları (3D)"}</span>
+        </button>
 
-        {MATERIAL_IDS.map((id) => {
-          const preset = VALVE_MATERIALS[id];
-          const isActive = id === materialId;
+        {/* Yüzey seçici */}
+        <fieldset className="pointer-events-auto flex items-center gap-3 rounded-full border border-white/60 bg-white/70 px-4 py-2 shadow-glass backdrop-blur-xl dark:border-steel-700 dark:bg-steel-800/80">
+          <legend className="sr-only">Yüzey işlemi</legend>
 
-          return (
-            <button
-              key={id}
-              type="button"
-              onClick={() => onMaterialChange(id)}
-              title={preset.label}
-              aria-label={preset.label}
-              aria-pressed={isActive}
-              style={{ backgroundColor: preset.swatch }}
-              className={`size-6 rounded-full transition-all duration-300 ease-brand ${
-                isActive
-                  ? "ring-2 ring-brand-600 ring-offset-2 ring-offset-white"
-                  : "ring-1 ring-steel-900/10 hover:scale-110"
-              }`}
-            />
-          );
-        })}
-      </fieldset>
+          {MATERIAL_IDS.map((id) => {
+            const preset = VALVE_MATERIALS[id];
+            const isActive = id === materialId;
+
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => onMaterialChange(id)}
+                title={preset.label}
+                aria-label={preset.label}
+                aria-pressed={isActive}
+                style={{ backgroundColor: preset.swatch }}
+                className={`size-6 rounded-full transition-all duration-300 ease-brand ${
+                  isActive
+                    ? "ring-2 ring-brand-600 ring-offset-2 ring-offset-white dark:ring-offset-steel-900"
+                    : "ring-1 ring-steel-900/10 hover:scale-110"
+                }`}
+              />
+            );
+          })}
+        </fieldset>
+      </div>
 
       {/* Model seçici */}
       <div
         role="group"
         aria-label="Valf modeli"
-        className="pointer-events-auto flex w-full max-w-sm justify-center gap-1 rounded-full border border-white/60 bg-white/80 p-1.5 shadow-glass backdrop-blur-xl sm:w-auto sm:max-w-none"
+        className="pointer-events-auto flex w-full max-w-sm justify-center gap-1 rounded-full border border-white/60 bg-white/80 p-1.5 shadow-glass backdrop-blur-xl dark:border-steel-700 dark:bg-steel-800/80 sm:w-auto sm:max-w-none"
       >
         {VALVE_MODELS.map((model) => {
           const isActive = model.id === valveId;
@@ -74,7 +100,7 @@ export default function StageControls({
               className={`flex-1 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[0.78rem] font-semibold transition-colors duration-300 sm:flex-none sm:text-[0.85rem] ${
                 isActive
                   ? "bg-brand-600 text-white"
-                  : "text-steel-600 hover:bg-steel-100"
+                  : "text-steel-600 hover:bg-steel-100 dark:text-steel-300 dark:hover:bg-steel-700/50"
               }`}
             >
               {model.name}
