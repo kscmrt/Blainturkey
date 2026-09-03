@@ -26,7 +26,7 @@ export default function StoryIntro() {
       <p className="eyebrow animate-fade">Asansör hidroliğinde dünya standardı</p>
 
       <h1 className="mt-4 max-w-[16ch] animate-rise text-[clamp(2.4rem,6.4vw,4.6rem)] font-bold text-steel-900">
-        Kabinin içinde
+        Kabinin içinde{" "}
         <span className="block text-brand-600">hissedilmeyen mühendislik</span>
       </h1>
 

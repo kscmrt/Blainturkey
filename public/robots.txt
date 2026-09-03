@@ -34,4 +34,4 @@ User-agent: DotBot
 Disallow: /
 
 # Sitemap location
-Sitemap: https://blainturkey.com/sitemap.xml
+Sitemap: https://www.blainturkey.com.tr/sitemap.xml

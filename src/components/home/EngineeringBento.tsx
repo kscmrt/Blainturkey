@@ -15,7 +15,7 @@ const HIGHLIGHTS = [
   },
   {
     title: "Pürüzsüz ve güvenilir çalışma",
-    body: "Zorlu yük ve sıcaklık koşullarında dahi, yolcular için güvenli ve konforlu bir deneyim — 50+ yıllık Almanca mühendislik kanıtı.",
+    body: "Zorlu yük ve sıcaklık koşullarında dahi, yolcular için güvenli ve konforlu bir deneyim — 50+ yıllık Alman mühendisliği kanıtı.",
   },
   {
     title: "Geniş akış ve basınç aralığı",

@@ -23,26 +23,29 @@ const outfit = Outfit({
   display: "swap",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.blain.com.tr";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.blainturkey.com.tr";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Blain Türkiye | Asansör Kontrol Valfleri",
+    default: "Blain Türkiye | Asansör Kontrol Valfleri & Güç Üniteleri",
     /* Alt sayfalar sadece kendi başlığını yazar, marka otomatik eklenir. */
     template: "%s | Blain Türkiye",
   },
   description:
-    "Asansör kontrolünde Alman kalitesi, Türkiye güvencesi. Blain hidrolik asansör valfleri, güç üniteleri ve modernizasyon çözümleri.",
+    "Blain Türkiye — hidrolik asansörler için EV100 ve KV1P kontrol valfleri, güç üniteleri ve modernizasyon çözümleri. Alman mühendisliği, Türkiye'de teknik destek.",
   applicationName: "Blain Türkiye",
   keywords: [
     "asansör valfi",
     "hidrolik asansör",
     "Blain",
+    "Blain Türkiye",
     "EV100",
     "KV1P",
+    "EV40",
     "asansör güç ünitesi",
     "asansör modernizasyonu",
+    "hidrolik asansör kontrol valfi",
   ],
   authors: [{ name: "Blain Hydraulics GmbH" }],
   creator: "Blain Hydraulics GmbH",
@@ -53,7 +56,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "tr_TR",
-    url: "/",
+    url: "https://www.blainturkey.com.tr",
     siteName: "Blain Türkiye",
     title: "Blain Türkiye | Asansör Kontrol Valfleri",
     description:
@@ -80,8 +83,11 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
   icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
     apple: "/icon.png",
   },
 };
