@@ -7,7 +7,7 @@ import { motion, useReducedMotion, useTransform } from "motion/react";
 
 import ValveModel from "./ValveModel";
 import StageControls from "./StageControls";
-import ValveInspectorDock, { VALVE_PARTS } from "./ValveInspectorDock";
+import ValveInspectorDock, { OFFICIAL_VALVE_DATA } from "./ValveInspectorDock";
 import { useScrollProgress } from "./ScrollProgress";
 import { VALVE_MODELS, type MaterialId, type ValveId } from "./valveCatalog";
 import {
@@ -39,13 +39,13 @@ export default function ValveStage() {
   const [valveId, setValveId] = useState<ValveId>("EV100_1_5_2");
   const [materialId, setMaterialId] = useState<MaterialId>("parlak");
   const [isDockOpen, setIsDockOpen] = useState(false);
-  const [selectedPartId, setSelectedPartId] = useState("up-speed");
+  const [selectedPartId, setSelectedPartId] = useState("adj-1");
   const [isVisible, setIsVisible] = useState(true);
 
   const stageRef = useRef<HTMLDivElement>(null);
 
   const activePart =
-    VALVE_PARTS.find((p) => p.id === selectedPartId) ?? VALVE_PARTS[0];
+    OFFICIAL_VALVE_DATA.find((p) => p.id === selectedPartId) ?? OFFICIAL_VALVE_DATA[0];
 
   /* Perde tam görünürken 0→1→1→0: o taraf sahneden tamamen kırpılır. */
   const leftGuard = useTransform(progress, LEFT_GUARD.xs, LEFT_GUARD.ys);
