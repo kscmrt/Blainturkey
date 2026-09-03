@@ -11,10 +11,10 @@ import {
 type StageControlsProps = {
   valveId: ValveId;
   materialId: MaterialId;
-  showHotspots: boolean;
+  isDockOpen: boolean;
   onValveChange: (id: ValveId) => void;
   onMaterialChange: (id: MaterialId) => void;
-  onToggleHotspots: () => void;
+  onToggleDock: () => void;
 };
 
 /**
@@ -25,32 +25,32 @@ type StageControlsProps = {
 export default function StageControls({
   valveId,
   materialId,
-  showHotspots,
+  isDockOpen,
   onValveChange,
   onMaterialChange,
-  onToggleHotspots,
+  onToggleDock,
 }: StageControlsProps) {
   return (
     <div className="pointer-events-none absolute inset-x-0 bottom-6 z-[60] flex flex-col items-center gap-3 px-4 sm:bottom-10">
       <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-        {/* Hotspot (Ayar Noktaları) Aç/Kapa Düğmesi */}
+        {/* Parça ve Ayar Rehberi Aç/Kapa Düğmesi */}
         <button
           type="button"
-          onClick={onToggleHotspots}
-          aria-pressed={showHotspots}
-          title={showHotspots ? "Ayar noktalarını gizle" : "Valf ayar noktalarını göster"}
+          onClick={onToggleDock}
+          aria-pressed={isDockOpen}
+          title={isDockOpen ? "Rehberi gizle" : "Valf parça ve ayar rehberini aç"}
           className={`pointer-events-auto flex items-center gap-2 rounded-full border px-4 py-2 text-[0.78rem] font-semibold shadow-glass backdrop-blur-xl transition-all duration-300 ${
-            showHotspots
+            isDockOpen
               ? "border-brand-500 bg-brand-600 text-white shadow-glow"
               : "border-white/60 bg-white/70 text-steel-700 hover:bg-white dark:border-steel-700 dark:bg-steel-800/80 dark:text-steel-200"
           }`}
         >
           <span
-            className={`size-2.5 rounded-full transition-colors ${
-              showHotspots ? "animate-pulse bg-white" : "bg-brand-500"
+            className={`size-2 rounded-full transition-colors ${
+              isDockOpen ? "animate-ping bg-white" : "bg-brand-500"
             }`}
           />
-          <span>{showHotspots ? "Ayar Noktaları: Açık" : "Ayar Noktaları (3D)"}</span>
+          <span>{isDockOpen ? "Ayar Rehberi: Açık" : "Parça & Ayar Rehberi"}</span>
         </button>
 
         {/* Yüzey seçici */}

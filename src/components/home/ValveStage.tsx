@@ -7,6 +7,7 @@ import { motion, useReducedMotion, useTransform } from "motion/react";
 
 import ValveModel from "./ValveModel";
 import StageControls from "./StageControls";
+import ValveInspectorDock, { VALVE_PARTS } from "./ValveInspectorDock";
 import { useScrollProgress } from "./ScrollProgress";
 import { VALVE_MODELS, type MaterialId, type ValveId } from "./valveCatalog";
 import {
@@ -37,10 +38,14 @@ export default function ValveStage() {
 
   const [valveId, setValveId] = useState<ValveId>("EV100_1_5_2");
   const [materialId, setMaterialId] = useState<MaterialId>("parlak");
-  const [showHotspots, setShowHotspots] = useState(false);
+  const [isDockOpen, setIsDockOpen] = useState(false);
+  const [selectedPartId, setSelectedPartId] = useState("up-speed");
   const [isVisible, setIsVisible] = useState(true);
 
   const stageRef = useRef<HTMLDivElement>(null);
+
+  const activePart =
+    VALVE_PARTS.find((p) => p.id === selectedPartId) ?? VALVE_PARTS[0];
 
   /* Perde tam görünürken 0→1→1→0: o taraf sahneden tamamen kırpılır. */
   const leftGuard = useTransform(progress, LEFT_GUARD.xs, LEFT_GUARD.ys);
@@ -110,7 +115,8 @@ export default function ValveStage() {
                 materialId={materialId}
                 progress={progress}
                 reduceMotion={reduceMotion}
-                showHotspots={showHotspots}
+                angleOffsetY={isDockOpen ? activePart.angleY : 0}
+                angleOffsetX={isDockOpen ? activePart.angleX : 0}
               />
             </Float>
 
@@ -126,13 +132,21 @@ export default function ValveStage() {
         </Canvas>
       </motion.div>
 
+      {/* Sağ Yan Parça İnceleme Paneli (Apple / Modern HUD Dock) */}
+      <ValveInspectorDock
+        isOpen={isDockOpen}
+        selectedPartId={selectedPartId}
+        onSelectPart={setSelectedPartId}
+        onClose={() => setIsDockOpen(false)}
+      />
+
       <StageControls
         valveId={valveId}
         materialId={materialId}
-        showHotspots={showHotspots}
+        isDockOpen={isDockOpen}
         onValveChange={setValveId}
         onMaterialChange={setMaterialId}
-        onToggleHotspots={() => setShowHotspots((prev) => !prev)}
+        onToggleDock={() => setIsDockOpen((prev) => !prev)}
       />
     </div>
   );

@@ -8,7 +8,6 @@ import * as THREE from "three";
 
 import { TOTAL_TURNS, valvePosition, valveScale } from "./valveMotion";
 import { VALVE_MATERIALS, type MaterialId, type ValveId } from "./valveCatalog";
-import ValveHotspots from "./ValveHotspots";
 
 /** Modele özgü pivot düzeltmeleri — döküm gövdelerin merkezleri farklı. */
 const PIVOT_OFFSETS: Record<string, [number, number, number]> = {
@@ -27,7 +26,8 @@ type ValveModelProps = {
   materialId: MaterialId;
   progress: MotionValue<number>;
   reduceMotion: boolean;
-  showHotspots?: boolean;
+  angleOffsetY?: number;
+  angleOffsetX?: number;
 };
 
 export default function ValveModel({
@@ -35,7 +35,8 @@ export default function ValveModel({
   materialId,
   progress,
   reduceMotion,
-  showHotspots = false,
+  angleOffsetY = 0,
+  angleOffsetX = 0,
 }: ValveModelProps) {
   const groupRef = useRef<THREE.Group>(null);
   const { scene } = useGLTF(`/${valveId}.glb`);
@@ -82,8 +83,8 @@ export default function ValveModel({
     const pointerY = reduceMotion ? 0 : state.pointer.y * 0.4;
 
     const targetRotationY =
-      initialRotationY + p * Math.PI * 2 * TOTAL_TURNS + pointerX;
-    const targetRotationX = (p * Math.PI) / 6 - pointerY;
+      initialRotationY + p * Math.PI * 2 * TOTAL_TURNS + pointerX + angleOffsetY;
+    const targetRotationX = (p * Math.PI) / 6 - pointerY + angleOffsetX;
     const { x, y } = valvePosition(p, isMobile);
 
     /* `damp` kare hızından bağımsız yumuşatma sağlar: 144 Hz ekranda da
@@ -105,7 +106,6 @@ export default function ValveModel({
     <group ref={groupRef}>
       <group position={PIVOT_OFFSETS[valveId] ?? [0, 0, 0]}>
         <primitive object={scene} scale={modelScale} />
-        <ValveHotspots valveId={valveId} showHotspots={showHotspots} />
       </group>
     </group>
   );
