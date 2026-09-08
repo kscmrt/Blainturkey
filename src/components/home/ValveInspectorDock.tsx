@@ -13,260 +13,319 @@ export type ValveSpecItem = {
   group: AdjustmentGroup;
   angleY: number;
   angleX: number;
-  clockwiseEffect: string;
-  counterClockwiseEffect: string;
-  officialFunction: string;
-  factorySetting: string;
-  solenoidCondition: string;
+  allenKey: string;
+  default34: string;
+  default1525: string;
+  fasterOrMore: string; // Saat yönü (İçeri) veya tersi
+  slowerOrLess: string; // Dışarı
+  procedure: string; // PDF'teki resmi adım adım ayarlama prosedürü
+  bobinState: string; // Hangi bobinler takılı / enerjili
+  idealTime?: string; // Örn: 2.5 saniye / 0.05 m/s
 };
 
 export const OFFICIAL_VALVE_DATA: ValveSpecItem[] = [
-  // --- YUKARI YÖN AYARLARI (1 - 5) ---
+  // ==========================================
+  // --- YUKARI ÇIKIŞ AYARLARI (1, 2, 4, 3, 5) ---
+  // ==========================================
   {
     id: "adj-1",
     tag: "Ayar 1",
-    name: "By-pass (Yukarı Kalkış & Gecikme)",
-    nameEn: "1 By-pass (Up Start Delay)",
+    name: "Pilot Basıncı Ayarı (Devir-daim Zamanı / By-pass)",
+    nameEn: "1 Up By-pass & Pilot Pressure",
     group: "up",
     angleY: 0.35,
     angleX: 0.1,
-    clockwiseEffect: "İçe (sağa): By-pass basıncını artırır, kalkış gecikmesini kısaltır (daha çabuk kalkış).",
-    counterClockwiseEffect: "Dışa (sola): By-pass basıncını düşürür, kalkış gecikmesini uzatır (motor yüksüz kalkar).",
-    officialFunction:
-      "Pompa motoru ilk çalıştığında yağın by-pass kanalı üzerinden tanka dönmesini ve motor nominal devrine ulaştığında kabinin sarsıntısız hareket etmesini sağlar.",
-    factorySetting: "Vidayı tamamen içeri çevirip 2.5 tur dışarı açın.",
-    solenoidCondition: "Motor: ÇALIŞIYOR | Bobinler: ENERJİSİZ",
+    allenKey: "5 mm Allen",
+    default34: "Flanş yüzünde (Sıfır)",
+    default1525: "Flanş yüzünde (Sıfır)",
+    fasterOrMore: "İçeri (Sağa): Kabin kalkışını başlatır/hızlandırır.",
+    slowerOrLess: "Dışarı (Sola): By-pass basıncını düşürür, kalkışı durdurur/geciktirir.",
+    procedure:
+      "A bobinini çıkartın ve pompa motorunu çalıştırın. Eğer kabin yukarı tırmanıyorsa No.1 ayarı kabin duruncaya kadar dışarı çevrilmelidir. Eğer kabin hareket etmiyorsa, kabin harekete başlayıncaya kadar No.1 ayarı içeri çevrilmeli ve sonrasında kabin duruncaya kadar dışarı çevrilmelidir. Son ayar olarak No.1 ayarı yarım tur (1/2 tur) dışarı çevrilerek bırakılmalıdır.",
+    bobinState: "A Bobini ÇIKARILMIŞ | Pompa Motoru ÇALIŞIYOR",
+    idealTime: "DİKKAT: Bu ayar ile yukarı seviyeleme yapmayınız! Boş ve dolu kabin farkı aşırı olur.",
   },
   {
     id: "adj-2",
     tag: "Ayar 2",
-    name: "Yukarı İvmelenme (Hızlanma)",
+    name: "Çıkış - Hızlanma (İvmelenme)",
     nameEn: "2 Up Acceleration",
     group: "up",
     angleY: 0.45,
     angleX: 0.15,
-    clockwiseEffect: "İçe (sağa): Hızlanma süresini uzatır (daha yavaş ve yumuşak ivmelenme).",
-    counterClockwiseEffect: "Dışa (sola): Hızlanma süresini kısaltır (tam hıza daha seri geçiş).",
-    officialFunction:
-      "Kabinin başlangıç hareketinden yukarı tam seyahat hızına (Up Full Speed) geçiş ivmesini ve yumuşaklığını düzenler.",
-    factorySetting: "Vidayı tamamen içeri çevirip 1.5 tur dışarı açın.",
-    solenoidCondition: "Motor: ÇALIŞIYOR | Bobinler: ENERJİSİZ",
-  },
-  {
-    id: "adj-3",
-    tag: "Ayar 3",
-    name: "Yukarı Yavaşlama Rampası",
-    nameEn: "3 Up Deceleration",
-    group: "up",
-    angleY: 0.55,
-    angleX: -0.05,
-    clockwiseEffect: "İçe (sağa): Yavaşlama mesafesini kısaltır (daha sert frenleme).",
-    counterClockwiseEffect: "Dışa (sola): Yavaşlama mesafesini uzatır (daha yumuşak yavaşlama).",
-    officialFunction:
-      "A bobini enerjilendiğinde kabinin tam seyir hızından yukarı seviyeleme hızına (Up Leveling) geçiş mesafesini ve frenleme eğrisini ayarlar.",
-    factorySetting: "Vidayı tamamen içeri çevirip 2 tur dışarı açın.",
-    solenoidCondition: "Motor: ÇALIŞIYOR | Bobin A: ENERJİLİ",
+    allenKey: "3 mm Allen",
+    default34: "1.5 tur dışarı",
+    default1525: "2 tur dışarı",
+    fasterOrMore: "İçeri (Sağa): Çok çabuk hızlanıyorsa 1/4 tur içeri çeviriniz (hızlanmayı yumuşatır).",
+    slowerOrLess: "Dışarı (Sola): Çok yavaş hızlanıyorsa 1/4 tur dışarı çeviriniz (hızlanmayı serileştirir).",
+    procedure:
+      "A bobinini yerine takın. Pompa motorunu, A ve B bobinlerini enerjilendirin (çıkış komutu). Yukarı doğru hızlanmayı gözlemleyin. Eğer çok çabuk hızlanıyorsa No.2 ayarını 1/4 tur içeri doğru çeviriniz. Eğer çok yavaş hızlanıyorsa No.2 ayarını 1/4 tur dışarı doğru çeviriniz. Bu işlemi hızlanma istenen değere ulaşıncaya kadar tekrarlayınız.",
+    bobinState: "Pompa Motoru + Bobin A + Bobin B ENERJİLİ (Çıkış Komutu)",
+    idealTime: "Hedef Hızlanma Zamanı: Yaklaşık 2.5 saniye",
   },
   {
     id: "adj-4",
     tag: "Ayar 4",
-    name: "Yukarı Seviyeleme Hızı",
+    name: "Çıkış - Seviyeleme Hızı (Up Leveling)",
     nameEn: "4 Up Leveling Speed",
     group: "up",
     angleY: 0.65,
     angleX: -0.15,
-    clockwiseEffect: "İçe (sağa): Yukarı seviyeleme hızını düşürür.",
-    counterClockwiseEffect: "Dışa (sola): Yukarı seviyeleme hızını artırır.",
-    officialFunction:
-      "Kabinin yukarı yönde kat seviyesine yanaşırkenki düşük seviyeleme hızının (Up Leveling Speed) büyüklüğünü belirler.",
-    factorySetting: "Nominal seviyeleme hızı 0.08 - 0.12 m/s.",
-    solenoidCondition: "Motor: ÇALIŞIYOR | Bobin A: ENERJİLİ",
+    allenKey: "5 mm Allen",
+    default34: "Flanş yüzünde (Sıfır)",
+    default1525: "Flanş yüzünde (Sıfır)",
+    fasterOrMore: "İçeri (Sağa): Seviyeleme hızı çok yüksek ise içeri doğru çevirerek hızı düşürünüz.",
+    slowerOrLess: "Dışarı (Sola): Seviyeleme hızı çok düşük ise dışarı doğru çevirerek hızı artırınız.",
+    procedure:
+      "B bobinini yerinden çıkarın. Pompa motorunu ve A bobinini enerjilendirin (çıkış-seviyeleme komutu). No.4 ayarı flanş yüzü ile bir seviyede iken kabin normal olarak seviyeleme yapacaktır. Seviyeleme hızı çok yüksek ise No.4 ayarını içeri doğru çeviriniz; seviyeleme hızı çok düşük ise dışarı doğru çeviriniz.",
+    bobinState: "B Bobini ÇIKARILMIŞ | Pompa Motoru + Bobin A ENERJİLİ",
+    idealTime: "Tavsiye Edilen Seviyeleme Hızı: 0.05 m/s",
+  },
+  {
+    id: "adj-3",
+    tag: "Ayar 3",
+    name: "Çıkış - Yavaşlama (Up Deceleration)",
+    nameEn: "3 Up Deceleration",
+    group: "up",
+    angleY: 0.55,
+    angleX: -0.05,
+    allenKey: "3 mm Allen",
+    default34: "1.5 tur dışarı",
+    default1525: "2.5 tur dışarı",
+    fasterOrMore: "İçeri (Sağa): Çok çabuk yavaşlıyorsa (sert fren) 1/4 tur içeri çeviriniz.",
+    slowerOrLess: "Dışarı (Sola): Yavaşlama çok zaman alıyorsa (uzun fren) 1/4 tur dışarı çeviriniz.",
+    procedure:
+      "B bobini halen yerinden çıkmış durumda iken pompa motorunu ve A bobinini enerjilendirin (çıkış-seviyeleme). Kabin yukarı seviyeleme hızında hareket ederken önce No.3 ayarını seviyeleme hızı artıncaya kadar içeri, sonra eski seviyesine gelene kadar dışarı çeviriniz. B bobinini yerine takıp katlar arası normal seyahat yapın. Çok zaman alıyorsa No.3'ü 1/4 tur dışarı, çok çabuk yavaşlıyorsa 1/4 tur içeri çeviriniz.",
+    bobinState: "Normal Seyahat (Motor + Bobin A + B) ve El ile Bobin B Kaldırma",
+    idealTime: "Hedef Yavaşlama Zamanı: Yaklaşık 2.5 saniye",
   },
   {
     id: "adj-5",
     tag: "Ayar 5",
-    name: "Yukarı Yumuşak Duruş",
+    name: "Çıkış - Yumuşak Durma (Up Soft Stop)",
     nameEn: "5 Up Soft Stop",
     group: "up",
     angleY: 0.25,
     angleX: 0.2,
-    clockwiseEffect: "İçe (sağa): Motor durduğunda duruşu sertleştirir.",
-    counterClockwiseEffect: "Dışa (sola): Motor durduğunda duruşu yumuşatır ve sönümler.",
-    officialFunction:
-      "Pompa motorunun enerjisi kesildiğinde ana çekvalfin kapanma karakteristiğini kontrol ederek katta sarsıntısız duruş sağlar.",
-    factorySetting: "Vidayı tamamen içeri çevirip 1.5 tur dışarı açın.",
-    solenoidCondition: "Motor: DURDU | Çekvalf Kapanış Fazı",
+    allenKey: "3 mm Allen",
+    default34: "1.5 tur dışarı",
+    default1525: "2.5 tur dışarı",
+    fasterOrMore: "İçeri (Sağa): Duruş çok sert ise No.5 ayarını 1/4 tur içeri çeviriniz.",
+    slowerOrLess: "Dışarı (Sola): Duruş çok yumuşak/gecikmeli ise No.5 ayarını 1/4 tur dışarı çeviriniz.",
+    procedure:
+      "A bobinini yerinden çıkarın. Pompa motorunu enerjilendirin (kabin hareket etmemelidir). No.5 ayarını kabin harekete başlayıncaya kadar içeri, duruncaya kadar dışarı çevirin. A bobinini yerine takıp motor ve A bobinini enerjilendirin (seviyeleme hızı). A bobinini el ile kaldırarak kabinin durmasını test edin. Durma çok sert ise 1/4 tur içeri, çok yumuşak ise 1/4 tur dışarı çeviriniz.",
+    bobinState: "A Bobinini El ile Kaldırarak Durma Kontrolü",
+    idealTime: "Katta sarsıntısız milimetrik duruş sağlar.",
   },
 
-  // --- AŞAĞI YÖN AYARLARI (6 - 9) ---
-  {
-    id: "adj-6",
-    tag: "Ayar 6",
-    name: "Aşağı İvmelenme (Kalkış)",
-    nameEn: "6 Down Acceleration",
-    group: "down",
-    angleY: -0.3,
-    angleX: 0.1,
-    clockwiseEffect: "İçe (sağa): Aşağı kalkışı geciktirir ve yumuşatır (daha yavaş hızlanma).",
-    counterClockwiseEffect: "Dışa (sola): Aşağı kalkış ivmesini artırır (daha seri iniş başlangıcı).",
-    officialFunction:
-      "C ve B bobinleri enerjilendiğinde iniş ana sürgüsünün açılma hızını ve aşağı yöndeki kalkış konforunu düzenler.",
-    factorySetting: "Vidayı tamamen içeri çevirip 2 tur dışarı açın.",
-    solenoidCondition: "Motor: KAPALI | Bobin B + C: ENERJİLİ",
-  },
-  {
-    id: "adj-7",
-    tag: "Ayar 7",
-    name: "Aşağı Tam Hız Debisi",
-    nameEn: "7 Down Full Speed",
-    group: "down",
-    angleY: -0.45,
-    angleX: 0.05,
-    clockwiseEffect: "İçe (sağa): Maksimum iniş hızını azaltır.",
-    counterClockwiseEffect: "Dışa (sola): Maksimum iniş hızını artırır.",
-    officialFunction:
-      "Aşağı yöndeki maksimum nominal seyir hızını (Down Full Speed) ana iniş sürgüsünün strokunu sınırlayarak belirler.",
-    factorySetting: "Proje anma hızına göre ayarlanır.",
-    solenoidCondition: "Motor: KAPALI | Bobin B + C: ENERJİLİ",
-  },
+  // ==========================================
+  // --- AŞAĞI İNİŞ AYARLARI (8, 6, 7, 9) ---
+  // ==========================================
   {
     id: "adj-8",
     tag: "Ayar 8",
-    name: "Aşağı Yavaşlama Rampası",
+    name: "İniş - Yavaşlama (Down Deceleration & Stop)",
     nameEn: "8 Down Deceleration",
     group: "down",
     angleY: -0.55,
     angleX: -0.1,
-    clockwiseEffect: "İçe (sağa): Yavaşlama süresini uzatır (daha yumuşak ve uzun frenleme).",
-    counterClockwiseEffect: "Dışa (sola): Yavaşlama süresini kısaltır (daha kısa mesafede yavaşlama).",
-    officialFunction:
-      "B bobininin enerjisi kesildiğinde (C bobini enerjili kalır) tam hızdan aşağı seviyeleme hızına geçiş yumuşaklığını ayarlar.",
-    factorySetting: "Vidayı tamamen içeri çevirip 2.5 tur dışarı açın.",
-    solenoidCondition: "Motor: KAPALI | Bobin C: ENERJİLİ, Bobin B: ENERJİSİZ",
+    allenKey: "3 mm Allen",
+    default34: "1 tur dışarı",
+    default1525: "1.5 tur dışarı",
+    fasterOrMore: "İçeri (Sağa): Yavaşlama süresi çok kısa ise (sert fren) 1/4 tur içeri çeviriniz.",
+    slowerOrLess: "Dışarı (Sola): Yavaşlama süresi çok uzun ise 1/4 tur dışarı çeviriniz.",
+    procedure:
+      "C ve D bobinlerini enerjilendirin (iniş komutu). Kabin tam hıza ulaştığında C bobinini el ile yerinden kaldırarak kabinin yavaşlamasını gözlemleyiniz. Eğer yavaşlama süresi çok uzun ise No.8 ayarını 1/4 tur dışarı, çok kısa ise 1/4 tur içeri çeviriniz. Yavaşlama süresi istenen değere ulaşana kadar tekrarlayınız. (İniş-durma da 8 nolu ayara bağlı gerçekleşir).",
+    bobinState: "C ve D Enerjili (İniş) -> C Bobinini El ile Yerinden Kaldırma",
+    idealTime: "Hedef Yavaşlama Zamanı: Yaklaşık 2.5 saniye",
+  },
+  {
+    id: "adj-6",
+    tag: "Ayar 6",
+    name: "İniş - Hızlanma (Down Acceleration)",
+    nameEn: "6 Down Acceleration",
+    group: "down",
+    angleY: -0.3,
+    angleX: 0.1,
+    allenKey: "3 mm Allen",
+    default34: "1.5 tur dışarı",
+    default1525: "1.5 tur dışarı",
+    fasterOrMore: "İçeri (Sağa): Hızlanma süresi çok kısa ise (ani kalkış) 1/4 tur içeri çeviriniz.",
+    slowerOrLess: "Dışarı (Sola): Hızlanma süresi çok uzun ise 1/4 tur dışarı çeviriniz.",
+    procedure:
+      "No.6 ayarını tamamen içeri vidalayıp iniş komutu verin (C ve D bobinlerini enerjilendirin - kabin hareket etmeyecektir). No.6 ayarını yavaşça açarak kabinin aşağı doğru hızlanmasını sağlayınız. Eğer hızlanma süresi çok uzun ise 1/4 tur dışarı, çok kısa ise 1/4 tur içeri çeviriniz.",
+    bobinState: "No.6 Kapalıdan Başlayarak C + D Enerjili İniş Testi",
+    idealTime: "Hedef Hızlanma Zamanı: Yaklaşık 2.5 saniye",
+  },
+  {
+    id: "adj-7",
+    tag: "Ayar 7",
+    name: "İniş - Tam Hız (Down Full Speed)",
+    nameEn: "7 Down Full Speed",
+    group: "down",
+    angleY: -0.45,
+    angleX: 0.05,
+    allenKey: "5 mm Allen",
+    default34: "Flanş yüzünde (Sıfır)",
+    default1525: "Flanş yüzünde (Sıfır)",
+    fasterOrMore: "İçeri (Sağa): Tam iniş hızını azaltır.",
+    slowerOrLess: "Dışarı (Sola): Tam iniş hızını yükseltir/artırır.",
+    procedure:
+      "İniş komutu verin (C ve D bobinlerini enerjilendirin). Kabinin iniş hızını gözlemleyiniz. No.7 ayarını içeri doğru çevirerek tam hız azaltılır, dışarı doğru çevirerek tam hız yükseltilir.",
+    bobinState: "C ve D Bobinleri ENERJİLİ (Tam İniş)",
+    idealTime: "Proje nominal iniş hızına göre ayarlanır.",
   },
   {
     id: "adj-9",
     tag: "Ayar 9",
-    name: "Aşağı Seviyeleme Hızı & Duruş",
-    nameEn: "9 Down Leveling & Stop",
+    name: "İniş - Seviyeleme Hızı (Down Leveling)",
+    nameEn: "9 Down Leveling Speed",
     group: "down",
     angleY: -0.65,
     angleX: -0.15,
-    clockwiseEffect: "İçe (sağa): Aşağı seviyeleme hızını düşürür.",
-    counterClockwiseEffect: "Dışa (sola): Aşağı seviyeleme hızını artırır.",
-    officialFunction:
-      "Aşağı yönde kat seviyesine yanaşma hızını (Down Leveling Speed) ve C bobini enerjisi kesildiğinde iniş duruş konforunu ayarlar.",
-    factorySetting: "Nominal seviyeleme hızı 0.08 - 0.12 m/s.",
-    solenoidCondition: "Motor: KAPALI | Bobin C: ENERJİLİ (Duruş anında enerjisiz)",
+    allenKey: "5 mm Allen",
+    default34: "Flanş yüzünde (Sıfır)",
+    default1525: "Flanş yüzünde (Sıfır)",
+    fasterOrMore: "İçeri (Sağa): Seviyeleme hızını azaltır/kısar.",
+    slowerOrLess: "Dışarı (Sola): Seviyeleme hızını yükseltir/artırır.",
+    procedure:
+      "C bobinini çıkartın ve iniş komutu verin (D bobinini enerjilendirin). Kabin seviyeleme hızında hareket edecektir. No.9 ayarını içeri doğru çevirerek seviyeleme hızı azaltılır, dışarı doğru çevirerek seviyeleme hızı yükseltilir.",
+    bobinState: "C Bobini ÇIKARILMIŞ | Sadece D Bobini ENERJİLİ",
+    idealTime: "Tavsiye Edilen Seviyeleme Hızı: 0.05 m/s",
   },
 
+  // ==========================================
   // --- SOLENOID BOBİNLER (A, B, C, D) ---
+  // ==========================================
   {
     id: "sol-a",
     tag: "Bobin A",
-    name: "Yukarı Yavaşlama Bobini",
-    nameEn: "Solenoid A (Up Deceleration)",
+    name: "Çıkış Yavaşlama / Seviyeleme Bobini",
+    nameEn: "Solenoid A (Up Deceleration / Leveling)",
     group: "solenoid",
     angleY: 0.1,
     angleX: 0.25,
-    clockwiseEffect: "Elektromekanik pilot valf.",
-    counterClockwiseEffect: "Sol valf kulesinde konumlanır.",
-    officialFunction:
-      "Yukarı seyirde kat yavaşlama noktasına gelindiğinde enerjilenir; by-pass pilotunu açarak hidrolik akışı kısar ve asansörü yukarı seviyeleme hızına geçirir.",
-    factorySetting: "12V, 24V, 110V, 230V DC / AC seçenekleri.",
-    solenoidCondition: "Yukarı Yavaşlama & Seviyeleme Fazı",
+    allenKey: "Elektrik Soketi",
+    default34: "Standart Bobin",
+    default1525: "Standart Bobin",
+    fasterOrMore: "Enerjili: By-pass pilotunu devreye sokar, seviyelemeye geçirir.",
+    slowerOrLess: "El ile Kaldırma: Çıkışta kabinin durmasını test eder.",
+    procedure:
+      "Pompa motoru çalışırken A bobini enerjilendirildiğinde kabin yukarı seviyeleme hızında (0.05 m/s) hareket eder. Ayar 1, 2, 4 ve 5 kalibrasyonunda el ile kaldırılarak test edilir. (Enerjili bobin tüpten çıkarıldıktan 20 sn sonra ısınır, max 120°C).",
+    bobinState: "12V / 24V / 110V / 230V DC / AC",
+    idealTime: "Isınmayı önlemek için içine 14-17mm demir çubuk konulabilir.",
   },
   {
     id: "sol-b",
     tag: "Bobin B",
-    name: "Aşağı Tam Hız Bobini",
-    nameEn: "Solenoid B (Down Fast Speed)",
+    name: "Çıkış Tam Hız Bobini",
+    nameEn: "Solenoid B (Up Full Speed)",
     group: "solenoid",
     angleY: -0.15,
     angleX: 0.25,
-    clockwiseEffect: "C bobini ile birlikte çalışır.",
-    counterClockwiseEffect: "Sağ valf kulesinde konumlanır.",
-    officialFunction:
-      "Aşağı yönde tam hızda iniş için C bobini ile eşzamanlı enerjilenir. Enerjisi kesildiğinde asansör aşağı yavaşlama fazına geçer.",
-    factorySetting: "12V, 24V, 110V, 230V DC / AC seçenekleri.",
-    solenoidCondition: "Aşağı Tam Hız Fazı",
+    allenKey: "Elektrik Soketi",
+    default34: "Standart Bobin",
+    default1525: "Standart Bobin",
+    fasterOrMore: "Enerjili: Motor ve A bobini ile birlikte yukarı tam hıza (V-Max) geçirir.",
+    slowerOrLess: "El ile Kaldırma: Kabinin yavaşlama rampasını (No.3) test etmeyi sağlar.",
+    procedure:
+      "Pompa motoru ve A bobini ile birlikte enerjilendiğinde kabin yukarı tam hızda seyreder. Ayar 3 ve 4 sırasında yerinden sökülerek kabinin seviyeleme ve yavaşlama davranışı katlar arası seyahat etmeden tek noktada ayarlanır.",
+    bobinState: "Çıkış Tam Hız Fazı",
+    idealTime: "Hızlı ayarlama için el ile sökülüp takılabilir.",
   },
   {
     id: "sol-c",
     tag: "Bobin C",
-    name: "Aşağı Başlama & Seviyeleme Bobini",
-    nameEn: "Solenoid C (Down Start / Leveling)",
+    name: "İniş Başlama & Tam Hız Bobini",
+    nameEn: "Solenoid C (Down Fast Speed)",
     group: "solenoid",
     angleY: -0.35,
     angleX: 0.2,
-    clockwiseEffect: "Ana aşağı yön emniyet pilotu.",
-    counterClockwiseEffect: "Sağ valf kulesinde konumlanır.",
-    officialFunction:
-      "Aşağı yöndeki tüm hareket boyunca enerjili kalır. Tek başına enerjilendiğinde aşağı seviyeleme hızı, B ile birlikte enerjilendiğinde tam hız iniş sağlar.",
-    factorySetting: "12V, 24V, 110V, 230V DC / AC seçenekleri.",
-    solenoidCondition: "Aşağı Kalkış, Hızlı ve Seviyeleme Fazları",
+    allenKey: "Elektrik Soketi",
+    default34: "Standart Bobin",
+    default1525: "Standart Bobin",
+    fasterOrMore: "Enerjili: D bobini ile birlikte aşağı tam hız inişi sağlar.",
+    slowerOrLess: "El ile Kaldırma: Kabinin yavaşlamaya (No.8) geçmesini sağlar.",
+    procedure:
+      "D bobini ile birlikte enerjilendiğinde kabin tam hızda aşağı iner. Tam hızdayken C bobini el ile kaldırıldığında kabin anında Ayar 8 rampasına göre yavaşlar. C bobini çıkartılıp sadece D enerjilendiğinde iniş seviyeleme hızı (No.9) ayarlanır.",
+    bobinState: "İniş Tam Hız Fazı",
+    idealTime: "C enerjisi kesilince yavaş hıza geçer.",
   },
   {
     id: "sol-d",
     tag: "Bobin D",
-    name: "Yukarı Yumuşak Duruş Bobini",
-    nameEn: "Solenoid D (Up Soft Stop)",
+    name: "İniş Seviyeleme & Pilot Bobini",
+    nameEn: "Solenoid D (Down Leveling / Pilot)",
     group: "solenoid",
     angleY: 0.3,
     angleX: 0.22,
-    clockwiseEffect: "Motor duruş sönümleme pilotu.",
-    counterClockwiseEffect: "Sol blokta konumlanır.",
-    officialFunction:
-      "Yukarı yönde motor enerjisi kesildiği anda hidrolik basınç dalgalarını ve çekvalf çarpma şokunu sönümleyerek katta yumuşak duruş sağlar.",
-    factorySetting: "EV100 standart / opsiyonel donanım.",
-    solenoidCondition: "Yukarı Kat Seviyesinde Duruş Anı",
+    allenKey: "Elektrik Soketi",
+    default34: "Standart Bobin",
+    default1525: "Standart Bobin",
+    fasterOrMore: "Enerjili: İniş ana pilotunu açar, seviyeleme sağlar.",
+    slowerOrLess: "Enerjisiz: 8 nolu ayara bağlı olarak kabini tamamen durdurur.",
+    procedure:
+      "Aşağı yöndeki tüm iniş hareketlerinde devrededir. Tek başına enerjilendiğinde kabin No.9 seviyeleme hızında (0.05 m/s) iner. Solenoid C enerjisizken D'nin enerjisi kesildiğinde kabin 8 nolu ayara bağlı olarak yumuşakça durur.",
+    bobinState: "Tüm İniş Fazları",
+    idealTime: "İniş duruşu 8 nolu ayara bağlıdır.",
   },
 
-  // --- EMNİYET & ACİL DURUM (RV, H, HP, KS) ---
+  // ==========================================
+  // --- EMNİYET & VALFLER (S, KS, H) ---
+  // ==========================================
   {
-    id: "safe-rv",
-    tag: "RV / S",
-    name: "Basınç Emniyet Valfi (Relief Valve)",
-    nameEn: "Main Relief Valve (S)",
+    id: "safe-s",
+    tag: "S Valfi",
+    name: "S Yüksek Basınç Emniyet Valfi (Relief Valve)",
+    nameEn: "S High Pressure Relief Valve",
     group: "safety",
     angleY: -0.7,
     angleX: -0.15,
-    clockwiseEffect: "İçe (sağa): Emniyet açma basıncını yükseltir.",
-    counterClockwiseEffect: "Dışa (sola): Emniyet açma basıncını düşürür.",
-    officialFunction:
-      "Sistemde aşırı basınç veya aşırı yük oluştuğunda hidrolik yağı doğrudan tanka tahliye ederek silindir, boru ve pompa donanımlarını korur.",
-    factorySetting: "Nominal çalışma basıncının %140'ına ayarlanır ve mühürlenir.",
-    solenoidCondition: "Aşırı Yük / Mekanik Blokaj Durumu",
+    allenKey: "3 mm Allen",
+    default34: "1.5 tur dışarı (Baş 2 mm dışta)",
+    default1525: "1.5 tur dışarı (Baş 2 mm dışta)",
+    fasterOrMore: "İçeri (Sağa): Valf emniyet basıncını artırır.",
+    slowerOrLess: "Dışarı (Sola): Valf emniyet basıncını düşürür.",
+    procedure:
+      "S vidasını vida başı 2 mm dışarı çıkacak şekilde dışarı çevirin. Silindir hattındaki küresel vanayı kapatın ve manuel alçaltma vanasını (H) açarak iç basıncı sıfırlayın. Çıkış komutu vererek pompa motoru, A ve B bobinlerini enerjilendirin. Basınç manometreden okunur. Basıncı artırmak için S vidasını içeri çevirin; düşürmek için dışarı çevirip pompa çalışıyorken manuel vanayı 1/2 sn açarak iç basıncı giderin.",
+    bobinState: "Küresel Vana Kapalı | Motor + A + B Enerjili",
+    idealTime: "Manometreden okuma yaparak kalibre ediniz.",
   },
   {
-    id: "safe-h",
-    tag: "H",
-    name: "Manuel Acil İndirme Vidası",
-    nameEn: "Manual Lowering (H)",
-    group: "safety",
-    angleY: 0.05,
-    angleX: -0.3,
-    clockwiseEffect: "Saat yönü: İndirme kanalını kapatır (Normal çalışma konumu).",
-    counterClockwiseEffect: "Saat yönü tersi: İndirme kanalını manuel olarak açar.",
-    officialFunction:
-      "Elektrik kesintisinde veya arıza anında kabin içindeki yolcuların en yakın kata yer çekimi ile güvenle tahliye edilmesini sağlar.",
-    factorySetting: "Normalde kapalı ve yay baskılıdır.",
-    solenoidCondition: "Manuel Acil Durum Tahliyesi",
-  },
-  {
-    id: "safe-hp",
-    tag: "HP",
-    name: "El Pompası Bağlantı Portu",
-    nameEn: "Hand Pump Connection (HP)",
+    id: "safe-ks",
+    tag: "KS Valfi",
+    name: "KS Gevşek Halat Valfi (Slack Rope Valve)",
+    nameEn: "KS Slack Rope Valve",
     group: "safety",
     angleY: 0.4,
     angleX: -0.25,
-    clockwiseEffect: "G 3/8\" veya G 1/2\" standart hidrolik port.",
-    counterClockwiseEffect: "Dahili çekvalf korumalıdır.",
-    officialFunction:
-      "Elektriksiz acil durumlarda veya bakım sırasında kabini hidrolik olarak yukarı kaldırmak için Blain HP el pompasının bağlandığı porttur.",
-    factorySetting: "Standart port dişi.",
-    solenoidCondition: "Harici Manuel Hidrolik Giriş",
+    allenKey: "3 mm Allen",
+    default34: "K vidası tampon ayarlı",
+    default1525: "K vidası tampon ayarlı",
+    fasterOrMore: "İçeri (Sağa): Yüksek basınçlar için içeri çevrilir.",
+    slowerOrLess: "Dışarı (Sola): Alçak basınçlar için dışarı çevrilir.",
+    procedure:
+      "KS 3mm allen anahtar yardımıyla K vidası ayarlanır. Kabin tamponlar üzerine oturduktan sonra K vidası tamamen içeri sıkılır ve sonrasında piston aşağı inmeye başlayana kadar dışarı çevrilir. Sonrasında yağ soğuk iken kabinin istenildiği gibi alçalmasına olanak sağlamak için yarım tur (1/2 tur) içeri çevrilmelidir.",
+    bobinState: "Kabin Tampon Üzerinde Otururken Ayarlanır",
+    idealTime: "Halat gevşemesini ve pistonun boşa inmesini önler.",
+  },
+  {
+    id: "safe-h",
+    tag: "H Vanası",
+    name: "Manuel Acil Alçaltma Vanası (Hand Down)",
+    nameEn: "H Manual Lowering Valve",
+    group: "safety",
+    angleY: 0.05,
+    angleX: -0.3,
+    allenKey: "Manuel El Vidası / Buton",
+    default34: "Yay Baskılı Kapalı",
+    default1525: "Yay Baskılı Kapalı",
+    fasterOrMore: "Saat Yönü: Kapatır (Normal seyir konumu).",
+    slowerOrLess: "Saat Yönü Tersi: Manuel acil iniş kanalını açar.",
+    procedure:
+      "Elektrik kesintisinde veya arıza anında kabini yer çekimiyle en yakın kata indirmek için kullanılır. Manuel olarak yapılan alçalma hızı ile D bobini ile gerçekleştirilen seviyeleme hızı (0.05 m/s) tamamen aynıdır.",
+    bobinState: "Elektriksiz Manuel Acil Tahliye",
+    idealTime: "Manuel iniş hızı D bobini seviyeleme hızı ile eşittir.",
   },
 ];
 
@@ -295,8 +354,8 @@ export default function ValveInspectorDock({
     <div className="pointer-events-none absolute inset-0 z-50 flex items-end justify-center sm:items-start sm:justify-end sm:p-6 lg:p-8">
       {/* Mobilde ekranın altından açılan tam genişlikli kart, masaüstünde sağ yan panel */}
       <aside
-        aria-label="Blain EV100 Resmi Teknik Kılavuz Kartı"
-        className="pointer-events-auto flex max-h-[82svh] w-full flex-col overflow-hidden rounded-t-[2rem] border border-steel-200/90 bg-white/98 pb-6 shadow-2xl backdrop-blur-2xl transition-all duration-300 dark:border-steel-700/80 dark:bg-steel-900/98 sm:mt-14 sm:max-h-[86svh] sm:max-w-md sm:rounded-3xl sm:pb-0 lg:max-w-lg"
+        aria-label="Blain EV100 Hızlı Ayarlama Kılavuzu"
+        className="pointer-events-auto flex max-h-[85svh] w-full flex-col overflow-hidden rounded-t-[2rem] border border-steel-200/90 bg-white/98 shadow-2xl backdrop-blur-2xl transition-all duration-300 dark:border-steel-700/80 dark:bg-steel-900/98 sm:mt-14 sm:max-h-[88svh] sm:max-w-md sm:rounded-3xl lg:max-w-lg"
       >
         {/* Mobilde sürükleme / tutma çizgisi */}
         <div className="flex justify-center pt-2.5 pb-1 sm:hidden">
@@ -311,10 +370,10 @@ export default function ValveInspectorDock({
             </span>
             <div>
               <h3 className="text-[0.78rem] font-bold tracking-tight text-steel-900 uppercase sm:text-xs dark:text-white">
-                Blain EV100 Ayar Rehberi
+                Blain EV 100 Hızlı Ayar Kılavuzu
               </h3>
               <p className="text-[0.62rem] text-steel-500 sm:text-[0.68rem] dark:text-steel-400">
-                Orijinal Teknik El Kitapçığı
+                Orijinal Blain Hydraulics GmbH Teknik Verileri
               </p>
             </div>
           </div>
@@ -345,13 +404,13 @@ export default function ValveInspectorDock({
                 : "text-steel-600 hover:text-steel-900 dark:text-steel-400"
             }`}
           >
-            Yukarı
+            Çıkış (1-5)
           </button>
           <button
             type="button"
             onClick={() => {
               setActiveGroup("down");
-              onSelectPart("adj-6");
+              onSelectPart("adj-8");
             }}
             className={`py-2.5 transition-colors ${
               activeGroup === "down"
@@ -359,7 +418,7 @@ export default function ValveInspectorDock({
                 : "text-steel-600 hover:text-steel-900 dark:text-steel-400"
             }`}
           >
-            Aşağı
+            İniş (6-9)
           </button>
           <button
             type="button"
@@ -379,7 +438,7 @@ export default function ValveInspectorDock({
             type="button"
             onClick={() => {
               setActiveGroup("safety");
-              onSelectPart("safe-rv");
+              onSelectPart("safe-s");
             }}
             className={`py-2.5 transition-colors ${
               activeGroup === "safety"
@@ -387,7 +446,7 @@ export default function ValveInspectorDock({
                 : "text-steel-600 hover:text-steel-900 dark:text-steel-400"
             }`}
           >
-            Emniyet
+            Emniyet (S/KS)
           </button>
         </div>
 
@@ -412,16 +471,17 @@ export default function ValveInspectorDock({
           })}
         </div>
 
-        {/* Detay Gövdesi (Scrollable & Altta Boşluk Bırakan) */}
+        {/* Detay Gövdesi (Scrollable) */}
         <div className="flex-1 overflow-y-auto p-4 text-left text-steel-800 sm:p-5 dark:text-steel-200">
+          {/* Başlık & Allen Anahtar */}
           <div className="flex items-start justify-between gap-2">
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="rounded-md bg-brand-50 px-1.5 py-0.5 font-mono text-[0.66rem] font-bold text-brand-700 sm:text-[0.68rem] dark:bg-brand-950 dark:text-brand-300">
                   {activePart.tag}
                 </span>
-                <span className="text-[0.66rem] text-steel-400 sm:text-[0.68rem]">
-                  {activePart.nameEn}
+                <span className="rounded-md bg-steel-100 px-1.5 py-0.5 font-mono text-[0.62rem] font-medium text-steel-700 dark:bg-steel-800 dark:text-steel-300">
+                  🔧 {activePart.allenKey}
                 </span>
               </div>
               <h4 className="mt-1 text-xs font-bold text-steel-950 sm:text-sm dark:text-white">
@@ -429,47 +489,62 @@ export default function ValveInspectorDock({
               </h4>
             </div>
 
-            {activePart.solenoidCondition && (
-              <span className="shrink-0 rounded-lg bg-steel-100 px-2 py-0.5 font-mono text-[0.62rem] font-medium text-steel-700 sm:px-2.5 sm:py-1 sm:text-[0.65rem] dark:bg-steel-800 dark:text-steel-300">
-                {activePart.solenoidCondition}
+            {activePart.idealTime && (
+              <span className="shrink-0 rounded-lg bg-emerald-50 px-2 py-0.5 text-right font-mono text-[0.6rem] font-semibold text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                ⏱️ {activePart.idealTime}
               </span>
             )}
           </div>
 
-          {/* Orijinal Kitabi Fonksiyon Açıklaması */}
-          <div className="mt-2.5 rounded-2xl border border-steel-200/80 bg-steel-50/70 p-3 text-[0.74rem] leading-relaxed sm:mt-3 sm:p-3.5 sm:text-[0.76rem] dark:border-steel-800 dark:bg-steel-950/60">
-            <span className="font-bold text-steel-900 dark:text-white">
-              Görevi:{" "}
-            </span>
-            <span className="text-steel-700 dark:text-steel-300">
-              {activePart.officialFunction}
-            </span>
+          {/* Standart Çıkış / İniş Ön Ayar Tablosu Değerleri */}
+          <div className="mt-3 grid grid-cols-2 gap-2 rounded-2xl border border-steel-200/80 bg-steel-50/80 p-2.5 text-[0.72rem] dark:border-steel-800 dark:bg-steel-950/60">
+            <div>
+              <span className="text-[0.65rem] text-steel-500 uppercase tracking-wider block">
+                Ön Ayar (EV 100 ¾”):
+              </span>
+              <span className="font-mono font-bold text-steel-900 dark:text-white">
+                {activePart.default34}
+              </span>
+            </div>
+            <div>
+              <span className="text-[0.65rem] text-steel-500 uppercase tracking-wider block">
+                Ön Ayar (EV 100 1½”–2½”):
+              </span>
+              <span className="font-mono font-bold text-steel-900 dark:text-white">
+                {activePart.default1525}
+              </span>
+            </div>
           </div>
 
-          {/* Orijinal Çevirme / Ayar Yönleri */}
-          <div className="mt-2.5 space-y-1.5 rounded-2xl border border-steel-200/80 bg-white p-3 text-[0.72rem] sm:mt-3 sm:space-y-2 sm:p-3.5 sm:text-[0.74rem] dark:border-steel-800 dark:bg-steel-900">
+          {/* Resmi Hızlı Ayarlama Prosedürü */}
+          <div className="mt-3 rounded-2xl border border-brand-200/70 bg-brand-50/40 p-3.5 text-[0.74rem] leading-relaxed dark:border-brand-900/40 dark:bg-brand-950/30">
+            <div className="mb-1 flex items-center gap-1.5 font-bold text-brand-900 dark:text-brand-300">
+              <span>📋 Resmi Ayar Prosedürü:</span>
+            </div>
+            <p className="text-steel-800 dark:text-steel-200">
+              {activePart.procedure}
+            </p>
+            <div className="mt-2.5 rounded-xl border border-brand-200/80 bg-white/80 px-2.5 py-1.5 font-mono text-[0.68rem] text-brand-900 dark:border-brand-800/60 dark:bg-steel-900/80 dark:text-brand-300">
+              ⚡ Durum: {activePart.bobinState}
+            </div>
+          </div>
+
+          {/* Çevirme Yönleri ve Etkileri */}
+          <div className="mt-3 space-y-1.5 rounded-2xl border border-steel-200/80 bg-white p-3 text-[0.72rem] dark:border-steel-800 dark:bg-steel-900">
             <div className="flex items-start gap-1.5">
               <span className="shrink-0 font-bold text-emerald-600 dark:text-emerald-400">
-                ↻ Saat Yönü:
+                ↻ İçeri (Sağa):
               </span>
               <span className="text-steel-700 dark:text-steel-300">
-                {activePart.clockwiseEffect}
+                {activePart.fasterOrMore}
               </span>
             </div>
             <div className="flex items-start gap-1.5">
               <span className="shrink-0 font-bold text-sky-600 dark:text-sky-400">
-                ↺ Ters Yön:
+                ↺ Dışarı (Sola):
               </span>
               <span className="text-steel-700 dark:text-steel-300">
-                {activePart.counterClockwiseEffect}
-              </span>
-            </div>
-            <div className="border-t border-steel-100 pt-1.5 dark:border-steel-800">
-              <span className="font-bold text-steel-900 dark:text-white">
-                Fabrika Temel Ayarı:{" "}
-              </span>
-              <span className="font-mono text-steel-600 dark:text-steel-400">
-                {activePart.factorySetting}
+                {activePart.slowerOrLess}
               </span>
             </div>
           </div>
@@ -480,7 +555,7 @@ export default function ValveInspectorDock({
               href="/service"
               className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-brand-600 py-2.5 text-[0.74rem] font-semibold text-white transition hover:bg-brand-700 sm:text-[0.76rem]"
             >
-              <span>Servis Arıza Tablosu</span>
+              <span>Arıza Çözümleri</span>
               <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
@@ -489,7 +564,7 @@ export default function ValveInspectorDock({
               href="/downloads"
               className="flex flex-1 items-center justify-center rounded-xl border border-steel-300 bg-white py-2.5 text-[0.74rem] font-medium text-steel-700 transition hover:bg-steel-100 sm:text-[0.76rem] dark:border-steel-700 dark:bg-steel-800 dark:text-steel-200 dark:hover:bg-steel-700"
             >
-              Kılavuz PDF
+              Kılavuz İndir
             </Link>
           </div>
         </div>
