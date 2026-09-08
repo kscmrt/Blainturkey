@@ -292,23 +292,29 @@ export default function ValveInspectorDock({
   if (!isOpen) return null;
 
   return (
-    <div className="pointer-events-none absolute inset-0 z-30 flex items-start justify-end p-3 sm:p-6 lg:p-8">
+    <div className="pointer-events-none absolute inset-0 z-30 flex items-end justify-center p-2 sm:items-start sm:justify-end sm:p-6 lg:p-8">
+      {/* Mobilde Bottom-Sheet, Masaüstünde Sağ Dock */}
       <aside
         aria-label="Blain EV100 Resmi Teknik Kılavuz Kartı"
-        className="pointer-events-auto mt-14 flex max-h-[86svh] w-full max-w-sm flex-col overflow-hidden rounded-3xl border border-steel-200/80 bg-white/95 shadow-2xl backdrop-blur-2xl transition-all duration-300 dark:border-steel-700/80 dark:bg-steel-900/95 sm:max-w-md lg:max-w-lg"
+        className="pointer-events-auto flex max-h-[75svh] w-full max-w-full flex-col overflow-hidden rounded-t-3xl border border-steel-200/80 bg-white/95 shadow-2xl backdrop-blur-2xl transition-all duration-300 dark:border-steel-700/80 dark:bg-steel-900/95 sm:mt-14 sm:max-h-[86svh] sm:max-w-md sm:rounded-3xl lg:max-w-lg"
       >
+        {/* Mobilde sürükleme / tutma çubuğu */}
+        <div className="flex justify-center pt-2 sm:hidden">
+          <div className="h-1 w-10 rounded-full bg-steel-300 dark:bg-steel-700" />
+        </div>
+
         {/* Üst Başlık */}
-        <div className="flex items-center justify-between border-b border-steel-200/80 px-5 py-3.5 dark:border-steel-800">
-          <div className="flex items-center gap-2.5">
-            <span className="flex size-8 items-center justify-center rounded-xl bg-brand-600 font-mono text-xs font-bold text-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-steel-200/80 px-4 py-3 sm:px-5 sm:py-3.5 dark:border-steel-800">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <span className="flex size-7 items-center justify-center rounded-lg bg-brand-600 font-mono text-xs font-bold text-white shadow-sm sm:size-8 sm:rounded-xl">
               EV
             </span>
             <div>
-              <h3 className="text-xs font-bold tracking-tight text-steel-900 uppercase dark:text-white">
-                Blain EV100 Resmi Ayar Rehberi
+              <h3 className="text-[0.75rem] font-bold tracking-tight text-steel-900 uppercase sm:text-xs dark:text-white">
+                Blain EV100 Ayar Rehberi
               </h3>
-              <p className="text-[0.68rem] text-steel-500 dark:text-steel-400">
-                Orijinal Blain Hydraulics Teknik El Kitapçığı
+              <p className="text-[0.62rem] text-steel-500 sm:text-[0.68rem] dark:text-steel-400">
+                Orijinal Teknik El Kitapçığı
               </p>
             </div>
           </div>
@@ -326,20 +332,20 @@ export default function ValveInspectorDock({
         </div>
 
         {/* Ana Kategori Sekmeleri */}
-        <div className="grid grid-cols-4 border-b border-steel-200/70 bg-steel-50/70 text-center text-[0.72rem] font-semibold dark:border-steel-800 dark:bg-steel-950/50">
+        <div className="grid grid-cols-4 border-b border-steel-200/70 bg-steel-50/70 text-center text-[0.68rem] font-semibold sm:text-[0.72rem] dark:border-steel-800 dark:bg-steel-950/50">
           <button
             type="button"
             onClick={() => {
               setActiveGroup("up");
               onSelectPart("adj-1");
             }}
-            className={`py-2.5 transition-colors ${
+            className={`py-2 transition-colors sm:py-2.5 ${
               activeGroup === "up"
                 ? "border-b-2 border-brand-600 bg-white font-bold text-brand-700 dark:bg-steel-900 dark:text-brand-300"
                 : "text-steel-600 hover:text-steel-900 dark:text-steel-400"
             }`}
           >
-            Yukarı (1-5)
+            Yukarı
           </button>
           <button
             type="button"
@@ -347,13 +353,13 @@ export default function ValveInspectorDock({
               setActiveGroup("down");
               onSelectPart("adj-6");
             }}
-            className={`py-2.5 transition-colors ${
+            className={`py-2 transition-colors sm:py-2.5 ${
               activeGroup === "down"
                 ? "border-b-2 border-brand-600 bg-white font-bold text-brand-700 dark:bg-steel-900 dark:text-brand-300"
                 : "text-steel-600 hover:text-steel-900 dark:text-steel-400"
             }`}
           >
-            Aşağı (6-9)
+            Aşağı
           </button>
           <button
             type="button"
@@ -361,7 +367,7 @@ export default function ValveInspectorDock({
               setActiveGroup("solenoid");
               onSelectPart("sol-a");
             }}
-            className={`py-2.5 transition-colors ${
+            className={`py-2 transition-colors sm:py-2.5 ${
               activeGroup === "solenoid"
                 ? "border-b-2 border-brand-600 bg-white font-bold text-brand-700 dark:bg-steel-900 dark:text-brand-300"
                 : "text-steel-600 hover:text-steel-900 dark:text-steel-400"
@@ -375,7 +381,7 @@ export default function ValveInspectorDock({
               setActiveGroup("safety");
               onSelectPart("safe-rv");
             }}
-            className={`py-2.5 transition-colors ${
+            className={`py-2 transition-colors sm:py-2.5 ${
               activeGroup === "safety"
                 ? "border-b-2 border-brand-600 bg-white font-bold text-brand-700 dark:bg-steel-900 dark:text-brand-300"
                 : "text-steel-600 hover:text-steel-900 dark:text-steel-400"
@@ -386,7 +392,7 @@ export default function ValveInspectorDock({
         </div>
 
         {/* Seçili Grubun Ayar Butonları */}
-        <div className="flex gap-1.5 overflow-x-auto border-b border-steel-200/60 p-2.5 scrollbar-none dark:border-steel-800">
+        <div className="flex gap-1.5 overflow-x-auto border-b border-steel-200/60 p-2 scrollbar-none sm:p-2.5 dark:border-steel-800">
           {groupItems.map((item) => {
             const isSelected = item.id === activePart.id;
             return (
@@ -394,7 +400,7 @@ export default function ValveInspectorDock({
                 key={item.id}
                 type="button"
                 onClick={() => onSelectPart(item.id)}
-                className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.72rem] font-semibold transition-all ${
+                className={`flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-[0.68rem] font-semibold transition-all sm:px-3 sm:py-1.5 sm:text-[0.72rem] ${
                   isSelected
                     ? "bg-brand-600 text-white shadow-sm"
                     : "bg-steel-100 text-steel-700 hover:bg-steel-200/70 dark:bg-steel-800 dark:text-steel-300 dark:hover:bg-steel-700"
@@ -406,34 +412,34 @@ export default function ValveInspectorDock({
           })}
         </div>
 
-        {/* Detay Gövdesi (Kitabi Açıklamalar) */}
-        <div className="flex-1 overflow-y-auto p-5 text-left text-steel-800 dark:text-steel-200">
-          <div className="flex items-start justify-between gap-3">
+        {/* Detay Gövdesi (Scrollable) */}
+        <div className="flex-1 overflow-y-auto p-4 text-left text-steel-800 sm:p-5 dark:text-steel-200">
+          <div className="flex items-start justify-between gap-2">
             <div>
-              <div className="flex items-center gap-2">
-                <span className="rounded-md bg-brand-50 px-2 py-0.5 font-mono text-[0.68rem] font-bold text-brand-700 dark:bg-brand-950 dark:text-brand-300">
+              <div className="flex items-center gap-1.5">
+                <span className="rounded-md bg-brand-50 px-1.5 py-0.5 font-mono text-[0.64rem] font-bold text-brand-700 sm:text-[0.68rem] dark:bg-brand-950 dark:text-brand-300">
                   {activePart.tag}
                 </span>
-                <span className="text-[0.68rem] text-steel-400">
+                <span className="text-[0.64rem] text-steel-400 sm:text-[0.68rem]">
                   {activePart.nameEn}
                 </span>
               </div>
-              <h4 className="mt-1 text-sm font-bold text-steel-950 dark:text-white">
+              <h4 className="mt-1 text-xs font-bold text-steel-950 sm:text-sm dark:text-white">
                 {activePart.name}
               </h4>
             </div>
 
             {activePart.solenoidCondition && (
-              <span className="shrink-0 rounded-lg bg-steel-100 px-2.5 py-1 font-mono text-[0.65rem] font-medium text-steel-700 dark:bg-steel-800 dark:text-steel-300">
+              <span className="shrink-0 rounded-lg bg-steel-100 px-2 py-0.5 font-mono text-[0.6rem] font-medium text-steel-700 sm:px-2.5 sm:py-1 sm:text-[0.65rem] dark:bg-steel-800 dark:text-steel-300">
                 {activePart.solenoidCondition}
               </span>
             )}
           </div>
 
           {/* Orijinal Kitabi Fonksiyon Açıklaması */}
-          <div className="mt-3 rounded-2xl border border-steel-200/80 bg-steel-50/70 p-3.5 text-[0.76rem] leading-relaxed dark:border-steel-800 dark:bg-steel-950/60">
+          <div className="mt-2.5 rounded-2xl border border-steel-200/80 bg-steel-50/70 p-3 text-[0.72rem] leading-relaxed sm:mt-3 sm:p-3.5 sm:text-[0.76rem] dark:border-steel-800 dark:bg-steel-950/60">
             <span className="font-bold text-steel-900 dark:text-white">
-              Görevi (Fonksiyon):{" "}
+              Görevi:{" "}
             </span>
             <span className="text-steel-700 dark:text-steel-300">
               {activePart.officialFunction}
@@ -441,8 +447,8 @@ export default function ValveInspectorDock({
           </div>
 
           {/* Orijinal Çevirme / Ayar Yönleri */}
-          <div className="mt-3 space-y-2 rounded-2xl border border-steel-200/80 bg-white p-3.5 text-[0.74rem] dark:border-steel-800 dark:bg-steel-900">
-            <div className="flex items-start gap-2">
+          <div className="mt-2.5 space-y-1.5 rounded-2xl border border-steel-200/80 bg-white p-3 text-[0.7rem] sm:mt-3 sm:space-y-2 sm:p-3.5 sm:text-[0.74rem] dark:border-steel-800 dark:bg-steel-900">
+            <div className="flex items-start gap-1.5">
               <span className="shrink-0 font-bold text-emerald-600 dark:text-emerald-400">
                 ↻ Saat Yönü:
               </span>
@@ -450,7 +456,7 @@ export default function ValveInspectorDock({
                 {activePart.clockwiseEffect}
               </span>
             </div>
-            <div className="flex items-start gap-2">
+            <div className="flex items-start gap-1.5">
               <span className="shrink-0 font-bold text-sky-600 dark:text-sky-400">
                 ↺ Ters Yön:
               </span>
@@ -458,7 +464,7 @@ export default function ValveInspectorDock({
                 {activePart.counterClockwiseEffect}
               </span>
             </div>
-            <div className="border-t border-steel-100 pt-2 dark:border-steel-800">
+            <div className="border-t border-steel-100 pt-1.5 dark:border-steel-800">
               <span className="font-bold text-steel-900 dark:text-white">
                 Fabrika Temel Ayarı:{" "}
               </span>
@@ -469,10 +475,10 @@ export default function ValveInspectorDock({
           </div>
 
           {/* Eylem Linkleri */}
-          <div className="mt-4 flex items-center gap-2">
+          <div className="mt-3.5 flex items-center gap-2 sm:mt-4">
             <Link
               href="/service"
-              className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-brand-600 py-2.5 text-[0.76rem] font-semibold text-white transition hover:bg-brand-700"
+              className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-brand-600 py-2 text-[0.72rem] font-semibold text-white transition hover:bg-brand-700 sm:py-2.5 sm:text-[0.76rem]"
             >
               <span>Servis Arıza Tablosu</span>
               <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -481,7 +487,7 @@ export default function ValveInspectorDock({
             </Link>
             <Link
               href="/downloads"
-              className="flex flex-1 items-center justify-center rounded-xl border border-steel-300 bg-white py-2.5 text-[0.76rem] font-medium text-steel-700 transition hover:bg-steel-100 dark:border-steel-700 dark:bg-steel-800 dark:text-steel-200 dark:hover:bg-steel-700"
+              className="flex flex-1 items-center justify-center rounded-xl border border-steel-300 bg-white py-2 text-[0.72rem] font-medium text-steel-700 transition hover:bg-steel-100 sm:py-2.5 sm:text-[0.76rem] dark:border-steel-700 dark:bg-steel-800 dark:text-steel-200 dark:hover:bg-steel-700"
             >
               Kılavuz PDF
             </Link>

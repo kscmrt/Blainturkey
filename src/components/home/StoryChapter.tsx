@@ -50,21 +50,20 @@ export default function StoryChapter({ chapter }: { chapter: StoryChapterData })
           ? undefined
           : { opacity, x, y, filter: blur, willChange: "transform, opacity" }
       }
-      /* Dikey ortalama flex ile yapılır; `translate-y` kullanılsaydı motion'ın
-         yazdığı transform ile çakışırdı. */
-      className={`absolute inset-y-0 left-6 right-6 flex max-w-[min(30rem,84vw)] flex-col justify-center sm:left-10 sm:right-10 lg:left-[8vw] lg:right-[8vw] ${
+      /* Dikey hizalama: mobilde sahneyi kapatmamak için üst-orta dengeli, masaüstünde flex center */
+      className={`absolute inset-x-4 top-[8svh] bottom-[18svh] sm:inset-y-0 sm:left-10 sm:right-10 flex max-w-[min(30rem,90vw)] flex-col justify-start sm:justify-center lg:left-[8vw] lg:right-[8vw] ${
         chapter.align === "right" ? "ml-auto lg:items-end lg:text-right" : ""
       }`}
     >
       <p
-        className={`eyebrow mb-4 ${isDark ? "text-accent-400" : "text-brand-600"}`}
+        className={`eyebrow mb-2 sm:mb-4 text-xs sm:text-sm ${isDark ? "text-accent-400" : "text-brand-600"}`}
       >
         {chapter.eyebrow}
       </p>
 
       <h2
         id={`${chapter.id}-title`}
-        className={`mb-5 text-[clamp(2.1rem,5.2vw,3.4rem)] font-bold ${
+        className={`mb-2 sm:mb-5 text-[clamp(1.5rem,4.5vw,3.4rem)] font-bold leading-tight ${
           isDark ? "text-white" : "text-steel-900"
         }`}
       >
@@ -72,7 +71,7 @@ export default function StoryChapter({ chapter }: { chapter: StoryChapterData })
       </h2>
 
       <p
-        className={`text-[clamp(1rem,1.6vw,1.15rem)] leading-relaxed ${
+        className={`text-[clamp(0.82rem,1.4vw,1.15rem)] leading-snug sm:leading-relaxed ${
           isDark ? "text-steel-300" : "text-steel-600"
         }`}
       >
@@ -81,21 +80,21 @@ export default function StoryChapter({ chapter }: { chapter: StoryChapterData })
 
       {/* Perdenin tek sayısal kanıtı — iddiayı somutlaştırır. */}
       <div
-        className={`mt-8 inline-flex flex-col gap-0.5 border-l-2 pl-4 ${
+        className={`mt-3 sm:mt-8 inline-flex flex-col gap-0.5 border-l-2 pl-3 sm:pl-4 ${
           chapter.align === "right"
             ? "lg:border-l-0 lg:border-r-2 lg:pl-0 lg:pr-4 lg:text-right"
             : ""
         } ${isDark ? "border-accent-500" : "border-brand-600"}`}
       >
         <span
-          className={`font-display text-2xl font-bold tabular-nums ${
+          className={`font-display text-lg sm:text-2xl font-bold tabular-nums ${
             isDark ? "text-white" : "text-brand-600"
           }`}
         >
           {chapter.metric.value}
         </span>
         <span
-          className={`text-xs uppercase tracking-[0.14em] ${
+          className={`text-[0.65rem] sm:text-xs uppercase tracking-[0.14em] ${
             isDark ? "text-steel-400" : "text-steel-500"
           }`}
         >
