@@ -1,9 +1,6 @@
 /**
  * Sahne koreografisi — saf fonksiyonlar.
- *
- * 3B valfin scroll boyunca izlediği yol burada tanımlı. React'ten ve
- * three.js'ten bağımsız olduğu için hem test edilebilir hem de kurgu
- * değiştirilirken tek dosyaya bakmak yeterli.
+ * 3B valfin scroll boyunca izlediği yol burada tanımlı.
  */
 export type Keyframe = readonly [progress: number, value: number];
 
@@ -24,9 +21,7 @@ export function sample(progress: number, keyframes: readonly Keyframe[]): number
   return keyframes[keyframes.length - 1][1];
 }
 
-/* Masaüstü: valf, o an ekranda olan metin panelinin karşı tarafına kaçar.
-   Eşikler `story.ts` içindeki perde aralıklarıyla hizalıdır — panel tam
-   görünür olduğunda valf çoktan yerine oturmuş olur. */
+/* Masaüstü: valf, o an ekranda olan metin panelinin karşı tarafına kaçar. */
 const DESKTOP_X: readonly Keyframe[] = [
   [0.0, 0],
   [0.1, 0],
@@ -45,23 +40,23 @@ const DESKTOP_Y: readonly Keyframe[] = [
   [0.0, -2.15],
   [0.14, -0.4],
   [0.86, -0.4],
-  [1.0, 0.55], // finalde yukarı çekilir, alt yarı metne kalır
+  [1.0, 0.55],
 ];
 
-/* Mobil: yatay yer yok, valf metnin üstüne çıkar. */
+/* Mobil: Valf merkezde kalır; metin üstte, valf alt-orta yarıda ferahça görünür. */
 const MOBILE_Y: readonly Keyframe[] = [
-  [0.0, -2.0],
-  [0.14, 0],
-  [0.3, 1.7],
-  [0.84, 1.7],
-  [0.94, 0],
-  [1.0, 0],
+  [0.0, -1.8],
+  [0.14, -0.6],
+  [0.3, -0.6],
+  [0.6, -0.6],
+  [0.85, -0.6],
+  [1.0, -0.3],
 ];
 
 const SCALE: readonly Keyframe[] = [
   [0.0, 0.6],
-  [0.14, 1.0],
-  [0.86, 1.0],
+  [0.14, 0.95],
+  [0.86, 0.95],
   [1.0, 0.8],
 ];
 

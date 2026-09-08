@@ -12,17 +12,14 @@ import { useScrollProgress } from "./ScrollProgress";
 import { VALVE_MODELS, type MaterialId, type ValveId } from "./valveCatalog";
 import {
   TEXT_BAND_CSS,
-  buildAnyChapterTimeline,
   buildGuardTimeline,
   useIsDesktopLayout,
 } from "./safeZone";
 
 const LEFT_GUARD = buildGuardTimeline("left");
 const RIGHT_GUARD = buildGuardTimeline("right");
-const ANY_CHAPTER = buildAnyChapterTimeline();
 
-/* Model değişiminde bekleme olmasın diye hepsi önden yüklenir.
-   Sunucuda GLTFLoader'ı tetiklememek için tarayıcı kontrolü şart. */
+/* Model değişiminde bekleme olmasın diye hepsi önden yüklenir. */
 if (typeof window !== "undefined") {
   VALVE_MODELS.forEach((model) => useGLTF.preload(`/${model.id}.glb`));
 }
@@ -47,21 +44,14 @@ export default function ValveStage() {
   const activePart =
     OFFICIAL_VALVE_DATA.find((p) => p.id === selectedPartId) ?? OFFICIAL_VALVE_DATA[0];
 
-  /* Perde tam görünürken 0→1→1→0: o taraf sahneden tamamen kırpılır. */
+  /* Masaüstünde metin bantlarını kırpar; mobilde kırpma yapmaz, valf görünür kalır. */
   const leftGuard = useTransform(progress, LEFT_GUARD.xs, LEFT_GUARD.ys);
   const rightGuard = useTransform(progress, RIGHT_GUARD.xs, RIGHT_GUARD.ys);
-  const anyGuard = useTransform(progress, ANY_CHAPTER.xs, ANY_CHAPTER.ys);
 
-  /* Valfin metne değmemesinin GERÇEK garantisi burada.
-     `lg` üstünde (metin sol/sağ ayrık): aktif perdenin metin kutusuyla
-     birebir aynı formülle hesaplanan bandı kırpar — konum animasyonu geç
-     kalsa, sekse veya yanlış ölçeklense bile o pikseller hiç çizilmez.
-     `lg` altında (metin tam genişlikte ortalı, ayrım yok): perde tam
-     görünürken sahneyi tamamen kırpar; geçişlerde serbest bırakır. */
   const clipPath = useTransform(() =>
     isDesktop
       ? `inset(0 calc(${rightGuard.get()} * ${TEXT_BAND_CSS}) 0 calc(${leftGuard.get()} * ${TEXT_BAND_CSS}))`
-      : `inset(0 0 ${anyGuard.get() * 100}% 0)`,
+      : "none",
   );
 
   useEffect(() => {
@@ -78,17 +68,14 @@ export default function ValveStage() {
   }, []);
 
   return (
-    /* `z-index` bilerek verilmedi: kendi yığın bağlamını oluşturmasın ki
-       içindeki kontrol paneli, kardeş metin katmanının üstünde kalabilsin. */
     <div ref={stageRef} className="relative size-full">
-      {/* Valfin metne değmemesinin garanti edildiği sınır: bkz. `safeZone.ts`. */}
+      {/* 3D Model Sahnesi */}
       <motion.div
         style={{ clipPath, willChange: "clip-path" }}
         className="size-full"
       >
         <Canvas
           camera={{ position: [0, 0, 10], fov: 45 }}
-          /* Retina'da 3x render etmek görsel kazanç sağlamıyor, maliyeti yüksek. */
           dpr={[1, 1.75]}
           gl={{ antialias: true, powerPreference: "high-performance" }}
           frameloop={isVisible ? "always" : "never"}
@@ -132,7 +119,7 @@ export default function ValveStage() {
         </Canvas>
       </motion.div>
 
-      {/* Sağ Yan Parça İnceleme Paneli (Apple / Modern HUD Dock) */}
+      {/* Sağ Yan / Alt Parça İnceleme Paneli (Modal açıldığında alttaki kontrolleri gizlemez, üzerine biner ve alttan kapatır) */}
       <ValveInspectorDock
         isOpen={isDockOpen}
         selectedPartId={selectedPartId}
@@ -140,6 +127,7 @@ export default function ValveStage() {
         onClose={() => setIsDockOpen(false)}
       />
 
+      {/* Alt Kontrol Butonları (Ayar rehberi AÇIKKEN gizlenir, böylece üst üste binme imkansız hale gelir) */}
       <StageControls
         valveId={valveId}
         materialId={materialId}

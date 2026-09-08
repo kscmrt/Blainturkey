@@ -18,8 +18,9 @@ type StageControlsProps = {
 };
 
 /**
- * Sahnenin üzerinde yüzen cam kontrol paneli. Ziyaretçiye hikâyeyi izlerken
- * modeli ve yüzeyi değiştirme imkânı verir. Mobilde kompakt ve parmak dostu.
+ * Sahnenin üzerinde yüzen cam kontrol paneli.
+ * Ayar Rehberi (Dock) açıldığında altta kalıp metinlerin ve kartların üzerine
+ * binmemesi için yumuşakça gizlenir (`opacity-0 pointer-events-none`).
  */
 export default function StageControls({
   valveId,
@@ -30,30 +31,28 @@ export default function StageControls({
   onToggleDock,
 }: StageControlsProps) {
   return (
-    <div className="pointer-events-none absolute inset-x-0 bottom-4 z-[60] flex flex-col items-center gap-2 px-3 sm:bottom-10 sm:gap-3 sm:px-4">
+    <div
+      className={`absolute inset-x-0 bottom-4 z-20 flex flex-col items-center gap-2 px-3 transition-all duration-300 sm:bottom-8 sm:gap-3 sm:px-4 ${
+        isDockOpen
+          ? "pointer-events-none translate-y-4 opacity-0"
+          : "pointer-events-none translate-y-0 opacity-100"
+      }`}
+    >
       <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
         {/* Parça ve Ayar Rehberi Aç/Kapa Düğmesi */}
         <button
           type="button"
           onClick={onToggleDock}
           aria-pressed={isDockOpen}
-          title={isDockOpen ? "Rehberi gizle" : "Valf parça ve ayar rehberini aç"}
-          className={`pointer-events-auto flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[0.74rem] font-semibold shadow-glass backdrop-blur-xl transition-all duration-300 sm:gap-2 sm:px-4 sm:py-2 sm:text-[0.78rem] ${
-            isDockOpen
-              ? "border-brand-500 bg-brand-600 text-white shadow-glow"
-              : "border-white/60 bg-white/70 text-steel-700 hover:bg-white dark:border-steel-700 dark:bg-steel-800/80 dark:text-steel-200"
-          }`}
+          title="Valf parça ve ayar rehberini aç"
+          className="pointer-events-auto flex items-center gap-1.5 rounded-full border border-white/70 bg-white/80 px-3.5 py-1.5 text-[0.74rem] font-semibold text-steel-800 shadow-glass backdrop-blur-xl transition-all duration-300 hover:bg-white sm:gap-2 sm:px-4 sm:py-2 sm:text-[0.78rem] dark:border-steel-700 dark:bg-steel-800/85 dark:text-steel-200"
         >
-          <span
-            className={`size-2 rounded-full transition-colors ${
-              isDockOpen ? "animate-ping bg-white" : "bg-brand-500"
-            }`}
-          />
-          <span>{isDockOpen ? "Ayar Rehberi: Açık" : "Ayar & Parça Rehberi"}</span>
+          <span className="size-2 rounded-full bg-brand-500 animate-pulse" />
+          <span>Ayar & Parça Rehberi</span>
         </button>
 
         {/* Yüzey seçici */}
-        <fieldset className="pointer-events-auto flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-3 py-1.5 shadow-glass backdrop-blur-xl sm:gap-3 sm:px-4 sm:py-2 dark:border-steel-700 dark:bg-steel-800/80">
+        <fieldset className="pointer-events-auto flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-3 py-1.5 shadow-glass backdrop-blur-xl sm:gap-3 sm:px-4 sm:py-2 dark:border-steel-700 dark:bg-steel-800/85">
           <legend className="sr-only">Yüzey işlemi</legend>
 
           {MATERIAL_IDS.map((id) => {
@@ -84,7 +83,7 @@ export default function StageControls({
       <div
         role="group"
         aria-label="Valf modeli"
-        className="pointer-events-auto flex max-w-full justify-center gap-1 overflow-x-auto rounded-full border border-white/60 bg-white/80 p-1 shadow-glass backdrop-blur-xl scrollbar-none sm:p-1.5 dark:border-steel-700 dark:bg-steel-800/80 sm:w-auto"
+        className="pointer-events-auto flex max-w-full justify-center gap-1 overflow-x-auto rounded-full border border-white/70 bg-white/85 p-1 shadow-glass backdrop-blur-xl scrollbar-none sm:p-1.5 dark:border-steel-700 dark:bg-steel-800/85 sm:w-auto"
       >
         {VALVE_MODELS.map((model) => {
           const isActive = model.id === valveId;
