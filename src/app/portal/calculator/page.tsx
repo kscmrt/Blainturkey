@@ -616,6 +616,121 @@ export default function CalculatorPage() {
 
               )}
             </div>
+
+        {/* --- CONTACT MODAL --- */}
+        {showContactModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-steel-900/60 backdrop-blur-sm">
+            <div className="w-full max-w-[500px] rounded-3xl bg-white p-8 shadow-2xl animate-in fade-in zoom-in-95 duration-200 dark:bg-steel-900">
+              <h3 className="mb-2 text-2xl font-bold text-steel-900 dark:text-white">İletişim Bilgileri</h3>
+              <p className="mb-6 text-sm text-steel-500 dark:text-steel-400">
+                Teklifin size ulaşabilmesi ve projenin CRM sistemine kaydedilebilmesi için lütfen bilgilerinizi girin.
+              </p>
+              
+              <form onSubmit={async (e) => {
+                e.preventDefault();
+                setIsSubmittingQuote(true);
+                try {
+                  const payload = {
+                    contactInfo: { companyName: contactCompany, contactName, email: contactEmail, phone: contactPhone },
+                    projectData: {
+                      capacity: Number(calcCapacity), carcassWeight: Number(calcCarcass), travelDistance: Number(calcTravel) * 1000,
+                      buffer: Number(calcBuffer), pitDepth: Number(calcPitDepth), topFloor: Number(calcTopFloor),
+                      cylinderCount: Number(calcCylinderCount), suspension: calcSuspension, speed: Number(calcSpeed),
+                      mountingType: calcMountingType, cylinderType: calcCylinderType, stages: Number(calcStages),
+                      ropeWeight: Number(calcRopeWeight), buildingType: calcStartsPerHour, calculationResult: calcResult,
+                      selectedCylinder: { d: calcCylDiameter, t: calcCylThickness },
+                      powerUnitCount: Number(calcPowerUnitCount),
+                      maxAmbientTemp: calcMaxAmbientTemp ? Number(calcMaxAmbientTemp) : undefined,
+                      travelFactor: calcTravelFactor ? Number(calcTravelFactor) : undefined,
+                      oilViscosity: calcOilViscosity,
+                      isSplit: calcIsSplit,
+                      isExisting: calcIsExisting,
+                      existingRamDiameter: calcExistingRam ? Number(calcExistingRam) : undefined,
+                      existingWallThickness: calcExistingThickness ? Number(calcExistingThickness) : undefined,
+                      projectNote: calcProjectNote,
+                      accessoriesFlags: {
+                        handPump: calcHandPump, ballValve: calcBallValve, ruptureValve: calcRuptureValve,
+                        a3Valve: calcA3Valve, lowPressure: calcLowPressure, highPressure: calcHighPressure,
+                        overload: calcOverload, heater: calcHeater, microLevel: calcMicroLevel
+                      }
+                    }
+                  };
+                  
+                  const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                  const apiUrl = process.env.NEXT_PUBLIC_CRM_API_URL || (isLocalhost ? 'http://localhost:3000' : 'https://portal.blainturkey.com.tr'); 
+                  
+                  try {
+                    await fetch(`${apiUrl}/api/external-quotes`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(payload)
+                    });
+                  } catch (e) {
+                    console.error("API Error", e);
+                  }
+
+                  const accessories = [];
+                  if (calcHandPump) accessories.push('El Pompası');
+                  if (calcBallValve) accessories.push('Küresel Vana');
+                  if (calcRuptureValve) accessories.push('Boru Kırılma Valfi');
+                  if (calcA3Valve) accessories.push('A3 Güvenlik Valfi');
+                  if (calcLowPressure) accessories.push('Alçak Basınç Şalteri');
+                  if (calcHighPressure) accessories.push('Yüksek Basınç Şalteri');
+                  if (calcOverload) accessories.push('Aşırı Yük Şalteri');
+                  if (calcHeater) accessories.push('Yağ Isıtıcı');
+                  if (calcMicroLevel) accessories.push('Mikro Seviyeleme');
+
+                  const pFlow = Number(calcResult?.pumpFlow || 0);
+                  const recommendedValve = pFlow < 125 ? 'EV100 3/4"' : pFlow <= 800 ? 'EV100 1.5"' : 'EV100 2.5"';
+                  
+                  const message = `*Proje Konfigürasyon Onayı*\n\n` +
+                    `Sistem üzerinden teknik teklif talebimi ilettim (Firma: ${contactCompany}). Hızlı iletişim için WhatsApp'tan yazıyorum.\n\n` +
+                    `*-- ONAYLANAN KOMPONENTLER --*\n` +
+                    `Kapasite: ${calcCapacity} kg (${calcSpeed} m/s, ${calcTravel} m)\n` +
+                    `Valf Seçimi: ${recommendedValve}\n` +
+                    `Motor Gücü: ${calcResult.motorPowerReq} kW\n` +
+                    `Yağ Hacmi: ${calcResult.oilVolume} Litre\n` +
+                    `Piston: Ø${calcCylDiameter}x${calcCylThickness} mm\n` +
+                    `Aksesuarlar: ${accessories.length > 0 ? accessories.join(', ') : 'Yok'}\n\n` +
+                    `*-- TEKNİK ONAY --*\n` +
+                    `Durum: ${calcResult.isBucklingSafe ? 'Güvenli (Onaylandı)' : 'Riskli (İnceleme Gerekli)'}`;
+                    
+                  window.open(`https://wa.me/905424862821?text=${encodeURIComponent(message)}`, '_blank');
+                } catch(err) {
+                  alert("Bir hata oluştu.");
+                } finally {
+                  setIsSubmittingQuote(false);
+                  setShowContactModal(false);
+                }
+              }} className="flex flex-col gap-5">
+                
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-medium text-steel-700 dark:text-steel-300">Firma Adı</label>
+                  <input type="text" required value={contactCompany} onChange={(e) => setContactCompany(e.target.value)} className="w-full rounded-xl border border-steel-200 bg-steel-50 px-4 py-3 text-sm text-steel-900 outline-none focus:border-brand-500 focus:bg-white dark:border-steel-700 dark:bg-steel-800 dark:text-white" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-medium text-steel-700 dark:text-steel-300">Yetkili Kişi</label>
+                  <input type="text" required value={contactName} onChange={(e) => setContactName(e.target.value)} className="w-full rounded-xl border border-steel-200 bg-steel-50 px-4 py-3 text-sm text-steel-900 outline-none focus:border-brand-500 focus:bg-white dark:border-steel-700 dark:bg-steel-800 dark:text-white" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-medium text-steel-700 dark:text-steel-300">İletişim (Telefon)</label>
+                  <input type="text" required value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} className="w-full rounded-xl border border-steel-200 bg-steel-50 px-4 py-3 text-sm text-steel-900 outline-none focus:border-brand-500 focus:bg-white dark:border-steel-700 dark:bg-steel-800 dark:text-white" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-medium text-steel-700 dark:text-steel-300">E-posta</label>
+                  <input type="email" required value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} className="w-full rounded-xl border border-steel-200 bg-steel-50 px-4 py-3 text-sm text-steel-900 outline-none focus:border-brand-500 focus:bg-white dark:border-steel-700 dark:bg-steel-800 dark:text-white" />
+                </div>
+
+                <div className="mt-4 flex gap-3">
+                  <button type="button" onClick={() => setShowContactModal(false)} className="flex-1 rounded-xl bg-steel-100 py-3.5 text-sm font-semibold text-steel-700 hover:bg-steel-200 dark:bg-steel-800 dark:text-steel-300 dark:hover:bg-steel-700">İptal</button>
+                  <button type="submit" disabled={isSubmittingQuote} className="flex-1 rounded-xl bg-brand-600 py-3.5 text-sm font-bold text-white hover:bg-brand-700 disabled:opacity-70">
+                    {isSubmittingQuote ? 'İletiliyor...' : 'Teklif İste'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
