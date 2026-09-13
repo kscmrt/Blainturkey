@@ -261,15 +261,7 @@ export default function PortalPage() {
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#fbfbfd', /* Apple ultra-light gray */
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-      color: '#1d1d1f'
-    }}>
+    <div className="min-h-screen bg-steel-50 text-steel-900 dark:bg-steel-950 dark:text-steel-100 flex items-center justify-center font-sans">
       
       {/* 
         ====================================================
@@ -277,7 +269,7 @@ export default function PortalPage() {
         ====================================================
       */}
       {activeView === 'hub' && (
-        <div className="w-full max-w-4xl px-6 py-12" style={{ animation: 'fadeUp 0.6s ease forwards' }}>
+        <div className="w-full max-w-4xl px-6 py-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight mb-4">Müşteri Portalı</h1>
             <p className="text-lg text-gray-500">Lütfen yapmak istediğiniz işlemi seçin.</p>
@@ -287,7 +279,7 @@ export default function PortalPage() {
             {/* Teklif İste Card */}
             <button 
               onClick={() => setActiveView('quote')}
-              className="group relative bg-white/60 backdrop-blur-xl border border-gray-200/50 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left overflow-hidden"
+              className="group relative bg-white/60 dark:bg-steel-900/40 backdrop-blur-xl border border-steel-200/60 dark:border-steel-800/60 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
               <div className="relative z-10 flex flex-col h-full">
@@ -295,7 +287,7 @@ export default function PortalPage() {
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Yeni Teklif İste</h3>
-                <p className="text-gray-500">Hidrolik projeleriniz için detaylı fiyat talebi oluşturun.</p>
+                <p className="text-steel-500 dark:text-steel-400">Hidrolik projeleriniz için detaylı fiyat talebi oluşturun.</p>
                 <div className="mt-6 text-[#1890d7] flex items-center gap-2 font-medium opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300">
                   Devam Et <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </div>
@@ -305,7 +297,7 @@ export default function PortalPage() {
             {/* Teknik Hesaplama Card */}
             <button 
               onClick={() => setActiveView('calculator')}
-              className="group relative bg-white/60 backdrop-blur-xl border border-gray-200/50 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left overflow-hidden"
+              className="group relative bg-white/60 dark:bg-steel-900/40 backdrop-blur-xl border border-steel-200/60 dark:border-steel-800/60 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-100 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
               <div className="relative z-10 flex flex-col h-full">
@@ -313,7 +305,7 @@ export default function PortalPage() {
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Teknik Hesaplama</h3>
-                <p className="text-gray-500">Basınç, motor gücü ve debi değerlerini hesaplayın.</p>
+                <p className="text-steel-500 dark:text-steel-400">Basınç, motor gücü ve debi değerlerini hesaplayın.</p>
                 <div className="mt-6 text-indigo-600 flex items-center gap-2 font-medium opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300">
                   Devam Et <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </div>
@@ -323,7 +315,7 @@ export default function PortalPage() {
             {/* Teknik Servis Talebi Card */}
             <button 
               onClick={() => setActiveView('service')}
-              className="group relative bg-white/60 backdrop-blur-xl border border-gray-200/50 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left overflow-hidden"
+              className="group relative bg-white/60 dark:bg-steel-900/40 backdrop-blur-xl border border-steel-200/60 dark:border-steel-800/60 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-orange-100 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
               <div className="relative z-10 flex flex-col h-full">
@@ -331,7 +323,7 @@ export default function PortalPage() {
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Teknik Servis Talebi</h3>
-                <p className="text-gray-500">Blain ürünleriniz için destek veya onarım talebi gönderin.</p>
+                <p className="text-steel-500 dark:text-steel-400">Blain ürünleriniz için destek veya onarım talebi gönderin.</p>
                 <div className="mt-6 text-orange-500 flex items-center gap-2 font-medium opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300">
                   Devam Et <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </div>
@@ -345,7 +337,7 @@ export default function PortalPage() {
                 const crmUrl = process.env.NEXT_PUBLIC_CRM_API_URL || (isLocalhost ? 'http://localhost:3000' : 'https://portal.blainturkey.com.tr');
                 window.location.href = `${crmUrl}/login`;
               }}
-              className="group relative bg-white/60 backdrop-blur-xl border border-gray-200/50 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left overflow-hidden"
+              className="group relative bg-white/60 dark:bg-steel-900/40 backdrop-blur-xl border border-steel-200/60 dark:border-steel-800/60 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-100 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
               <div className="relative z-10 flex flex-col h-full">
@@ -353,7 +345,7 @@ export default function PortalPage() {
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Bayi Girişi</h3>
-                <p className="text-gray-500">Özel dokümanlarınıza ve geçmiş kayıtlarınıza erişin.</p>
+                <p className="text-steel-500 dark:text-steel-400">Özel dokümanlarınıza ve geçmiş kayıtlarınıza erişin.</p>
                 <div className="mt-6 text-emerald-600 flex items-center gap-2 font-medium opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300">
                   Devam Et <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </div>
@@ -376,14 +368,14 @@ export default function PortalPage() {
         ====================================================
       */}
       {activeView !== 'hub' && (
-        <div style={{ width: '100%', maxWidth: '600px', padding: '2rem', animation: 'fadeUp 0.6s ease forwards' }}>
+        <div className="w-full max-w-[800px] p-6 sm:p-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
           
-          <button className="minimal-back-btn" onClick={() => setActiveView('hub')} style={{ marginBottom: '3rem' }}>
+          <button className="group mb-8 sm:mb-12 flex items-center gap-2 text-sm font-semibold text-steel-500 transition-colors hover:text-brand-600 dark:text-steel-400 dark:hover:text-brand-400" onClick={() => setActiveView("hub")}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             Geri Dön
           </button>
 
-          <h2 style={{ fontSize: '2rem', fontWeight: 600, letterSpacing: '-0.02em', margin: '2rem 0 3rem 0' }}>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-steel-900 dark:text-white mb-8 sm:mb-12">
             {activeView === 'quote' && 'Teklif İste.'}
             {activeView === 'service' && 'Servis Talebi.'}
             {activeView === 'login' && 'Bayi Girişi.'}
@@ -392,7 +384,7 @@ export default function PortalPage() {
 
           {/* --- QUOTE FORM --- */}
           {activeView === 'quote' && (
-            <form onSubmit={handleQuoteSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+            <form onSubmit={handleQuoteSubmit} className="flex flex-col gap-8">
               
               <div className="minimal-group">
                 <label className="minimal-label">Kapasite Tipi</label>
@@ -476,7 +468,7 @@ export default function PortalPage() {
 
           {/* --- SERVICE FORM --- */}
           {activeView === 'service' && (
-            <form onSubmit={handleServiceSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+            <form onSubmit={handleServiceSubmit} className="flex flex-col gap-8">
               <div className="floating-input">
                 <input type="text" required value={serviceName} onChange={(e) => setServiceName(e.target.value)} />
                 <label>Firma Adı / İletişim Kişisi</label>
@@ -498,15 +490,15 @@ export default function PortalPage() {
 
           {/* --- CALCULATOR FORM --- */}
           {activeView === 'calculator' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+            <div className="flex flex-col gap-8">
               {!calcResult ? (
-                <form onSubmit={handleCalculate} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <form onSubmit={handleCalculate} className="flex flex-col gap-6">
                   
                   {/* GRUP 1: Yük & Performans */}
-                  <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, borderBottom: '1px solid #e5e5ea', paddingBottom: '0.5rem', marginBottom: '1.5rem', color: '#1d1d1f' }}>Yük & Performans</h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div className="rounded-2xl border border-steel-200/60 bg-white p-6 shadow-sm dark:border-steel-800/80 dark:bg-steel-900/50">
+                    <h3 className="mb-6 border-b border-steel-100 pb-3 text-lg font-bold text-steel-900 dark:border-steel-800 dark:text-white">Yük & Performans</h3>
+                    <div className="flex flex-col gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="floating-input">
                           <input type="number" required value={calcCapacity} onChange={(e) => setCalcCapacity(e.target.value)} />
                           <label>Kapasite (kg)</label>
@@ -516,7 +508,7 @@ export default function PortalPage() {
                           <label>Karkas Ağırlığı (kg)</label>
                         </div>
                       </div>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="floating-input">
                           <input type="number" required step="0.01" value={calcSpeed} onChange={(e) => setCalcSpeed(e.target.value)} />
                           <label>Kabin Hızı (m/s)</label>
@@ -533,7 +525,7 @@ export default function PortalPage() {
                         </div>
                       </div>
                       
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="floating-select" style={{ position: 'relative' }}>
                           <select required value={regulation} onChange={(e) => setRegulation(e.target.value as any)}>
                             <option value="machine">Makine Direktifi</option>
@@ -550,9 +542,9 @@ export default function PortalPage() {
                   </div>
 
                   {/* GRUP 2: Kuyu Ölçüleri */}
-                  <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, borderBottom: '1px solid #e5e5ea', paddingBottom: '0.5rem', marginBottom: '1.5rem', color: '#1d1d1f' }}>Kuyu Ölçüleri</h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                  <div className="rounded-2xl border border-steel-200/60 bg-white p-6 shadow-sm dark:border-steel-800/80 dark:bg-steel-900/50">
+                    <h3 className="mb-6 border-b border-steel-100 pb-3 text-lg font-bold text-steel-900 dark:border-steel-800 dark:text-white">Kuyu Ölçüleri</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div className="floating-input">
                         <input type="number" required value={calcTravel} onChange={(e) => setCalcTravel(e.target.value)} />
                         <label>Seyir Mesafesi (mm)</label>
@@ -573,10 +565,10 @@ export default function PortalPage() {
                   </div>
 
                   {/* GRUP 3: Mekanik Yapı */}
-                  <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, borderBottom: '1px solid #e5e5ea', paddingBottom: '0.5rem', marginBottom: '1.5rem', color: '#1d1d1f' }}>Mekanik Yapı</h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div className="rounded-2xl border border-steel-200/60 bg-white p-6 shadow-sm dark:border-steel-800/80 dark:bg-steel-900/50">
+                    <h3 className="mb-6 border-b border-steel-100 pb-3 text-lg font-bold text-steel-900 dark:border-steel-800 dark:text-white">Mekanik Yapı</h3>
+                    <div className="flex flex-col gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="floating-select" style={{ position: 'relative' }}>
                           <select required value={calcSuspension} onChange={(e) => setCalcSuspension(e.target.value as any)}>
                             <option value="1:1">1:1</option>
@@ -602,10 +594,10 @@ export default function PortalPage() {
                   </div>
 
                   {/* GRUP 4: Piston Bilgileri */}
-                  <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, borderBottom: '1px solid #e5e5ea', paddingBottom: '0.5rem', marginBottom: '1.5rem', color: '#1d1d1f' }}>Silindir / Piston Değerleri</h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div className="rounded-2xl border border-steel-200/60 bg-white p-6 shadow-sm dark:border-steel-800/80 dark:bg-steel-900/50">
+                    <h3 className="mb-6 border-b border-steel-100 pb-3 text-lg font-bold text-steel-900 dark:border-steel-800 dark:text-white">Silindir / Piston Değerleri</h3>
+                    <div className="flex flex-col gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="floating-select" style={{ position: 'relative' }}>
                           <select required value={calcCylinderCount} onChange={(e) => setCalcCylinderCount(e.target.value)}>
                             <option value="1">1 Piston</option>
@@ -656,7 +648,7 @@ export default function PortalPage() {
                     <summary style={{ fontSize: '1.1rem', fontWeight: 600, color: '#1d1d1f', outline: 'none' }}>Gelişmiş Parametreler & Özel Durumlar</summary>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginTop: '1.5rem' }}>
                       
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div className="floating-input">
                           <input type="number" value={calcMaxAmbientTemp} onChange={(e) => setCalcMaxAmbientTemp(e.target.value)} />
                           <label>Ortam Sıcaklığı (°C) - Opsiyonel</label>
@@ -995,7 +987,7 @@ export default function PortalPage() {
               } finally {
                 setIsSubmittingQuote(false);
               }
-            }} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            }} className="flex flex-col gap-6">
               <div className="floating-input">
                 <input type="text" required value={contactCompany} onChange={(e) => setContactCompany(e.target.value)} />
                 <label>Firma Adı</label>
@@ -1004,7 +996,7 @@ export default function PortalPage() {
                 <input type="text" required value={contactName} onChange={(e) => setContactName(e.target.value)} />
                 <label>Yetkili Adı Soyadı</label>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="floating-input">
                   <input type="email" required value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} />
                   <label>E-posta</label>
