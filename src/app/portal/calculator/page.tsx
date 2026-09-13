@@ -69,12 +69,21 @@ export default function CalculatorPage() {
       pitDepth: Number(calcPitDepth),
       topFloor: Number(calcTopFloor),
       cylinderCount: Number(calcCylinderCount),
+      powerUnitCount: Number(calcPowerUnitCount),
       suspension: calcSuspension as any,
       speed: Number(calcSpeed),
       mountingType: calcMountingType as 'side' | 'central',
-      cylinderType: calcCylinderType === 'telescopic' ? `telescopic-${calcStages}` as any : 'standard',
+      cylinderType: calcCylinderType as any,
+      stages: Number(calcStages),
       ropeWeight: Number(calcRopeWeight),
-      buildingType: calcStartsPerHour
+      buildingType: calcStartsPerHour,
+      isSplit: calcIsSplit,
+      isExisting: calcIsExisting,
+      existingRamDiameter: Number(calcExistingRam),
+      existingWallThickness: Number(calcExistingThickness),
+      maxAmbientTemp: Number(calcMaxAmbientTemp),
+      travelFactor: Number(calcTravelFactor),
+      oilViscosity: calcOilViscosity,
     };
     
     let candidates = [];
