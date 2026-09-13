@@ -76,9 +76,10 @@ export default function PortalHubPage() {
           </Link>
 
           {/* Bayi Girişi Card */}
-          <Link
-            href="/portal/login"
+                    <a
+            href={process.env.NEXT_PUBLIC_CRM_API_URL ? `${process.env.NEXT_PUBLIC_CRM_API_URL}/login` : "https://portal.blainturkey.com.tr/login"}
             className="group relative bg-white/60 dark:bg-steel-900/40 backdrop-blur-xl border border-steel-200/60 dark:border-steel-800/60 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left overflow-hidden block"
+            target="_self"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-100 dark:bg-emerald-900/30 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
             <div className="relative z-10 flex flex-col h-full">
@@ -91,7 +92,7 @@ export default function PortalHubPage() {
                 Devam Et <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
               </div>
             </div>
-          </Link>
+          </a>
         </div>
 
         <div className="mt-12 text-center">
