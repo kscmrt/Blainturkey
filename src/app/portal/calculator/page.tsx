@@ -589,7 +589,7 @@ export default function CalculatorPage() {
                         <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'inherit', marginBottom: '0.2rem' }}>
                           {recommendedPowerUnit ? recommendedPowerUnit.model : "Özel Tank"}
                         </div>
-                        <div style={{ fontSize: '0.9rem', color: 'var(--muted-foreground, #64748b)' }}>Sistem yağ ihtiyacı: {calcResult.oilVolume} Lt</div>
+                        
                       </div>
                       <div style={{ marginTop: '1rem', padding: '0.5rem', background: 'var(--muted, #f8fafc)', borderRadius: '8px', fontSize: '0.85rem', color: 'inherit', fontWeight: 500 }}>
                         Piston Strok: {calcResult.stroke} mm
@@ -773,7 +773,7 @@ export default function CalculatorPage() {
                     `Kapasite: ${calcCapacity} kg (${calcSpeed} m/s, ${calcTravel} m)\n` +
                     `Valf Seçimi: ${recommendedValve}\n` +
                     `Motor Gücü: ${calcResult.motorPowerReq} kW\n` +
-                    `Yağ Hacmi: ${calcResult.oilVolume} Litre\n` +
+
                     `Piston: Ø${calcCylDiameter}x${calcCylThickness} mm\n` +
                     `Aksesuarlar: ${accessories.length > 0 ? accessories.join(', ') : 'Yok'}\n\n` +
                     `*-- TEKNİK ONAY --*\n` +
