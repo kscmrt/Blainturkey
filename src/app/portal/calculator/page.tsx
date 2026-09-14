@@ -212,7 +212,7 @@ export default function CalculatorPage() {
   
   return (
     <div className="min-h-screen bg-steel-50 text-steel-900 dark:bg-steel-950 dark:text-steel-100 flex items-center justify-center font-sans py-12">
-      <div className="w-full max-w-[1000px] p-6 sm:p-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="w-full max-w-[1300px] p-6 sm:p-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
         <Link href="/portal" className="group mb-8 sm:mb-12 flex items-center gap-2 text-sm font-semibold text-steel-500 transition-colors hover:text-indigo-600 dark:text-steel-400 dark:hover:text-indigo-400">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
           Geri Dön
@@ -221,9 +221,11 @@ export default function CalculatorPage() {
           Teknik Hesaplama.
         </h2>
         
-        <div className="flex flex-col gap-8">
-              {!calcResult ? (
-                <form onSubmit={handleCalculate} className="flex flex-col gap-6">
+
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start relative w-full">
+          
+          <div className="xl:col-span-5 w-full">
+                            <form onSubmit={handleCalculate} className="flex flex-col gap-6">
                   
                   {/* GRUP 1: Yük & Performans */}
                   <div className="rounded-2xl border border-steel-200/60 bg-white p-6 shadow-sm dark:border-steel-800/80 dark:bg-steel-900/50">
@@ -367,7 +369,7 @@ export default function CalculatorPage() {
                       </div>
 
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
-                        <div style={{ fontSize: '0.85rem', color: '#86868b', background: '#f5f5f7', padding: '1rem', borderRadius: '8px' }}>
+                        <div style={{ fontSize: '0.85rem', color: 'var(--muted-foreground, #64748b)', background: 'var(--muted, #f8fafc)', padding: '1rem', borderRadius: '8px' }}>
                           ℹ️ Sisteminiz için en uygun piston çapı ve et kalınlığı, girilen kuyu ve kapasite ölçülerine göre otomatik olarak hesaplanacaktır.
                         </div>
                       </div>
@@ -375,8 +377,8 @@ export default function CalculatorPage() {
                   </div>
 
                   {/* GRUP 5: Gelişmiş Parametreler (Opsiyonel) */}
-                  <details style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', border: '1px solid #e5e5ea', cursor: 'pointer' }}>
-                    <summary style={{ fontSize: '1.1rem', fontWeight: 600, color: '#1d1d1f', outline: 'none' }}>Gelişmiş Parametreler & Özel Durumlar</summary>
+                  <details style={{ background: 'var(--card, #fff)', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', border: '1px solid var(--border, #e2e8f0)', cursor: 'pointer' }}>
+                    <summary style={{ fontSize: '1.1rem', fontWeight: 600, color: 'inherit', outline: 'none' }}>Gelişmiş Parametreler & Özel Durumlar</summary>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginTop: '1.5rem' }}>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -413,7 +415,7 @@ export default function CalculatorPage() {
                       </div>
 
                       {calcIsExisting && (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', padding: '1rem', background: '#f5f5f7', borderRadius: '8px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', padding: '1rem', background: 'var(--muted, #f8fafc)', borderRadius: '8px' }}>
                           <div className="floating-input">
                             <input type="number" required={calcIsExisting} value={calcExistingRam} onChange={(e) => setCalcExistingRam(e.target.value)} />
                             <label>Mevcut Çap (mm)</label>
@@ -428,61 +430,77 @@ export default function CalculatorPage() {
                     </div>
                   </details>
 
-                  <button type="submit" className="minimal-submit">Hesapla</button>
+                  <button type="submit" style={{ marginTop: "1rem", width: "100%", background: "#1d1d1f", color: "var(--card, #fff)", border: "none", padding: "1.25rem", borderRadius: "12px", fontSize: "1.1rem", fontWeight: 600, cursor: "pointer", transition: "0.2s", boxShadow: "0 10px 20px rgba(0,0,0,0.1)" }}>Hesapla</button>
                 </form>
-              ) : (
-                <div style={{ animation: 'fadeUp 0.6s ease' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                    <h2 style={{ fontSize: '1.8rem', fontWeight: 700, margin: 0, color: '#1d1d1f', letterSpacing: '-0.5px' }}>Projenize Özel Konfigürasyon</h2>
-                    <button onClick={() => setCalcResult(null)} style={{ background: '#f5f5f7', border: 'none', color: '#1d1d1f', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500, transition: '0.2s' }}>← Değiştir</button>
+
+          </div>
+          
+          <div className="xl:col-span-7 w-full sticky top-8">
+            <div className="bg-white dark:bg-steel-900 rounded-3xl p-6 sm:p-10 shadow-xl border border-steel-200/60 dark:border-steel-800/80 w-full min-h-[400px]">
+              {!calcResult ? (
+                <div className="flex flex-col items-center justify-center h-full text-center opacity-60 m-auto mt-16">
+                  <div className="w-20 h-20 mb-6 bg-steel-100 dark:bg-steel-800 rounded-full flex items-center justify-center text-steel-400">
+                    <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                   </div>
-                  <p style={{ color: '#86868b', marginBottom: '2rem', fontSize: '1.05rem' }}>Mühendislik hesaplamaları tamamlandı. Sisteminiz için en uygun ve güvenli komponentler aşağıda listelenmiştir.</p>
+                  <h3 className="text-xl font-semibold text-steel-800 dark:text-steel-200 mb-2">Sistem Hesaplaması Bekleniyor</h3>
+                  <p className="text-sm text-steel-500 max-w-sm">
+                    Tüm değerleri sol taraftan yapılandırıp "Hesapla" butonuna bastığınızda, mühendislik onaylı valf, motor, debi ve piston sonuçlarına ulaşacaksınız.
+                  </p>
+                </div>
+              ) : (
+                <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                                  <div style={{ animation: 'fadeUp 0.6s ease' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                    <h2 style={{ fontSize: '1.8rem', fontWeight: 700, margin: 0, color: 'inherit', letterSpacing: '-0.5px' }}>Projenize Özel Konfigürasyon</h2>
+                    
+                  </div>
+                  <p style={{ color: 'var(--muted-foreground, #64748b)', marginBottom: '2rem', fontSize: '1.05rem' }}>Mühendislik hesaplamaları tamamlandı. Sisteminiz için en uygun ve güvenli komponentler aşağıda listelenmiştir.</p>
                   
 
 
                   {/* Estimated Price Banner removed as per user request */}
 
                   {/* Top Recommended Components */}
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: '#1d1d1f', marginBottom: '1rem' }}>Önerilen Ana Komponentler</h3>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: 'inherit', marginBottom: '1rem' }}>Önerilen Ana Komponentler</h3>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
                     {/* 1. Cylinder Card */}
-                    <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #e5e5ea', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div style={{ background: 'var(--card, #fff)', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid var(--border, #e2e8f0)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <div>
-                        <div style={{ fontSize: '0.8rem', color: '#86868b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Seçilen Piston</div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#1d1d1f', marginBottom: '0.2rem' }}>
+                        <div style={{ fontSize: '0.8rem', color: 'var(--muted-foreground, #64748b)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Seçilen Piston</div>
+                        <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'inherit', marginBottom: '0.2rem' }}>
                           Ø{calcCylDiameter}x{calcCylThickness}
                         </div>
-                        <div style={{ fontSize: '0.9rem', color: '#86868b' }}>{calcCylinderCount} Adet {calcCylinderType === 'standard' ? 'Standart' : 'Teleskopik'}</div>
+                        <div style={{ fontSize: '0.9rem', color: 'var(--muted-foreground, #64748b)' }}>{calcCylinderCount} Adet {calcCylinderType === 'standard' ? 'Standart' : 'Teleskopik'}</div>
                       </div>
-                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: '#f5f5f7', borderRadius: '8px', fontSize: '0.85rem', color: '#1d1d1f', fontWeight: 500 }}>
+                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: 'var(--muted, #f8fafc)', borderRadius: '8px', fontSize: '0.85rem', color: 'inherit', fontWeight: 500 }}>
                         Durum: {calcResult.isBucklingSafe ? 'Güvenli (Onaylı)' : 'Riskli'}
                       </div>
                     </div>
 
                     {/* 2. Pump Card */}
-                    <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #e5e5ea', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div style={{ background: 'var(--card, #fff)', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid var(--border, #e2e8f0)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <div>
-                        <div style={{ fontSize: '0.8rem', color: '#86868b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Pompa</div>
-                        <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#1d1d1f', marginBottom: '0.2rem' }}>
+                        <div style={{ fontSize: '0.8rem', color: 'var(--muted-foreground, #64748b)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Pompa</div>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'inherit', marginBottom: '0.2rem' }}>
                           {recommendedPump}
                         </div>
-                        <div style={{ fontSize: '0.9rem', color: '#86868b' }}>Minimum Debi: {calcResult.pumpFlow} L/dk</div>
+                        <div style={{ fontSize: '0.9rem', color: 'var(--muted-foreground, #64748b)' }}>Minimum Debi: {calcResult.pumpFlow} L/dk</div>
                       </div>
-                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: '#f5f5f7', borderRadius: '8px', fontSize: '0.85rem', color: '#1d1d1f', fontWeight: 500 }}>
+                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: 'var(--muted, #f8fafc)', borderRadius: '8px', fontSize: '0.85rem', color: 'inherit', fontWeight: 500 }}>
                         Sistem Debi Kapasitesi
                       </div>
                     </div>
 
                     {/* 3. Motor Card */}
-                    <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #e5e5ea', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div style={{ background: 'var(--card, #fff)', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid var(--border, #e2e8f0)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <div>
-                        <div style={{ fontSize: '0.8rem', color: '#86868b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Motor</div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#1d1d1f', marginBottom: '0.2rem' }}>
+                        <div style={{ fontSize: '0.8rem', color: 'var(--muted-foreground, #64748b)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Motor</div>
+                        <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'inherit', marginBottom: '0.2rem' }}>
                           {recommendedMotor} <span style={{fontSize:'1.2rem'}}>kW</span>
                         </div>
-                        <div style={{ fontSize: '0.9rem', color: '#86868b' }}>Minimum gereksinim: {calcResult.motorPowerReq} kW</div>
+                        <div style={{ fontSize: '0.9rem', color: 'var(--muted-foreground, #64748b)' }}>Minimum gereksinim: {calcResult.motorPowerReq} kW</div>
                       </div>
-                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: '#f5f5f7', borderRadius: '8px', fontSize: '0.85rem', color: '#1d1d1f', fontWeight: 500 }}>
+                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: 'var(--muted, #f8fafc)', borderRadius: '8px', fontSize: '0.85rem', color: 'inherit', fontWeight: 500 }}>
                         Statik Basınç: {calcResult.staticPressure} Bar
                       </div>
                     </div>
@@ -502,25 +520,25 @@ export default function CalculatorPage() {
                     </div>
 
                     {/* 5. Tank Card */}
-                    <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #e5e5ea', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div style={{ background: 'var(--card, #fff)', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid var(--border, #e2e8f0)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <div>
-                        <div style={{ fontSize: '0.8rem', color: '#86868b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Güç Ünitesi</div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#1d1d1f', marginBottom: '0.2rem' }}>
+                        <div style={{ fontSize: '0.8rem', color: 'var(--muted-foreground, #64748b)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Güç Ünitesi</div>
+                        <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'inherit', marginBottom: '0.2rem' }}>
                           {recommendedPowerUnit ? recommendedPowerUnit.model : "Özel Tank"}
                         </div>
-                        <div style={{ fontSize: '0.9rem', color: '#86868b' }}>Sistem yağ ihtiyacı: {calcResult.oilVolume} Lt</div>
+                        <div style={{ fontSize: '0.9rem', color: 'var(--muted-foreground, #64748b)' }}>Sistem yağ ihtiyacı: {calcResult.oilVolume} Lt</div>
                       </div>
-                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: '#f5f5f7', borderRadius: '8px', fontSize: '0.85rem', color: '#1d1d1f', fontWeight: 500 }}>
+                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: 'var(--muted, #f8fafc)', borderRadius: '8px', fontSize: '0.85rem', color: 'inherit', fontWeight: 500 }}>
                         Piston Strok: {calcResult.stroke} mm
                       </div>
                     </div>
                   </div>
 
                   {/* Component Selections */}
-                  <div style={{ marginBottom: '2rem', padding: '1.5rem', background: '#fff', borderRadius: '16px', border: '1px solid #e5e5ea', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+                  <div style={{ marginBottom: '2rem', padding: '1.5rem', background: 'var(--card, #fff)', borderRadius: '16px', border: '1px solid var(--border, #e2e8f0)', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                      <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: '#1d1d1f', margin: 0 }}>Opsiyonel Donanımlar (Aksesuarlar)</h3>
-                      <span style={{ fontSize: '0.85rem', color: '#86868b', background: '#f5f5f7', padding: '0.25rem 0.75rem', borderRadius: '20px' }}>Birden fazla seçilebilir</span>
+                      <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: 'inherit', margin: 0 }}>Opsiyonel Donanımlar (Aksesuarlar)</h3>
+                      <span style={{ fontSize: '0.85rem', color: 'var(--muted-foreground, #64748b)', background: 'var(--muted, #f8fafc)', padding: '0.25rem 0.75rem', borderRadius: '20px' }}>Birden fazla seçilebilir</span>
                     </div>
                     
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1rem' }}>
@@ -555,7 +573,7 @@ export default function CalculatorPage() {
                             <span style={{ fontSize: '0.8rem', color: item.state ? '#15803d' : '#86868b' }}>{item.desc}</span>
                           </div>
                           <div style={{ position: 'relative', width: '44px', height: '24px', background: item.state ? '#34c759' : '#e5e5ea', borderRadius: '12px', transition: '0.3s ease' }}>
-                            <div style={{ position: 'absolute', top: '2px', left: item.state ? '22px' : '2px', width: '20px', height: '20px', background: '#fff', borderRadius: '50%', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', transition: '0.3s ease' }} />
+                            <div style={{ position: 'absolute', top: '2px', left: item.state ? '22px' : '2px', width: '20px', height: '20px', background: 'var(--card, #fff)', borderRadius: '50%', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', transition: '0.3s ease' }} />
                           </div>
                           <input type="checkbox" checked={item.state} onChange={(e) => item.setter(e.target.checked)} style={{ display: 'none' }} />
                         </label>
@@ -564,44 +582,44 @@ export default function CalculatorPage() {
                   </div>
 
                   {/* Detailed Analysis Table Accordion */}
-                  <details style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e5ea', marginBottom: '2rem', overflow: 'hidden' }}>
-                    <summary style={{ padding: '1rem 1.5rem', background: '#f5f5f7', borderBottom: '1px solid #e5e5ea', fontWeight: 600, fontSize: '1rem', color: '#1d1d1f', cursor: 'pointer', outline: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <details style={{ background: 'var(--card, #fff)', borderRadius: '12px', border: '1px solid var(--border, #e2e8f0)', marginBottom: '2rem', overflow: 'hidden' }}>
+                    <summary style={{ padding: '1rem 1.5rem', background: 'var(--muted, #f8fafc)', borderBottom: '1px solid var(--border, #e2e8f0)', fontWeight: 600, fontSize: '1rem', color: 'inherit', cursor: 'pointer', outline: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       Teknik Parametreleri ve Analiz Detaylarını Göster
                     </summary>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: '1px solid #e5e5ea' }}>
-                        <span style={{ fontWeight: 500, color: '#86868b' }}>Piston Ağırlığı</span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: '1px solid var(--border, #e2e8f0)' }}>
+                        <span style={{ fontWeight: 500, color: 'var(--muted-foreground, #64748b)' }}>Piston Ağırlığı</span>
                         <div style={{ display: 'flex', gap: '1rem', minWidth: '150px', justifyContent: 'flex-end' }}>
                           <span style={{ fontWeight: 600 }}>{calcResult.ramWeight}</span>
-                          <span style={{ color: '#86868b' }}>kg</span>
+                          <span style={{ color: 'var(--muted-foreground, #64748b)' }}>kg</span>
                         </div>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: '1px solid #e5e5ea' }}>
-                        <span style={{ fontWeight: 500, color: '#86868b' }}>Boş Kabin Basıncı</span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: '1px solid var(--border, #e2e8f0)' }}>
+                        <span style={{ fontWeight: 500, color: 'var(--muted-foreground, #64748b)' }}>Boş Kabin Basıncı</span>
                         <div style={{ display: 'flex', gap: '1rem', minWidth: '150px', justifyContent: 'flex-end' }}>
                           <span style={{ fontWeight: 600 }}>{calcResult.pressureEmpty}</span>
-                          <span style={{ color: '#86868b' }}>Bar</span>
+                          <span style={{ color: 'var(--muted-foreground, #64748b)' }}>Bar</span>
                         </div>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: '1px solid #e5e5ea' }}>
-                        <span style={{ fontWeight: 500, color: '#86868b' }}>Gerçek Hız (Aşağı/Yukarı)</span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: '1px solid var(--border, #e2e8f0)' }}>
+                        <span style={{ fontWeight: 500, color: 'var(--muted-foreground, #64748b)' }}>Gerçek Hız (Aşağı/Yukarı)</span>
                         <div style={{ display: 'flex', gap: '1rem', minWidth: '150px', justifyContent: 'flex-end' }}>
                           <span style={{ fontWeight: 600 }}>{Number(calcResult.actualSpeed || calcSpeed).toFixed(2)}</span>
-                          <span style={{ color: '#86868b' }}>m/s</span>
+                          <span style={{ color: 'var(--muted-foreground, #64748b)' }}>m/s</span>
                         </div>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: '1px solid #e5e5ea' }}>
-                        <span style={{ fontWeight: 500, color: '#86868b' }}>Dinamik Basınç</span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: '1px solid var(--border, #e2e8f0)' }}>
+                        <span style={{ fontWeight: 500, color: 'var(--muted-foreground, #64748b)' }}>Dinamik Basınç</span>
                         <div style={{ display: 'flex', gap: '1rem', minWidth: '150px', justifyContent: 'flex-end' }}>
                           <span style={{ fontWeight: 600 }}>{calcResult.dynamicPressure}</span>
-                          <span style={{ color: '#86868b' }}>Bar</span>
+                          <span style={{ color: 'var(--muted-foreground, #64748b)' }}>Bar</span>
                         </div>
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem' }}>
-                        <span style={{ fontWeight: 500, color: '#86868b' }}>Kapalı Boy</span>
+                        <span style={{ fontWeight: 500, color: 'var(--muted-foreground, #64748b)' }}>Kapalı Boy</span>
                         <div style={{ display: 'flex', gap: '1rem', minWidth: '150px', justifyContent: 'flex-end' }}>
                           <span style={{ fontWeight: 600 }}>{calcResult.closedLen}</span>
-                          <span style={{ color: '#86868b' }}>mm</span>
+                          <span style={{ color: 'var(--muted-foreground, #64748b)' }}>mm</span>
                         </div>
                       </div>
                     </div>
@@ -614,10 +632,13 @@ export default function CalculatorPage() {
                   </button>
                 </div>
 
+
+                </div>
               )}
             </div>
-
-        {/* --- CONTACT MODAL --- */}
+          </div>
+          
+        </div>
         {showContactModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-steel-900/60 backdrop-blur-sm">
             <div className="w-full max-w-[500px] rounded-3xl bg-white p-8 shadow-2xl animate-in fade-in zoom-in-95 duration-200 dark:bg-steel-900">
