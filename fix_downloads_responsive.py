@@ -1,56 +1,17 @@
-'use client';
-import React, { useState, useMemo } from 'react';
-import { downloadsData } from '../../data/downloadsData';
+import os
+import re
 
-export default function DownloadsPage() {
-  const languages = [
-    "TÜMÜ", "TÜRKÇE", "ENGLISH", "DEUTSCH", "ESPAÑOL", "PORTUGUÊS", "FRANÇAIS", 
-    "ITALIANO", "POLSKI", "РУССКИЙ", "中文", "العربية", "فارسی"
-  ];
-  
-  const [activeLang, setActiveLang] = useState("TÜRKÇE");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [openCategories, setOpenCategories] = useState<number[]>([0, 1]); 
+path = 'src/app/downloads/page.tsx'
 
-  const isTurkish = activeLang === "TÜRKÇE" || activeLang === "TÜMÜ";
+with open(path, 'r', encoding='utf-8') as f:
+    text = f.read()
 
-  const toggleCategory = (idx: number) => {
-    if (openCategories.includes(idx)) {
-      setOpenCategories(openCategories.filter(i => i !== idx));
-    } else {
-      setOpenCategories([...openCategories, idx]);
-    }
-  };
+# I will replace the inline styled blocks with beautiful Tailwind blocks that support strict dark mode and are 100% mobile-responsive.
+# Wait, rather than precise regex on 100 blocks, I will just rewrite the `return (...)` block entirely.
+start = text.find('return (')
+end = text.rfind(';\\n}') + 1
 
-  // Filtered categories and total file count
-  const filteredCategories = useMemo(() => {
-    return downloadsData.map((category, idx) => {
-      const title = isTurkish ? category.titleTr : category.titleEn;
-      const files = category.files.filter(f => {
-        const matchesSearch = searchQuery.trim() === "" || 
-          f.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          category.titleTr.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          category.titleEn.toLowerCase().includes(searchQuery.toLowerCase());
-
-        const matchesLang = activeLang === "TÜMÜ" || !f.languages || f.languages.includes(activeLang);
-
-        return matchesSearch && matchesLang;
-      });
-
-      return {
-        ...category,
-        title,
-        files,
-        originalIndex: idx,
-      };
-    });
-  }, [activeLang, searchQuery, isTurkish]);
-
-  const totalFilesCount = useMemo(() => {
-    return filteredCategories.reduce((acc, cat) => acc + cat.files.length, 0);
-  }, [filteredCategories]);
-
-  return (
+tailwind_return = """return (
     <div className="min-h-screen bg-steel-50 text-steel-900 dark:bg-steel-950 dark:text-steel-100 flex flex-col font-sans mb-auto">
       
       {/* HERO SECTION */}
@@ -205,3 +166,11 @@ export default function DownloadsPage() {
     </div>
   );
 }
+"""
+
+new_text = text[:start] + tailwind_return
+
+with open(path, 'w', encoding='utf-8') as f:
+    f.write(new_text)
+
+print("Saved.")

@@ -513,98 +513,98 @@ export default function CalculatorPage() {
               ) : (
                 <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                                   <div style={{ animation: 'fadeUp 0.6s ease' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                    <h2 style={{ fontSize: '1.8rem', fontWeight: 700, margin: 0, color: 'inherit', letterSpacing: '-0.5px' }}>Projenize Özel Konfigürasyon</h2>
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl sm:text-3xl font-bold m-0 tracking-tight text-steel-900 dark:text-white">Projenize Özel Konfigürasyon</h2>
                     
                   </div>
-                  <p style={{ color: 'var(--muted-foreground, #64748b)', marginBottom: '2rem', fontSize: '1.05rem' }}>Mühendislik hesaplamaları tamamlandı. Sisteminiz için en uygun ve güvenli komponentler aşağıda listelenmiştir.</p>
+                  <p className="text-steel-600 dark:text-steel-400 mb-8 text-base sm:text-lg">Mühendislik hesaplamaları tamamlandı. Sisteminiz için en uygun ve güvenli komponentler aşağıda listelenmiştir.</p>
                   
 
 
                   {/* Estimated Price Banner removed as per user request */}
 
                   {/* Top Recommended Components */}
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: 'inherit', marginBottom: '1rem' }}>Önerilen Ana Komponentler</h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+                  <h3 className="text-lg sm:text-xl font-semibold mb-4 text-steel-900 dark:text-white">Önerilen Ana Komponentler</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                     {/* 1. Cylinder Card */}
-                    <div style={{ background: 'var(--card, #fff)', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid var(--border, #e2e8f0)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-5 sm:p-6 rounded-2xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
                       <div>
-                        <div style={{ fontSize: '0.8rem', color: 'var(--muted-foreground, #64748b)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Seçilen Piston</div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'inherit', marginBottom: '0.2rem' }}>
+                        <div className="text-xs uppercase tracking-wider text-steel-500 mb-2">Seçilen Piston</div>
+                        <div className="text-2xl sm:text-3xl font-bold mb-1 text-steel-900 dark:text-white">
                           Ø{calcCylDiameter}x{calcCylThickness}
                         </div>
-                        <div style={{ fontSize: '0.9rem', color: 'var(--muted-foreground, #64748b)' }}>{calcCylinderCount} Adet {calcCylinderType === 'standard' ? 'Standart' : 'Teleskopik'}</div>
+                        <div className="text-sm text-steel-500 dark:text-steel-400">{calcCylinderCount} Adet {calcCylinderType === 'standard' ? 'Standart' : 'Teleskopik'}</div>
                       </div>
-                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: 'var(--muted, #f8fafc)', borderRadius: '8px', fontSize: '0.85rem', color: 'inherit', fontWeight: 500 }}>
+                      <div className="mt-4 p-2.5 bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
                         Durum: {calcResult.isBucklingSafe ? 'Güvenli (Onaylı)' : 'Riskli'}
                       </div>
                     </div>
 
                     {/* 2. Pump Card */}
-                    <div style={{ background: 'var(--card, #fff)', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid var(--border, #e2e8f0)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-5 sm:p-6 rounded-2xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
                       <div>
-                        <div style={{ fontSize: '0.8rem', color: 'var(--muted-foreground, #64748b)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Pompa</div>
-                        <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'inherit', marginBottom: '0.2rem' }}>
+                        <div className="text-xs uppercase tracking-wider text-steel-500 mb-2">Pompa</div>
+                        <div className="text-lg sm:text-xl font-bold mb-1 text-steel-900 dark:text-white">
                           {recommendedPump}
                         </div>
-                        <div style={{ fontSize: '0.9rem', color: 'var(--muted-foreground, #64748b)' }}>Minimum Debi: {calcResult.pumpFlow} L/dk</div>
+                        <div className="text-sm text-steel-500 dark:text-steel-400">Minimum Debi: {calcResult.pumpFlow} L/dk</div>
                       </div>
-                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: 'var(--muted, #f8fafc)', borderRadius: '8px', fontSize: '0.85rem', color: 'inherit', fontWeight: 500 }}>
+                      <div className="mt-4 p-2.5 bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
                         Sistem Debi Kapasitesi
                       </div>
                     </div>
 
                     {/* 3. Motor Card */}
-                    <div style={{ background: 'var(--card, #fff)', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid var(--border, #e2e8f0)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-5 sm:p-6 rounded-2xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
                       <div>
-                        <div style={{ fontSize: '0.8rem', color: 'var(--muted-foreground, #64748b)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Motor</div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'inherit', marginBottom: '0.2rem' }}>
+                        <div className="text-xs uppercase tracking-wider text-steel-500 mb-2">Motor</div>
+                        <div className="text-2xl sm:text-3xl font-bold mb-1 text-steel-900 dark:text-white">
                           {recommendedMotor} <span style={{fontSize:'1.2rem'}}>kW</span>
                         </div>
-                        <div style={{ fontSize: '0.9rem', color: 'var(--muted-foreground, #64748b)' }}>Minimum gereksinim: {calcResult.motorPowerReq} kW</div>
+                        <div className="text-sm text-steel-500 dark:text-steel-400">Minimum gereksinim: {calcResult.motorPowerReq} kW</div>
                       </div>
-                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: 'var(--muted, #f8fafc)', borderRadius: '8px', fontSize: '0.85rem', color: 'inherit', fontWeight: 500 }}>
+                      <div className="mt-4 p-2.5 bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
                         Statik Basınç: {calcResult.staticPressure} Bar
                       </div>
                     </div>
 
                     {/* 4. Valve Card - Premium Look */}
-                    <div style={{ background: 'linear-gradient(145deg, #1d1d1f 0%, #434353 100%)', color: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.15)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div className="flex flex-col justify-between bg-gradient-to-br from-steel-900 to-steel-700 text-white p-5 sm:p-6 rounded-2xl shadow-lg border border-steel-700/50">
                       <div>
-                        <div style={{ fontSize: '0.8rem', color: '#a1a1a6', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Kontrol Valfi</div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 700, marginBottom: '0.2rem' }}>
+                        <div className="text-xs uppercase tracking-wider text-steel-400 mb-2">Kontrol Valfi</div>
+                        <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
                           {Number(calcResult?.pumpFlow || 0) < 125 ? 'EV100 3/4"' : Number(calcResult?.pumpFlow || 0) <= 800 ? 'EV100 1.5"' : 'EV100 2.5"'}
                         </div>
-                        <div style={{ fontSize: '0.9rem', color: '#d2d2d7' }}>Entegre sistem kontrolü</div>
+                        <div className="text-sm text-steel-300">Entegre sistem kontrolü</div>
                       </div>
-                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', fontSize: '0.85rem' }}>
+                      <div className="mt-4 p-2.5 bg-white/10 rounded-lg text-sm text-white font-medium">
                         Debi Kapasitesi: {calcResult.pumpFlow} L/dk
                       </div>
                     </div>
 
                     {/* 5. Tank Card */}
-                    <div style={{ background: 'var(--card, #fff)', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid var(--border, #e2e8f0)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-5 sm:p-6 rounded-2xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
                       <div>
-                        <div style={{ fontSize: '0.8rem', color: 'var(--muted-foreground, #64748b)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>Güç Ünitesi</div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'inherit', marginBottom: '0.2rem' }}>
+                        <div className="text-xs uppercase tracking-wider text-steel-500 mb-2">Güç Ünitesi</div>
+                        <div className="text-2xl sm:text-3xl font-bold mb-1 text-steel-900 dark:text-white">
                           {recommendedPowerUnit ? recommendedPowerUnit.model : "Özel Tank"}
                         </div>
                         
                       </div>
-                      <div style={{ marginTop: '1rem', padding: '0.5rem', background: 'var(--muted, #f8fafc)', borderRadius: '8px', fontSize: '0.85rem', color: 'inherit', fontWeight: 500 }}>
+                      <div className="mt-4 p-2.5 bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
                         Piston Strok: {calcResult.stroke} mm
                       </div>
                     </div>
                   </div>
 
                   {/* Component Selections */}
-                  <div style={{ marginBottom: '2rem', padding: '1.5rem', background: 'var(--card, #fff)', borderRadius: '16px', border: '1px solid var(--border, #e2e8f0)', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                      <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: 'inherit', margin: 0 }}>Opsiyonel Donanımlar (Aksesuarlar)</h3>
-                      <span style={{ fontSize: '0.85rem', color: 'var(--muted-foreground, #64748b)', background: 'var(--muted, #f8fafc)', padding: '0.25rem 0.75rem', borderRadius: '20px' }}>Birden fazla seçilebilir</span>
+                  <div className="mb-8 p-5 sm:p-6 bg-white dark:bg-steel-900 rounded-2xl border border-steel-200/60 dark:border-steel-800/60 shadow-sm">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+                      <h3 className="text-lg font-semibold text-steel-900 dark:text-white m-0">Opsiyonel Donanımlar (Aksesuarlar)</h3>
+                      <span className="text-xs self-start sm:self-auto font-medium text-steel-600 dark:text-steel-400 bg-steel-100 dark:bg-steel-800 px-3 py-1 rounded-full">Birden fazla seçilebilir</span>
                     </div>
                     
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1rem' }}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {[
                         { id: 'handpump', label: 'El Pompası', desc: 'Acil kurtarma', state: calcHandPump, setter: setCalcHandPump },
                         { id: 'ballvalve', label: 'Küresel Vana', desc: 'Bakım kolaylığı', state: calcBallValve, setter: setCalcBallValve },
