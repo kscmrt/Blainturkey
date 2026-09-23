@@ -58,6 +58,11 @@ export async function POST(req: Request) {
         const cylinderDimension = { p_max_mpa: cyl.p_max_mpa, inertia_cm4: cyl.inertia_cm4 };
         const res = performEngineeringCalculation(inputs, spec, undefined, trafficMap, catalogValues, cylinderDimension);
         
+        // Calculate basic cylinder price (fixed_cost + (strokeMeters * per_meter_cost)) * 1.508
+        const strokeMeters = (Number(inputs.travelDistance || 0) + Number(inputs.pitDepth || 0) + Number(inputs.topFloor || 0)) / 1000;
+        const baseCylPrice = (cyl.fixed_cost || 0) + (strokeMeters * (cyl.per_meter_cost || 0));
+        const totalCylPrice = baseCylPrice * 1.508;
+        
         const pEmpty = parseFloat(res.pressureEmpty as string);
         const pFull = parseFloat(res.pressureFull as string);
         const pLimit = cyl.p_max_mpa ? cyl.p_max_mpa * 10 : 59;
@@ -80,6 +85,7 @@ export async function POST(req: Request) {
           isViable: isBucklingSafe,
           reason,
           pLimit,
+          price: totalCylPrice,
           originalSpec: spec
         };
       });
