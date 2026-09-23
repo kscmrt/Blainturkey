@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     // Fetch base data based on type
     const [teleCyls, standardCyls, rules, traffic, pumps] = await Promise.all([
       isTelescopic ? supabase.from('telescopic_cylinders').select('*').order('diameter_mm') : Promise.resolve({ data: [] }),
-      !isTelescopic ? supabase.from('cylinder_dimensions').select('*').order('ram_diameter') : Promise.resolve({ data: [] }),
+      !isTelescopic ? supabase.from('cylinder_dimensions').select('*').order('ram_diameter').order('wall_thickness') : Promise.resolve({ data: [] }),
       isTelescopic ? supabase.from('reserve_stroke_rules').select('*') : Promise.resolve({ data: [] }),
       supabase.from('traffic_usage_factors').select('*'),
       supabase.from('pump_catalog').select('*')

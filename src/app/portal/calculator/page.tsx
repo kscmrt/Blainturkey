@@ -123,8 +123,11 @@ export default function CalculatorPage() {
           selectedCyl = { d: bestOpt.diameter, t: 5 }; // Mock t since it's not used
         } else {
           // Standard Cylinder Options
-          const viableOptions = data.options.filter((opt: any) => opt.isViable);
-          const bestOpt = viableOptions.length > 0 ? viableOptions[0] : data.options[data.options.length - 1]; // Fallback to largest if none viable
+          const viableOptions = data.options.filter((opt: any) => {
+            const isPressureSafe = !opt.warnings?.some((w: string) => w.includes("COAM katalog sınırını"));
+            return opt.isViable && isPressureSafe && Number(opt.staticPressure) < 70;
+          });
+          const bestOpt = viableOptions.length > 0 ? viableOptions[0] : data.options.filter((opt: any) => opt.isViable)[0] || data.options[data.options.length - 1]; // Fallback
 
           bestResult = bestOpt;
           selectedCyl = { d: bestOpt.originalSpec.d, t: bestOpt.originalSpec.t };
