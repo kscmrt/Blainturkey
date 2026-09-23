@@ -244,7 +244,7 @@ export default function CalculatorPage() {
           
           <div className="xl:col-span-5 w-full">
                                             <form onSubmit={handleCalculate} className="flex flex-col gap-3 h-full justify-between">
-                  <div className="rounded-2xl border border-steel-200/60 bg-white p-4 shadow-sm dark:border-steel-800/80 dark:bg-steel-900/50">
+                  <div className="rounded-[24px] border border-steel-100 bg-white p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:border-steel-800/80 dark:bg-steel-900/50">
                     <h3 className="mb-3 text-[13px] font-bold text-steel-900 dark:text-white uppercase tracking-wider flex items-center justify-between">
                       Proje Parametreleri
                       <span className="text-[10px] text-steel-400 font-normal normal-case">Tüm alanları doldurunuz</span>
@@ -254,20 +254,20 @@ export default function CalculatorPage() {
                       
                       {/* Yük ve Performans */}
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Kapasite (kg)</label>
-                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcCapacity} onChange={(e) => setCalcCapacity(e.target.value)} />
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Kapasite (kg)</label>
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcCapacity} onChange={(e) => setCalcCapacity(e.target.value)} />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Karkas (kg)</label>
-                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcCarcass} onChange={(e) => setCalcCarcass(e.target.value)} />
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Karkas (kg)</label>
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcCarcass} onChange={(e) => setCalcCarcass(e.target.value)} />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Kabin Hızı (m/s)</label>
-                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required step="0.01" value={calcSpeed} onChange={(e) => setCalcSpeed(e.target.value)} />
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Kabin Hızı (m/s)</label>
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required step="0.01" value={calcSpeed} onChange={(e) => setCalcSpeed(e.target.value)} />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Kalkış / Saat</label>
-                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcStartsPerHour} onChange={(e) => setCalcStartsPerHour(e.target.value)}>
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Kalkış / Saat</label>
+                        <select className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcStartsPerHour} onChange={(e) => setCalcStartsPerHour(e.target.value)}>
                           <option value="<5">&lt;5 (Düşük)</option>
                           <option value="5-15">5-15 (Orta)</option>
                           <option value="16-25">16-25 (Yüksek)</option>
@@ -278,45 +278,45 @@ export default function CalculatorPage() {
 
                       {/* Kuyu */}
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Seyir (mm)</label>
-                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcTravel} onChange={(e) => setCalcTravel(e.target.value)} />
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Seyir (mm)</label>
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcTravel} onChange={(e) => setCalcTravel(e.target.value)} />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Tampon (mm)</label>
-                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcBuffer} onChange={(e) => setCalcBuffer(e.target.value)} />
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Tampon (mm)</label>
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcBuffer} onChange={(e) => setCalcBuffer(e.target.value)} />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Son Kat (mm)</label>
-                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcTopFloor} onChange={(e) => setCalcTopFloor(e.target.value)} />
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Son Kat (mm)</label>
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcTopFloor} onChange={(e) => setCalcTopFloor(e.target.value)} />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Kuyu Dibi (mm)</label>
-                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcPitDepth} onChange={(e) => setCalcPitDepth(e.target.value)} />
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Kuyu Dibi (mm)</label>
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcPitDepth} onChange={(e) => setCalcPitDepth(e.target.value)} />
                       </div>
 
                       {/* Mekanik */}
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Askı Tipi</label>
-                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcSuspension} onChange={(e) => setCalcSuspension(e.target.value as any)}>
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Askı Tipi</label>
+                        <select className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcSuspension} onChange={(e) => setCalcSuspension(e.target.value as any)}>
                           <option value="1:1">1:1</option>
                           <option value="2:1">2:1</option>
                           <option value="4:1">4:1</option>
                         </select>
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Montaj Yönü</label>
-                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcMountingType} onChange={(e) => setCalcMountingType(e.target.value)}>
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Montaj Yönü</label>
+                        <select className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcMountingType} onChange={(e) => setCalcMountingType(e.target.value)}>
                           <option value="side">Yandan</option>
                           <option value="central">Merkezi</option>
                         </select>
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Halat Ağ. (kg)</label>
-                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcRopeWeight} onChange={(e) => setCalcRopeWeight(e.target.value)} />
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Halat Ağ. (kg)</label>
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcRopeWeight} onChange={(e) => setCalcRopeWeight(e.target.value)} />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Sil. Sayısı</label>
-                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcCylinderCount} onChange={(e) => setCalcCylinderCount(e.target.value)}>
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Sil. Sayısı</label>
+                        <select className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcCylinderCount} onChange={(e) => setCalcCylinderCount(e.target.value)}>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="4">4</option>
@@ -325,8 +325,8 @@ export default function CalculatorPage() {
 
                       {/* Silindir Seçenekleri */}
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Silindir Tipi</label>
-                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcCylinderType} onChange={(e) => setCalcCylinderType(e.target.value)}>
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Silindir Tipi</label>
+                        <select className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcCylinderType} onChange={(e) => setCalcCylinderType(e.target.value)}>
                           <option value="standard">Standart</option>
                           <option value="telescopic">Teleskopik</option>
                         </select>
@@ -334,16 +334,16 @@ export default function CalculatorPage() {
                       
                       {calcCylinderType === 'telescopic' ? (
                         <div className="flex flex-col gap-1">
-                          <label className="text-[10px] font-bold text-steel-500 uppercase">Tel. Kademe</label>
-                          <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcStages} onChange={(e) => setCalcStages(e.target.value)}>
+                          <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Tel. Kademe</label>
+                          <select className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcStages} onChange={(e) => setCalcStages(e.target.value)}>
                             <option value="2">2</option>
                             <option value="3">3</option>
                           </select>
                         </div>
                       ) : (
                         <div className="flex flex-col gap-1">
-                          <label className="text-[10px] font-bold text-steel-500 uppercase">Yönetmelik</label>
-                          <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={regulation} onChange={(e) => setRegulation(e.target.value as any)}>
+                          <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Yönetmelik</label>
+                          <select className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={regulation} onChange={(e) => setRegulation(e.target.value as any)}>
                             <option value="machine">Makine</option>
                             <option value="en81">EN81</option>
                           </select>
@@ -351,39 +351,39 @@ export default function CalculatorPage() {
                       )}
 
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Güç Ünitesi</label>
-                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcPowerUnitCount} onChange={(e) => setCalcPowerUnitCount(e.target.value)}>
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Güç Ünitesi</label>
+                        <select className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcPowerUnitCount} onChange={(e) => setCalcPowerUnitCount(e.target.value)}>
                           <option value="1">1 Adet</option>
                           <option value="2">2 Adet</option>
                         </select>
                       </div>
                       
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Bina Tipi (Ops.)</label>
-                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Bina Tipi (Ops.)</label>
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
                       </div>
 
                     </div>
                   </div>
 
                   {/* Gelişmiş */}
-                  <details className="rounded-2xl border border-steel-200/60 bg-white p-3 shadow-sm cursor-pointer group">
+                  <details className="rounded-[20px] border border-steel-100 bg-white p-4 shadow-[0_4px_20px_rgb(0,0,0,0.03)] cursor-pointer group">
                     <summary className="text-[12px] font-bold text-steel-900 outline-none select-none uppercase tracking-wider flex justify-between items-center">
                       Gelişmiş Parametreler & Mevcut Sistem
                       <span className="text-steel-400 group-open:rotate-180 transition-transform">▼</span>
                     </summary>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-3 mt-3 pt-3 border-t border-steel-100">
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Sıcaklık (°C)</label>
-                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900" type="number" value={calcMaxAmbientTemp} onChange={(e) => setCalcMaxAmbientTemp(e.target.value)} />
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Sıcaklık (°C)</label>
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900" type="number" value={calcMaxAmbientTemp} onChange={(e) => setCalcMaxAmbientTemp(e.target.value)} />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Frekans (%)</label>
-                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900" type="number" value={calcTravelFactor} onChange={(e) => setCalcTravelFactor(e.target.value)} />
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Frekans (%)</label>
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900" type="number" value={calcTravelFactor} onChange={(e) => setCalcTravelFactor(e.target.value)} />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-steel-500 uppercase">Viskozite</label>
-                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900" value={calcOilViscosity} onChange={(e) => setCalcOilViscosity(e.target.value)}>
+                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Viskozite</label>
+                        <select className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900" value={calcOilViscosity} onChange={(e) => setCalcOilViscosity(e.target.value)}>
                           <option value="32">VG 32</option><option value="46">VG 46</option><option value="68">VG 68</option>
                         </select>
                       </div>
@@ -406,19 +406,19 @@ export default function CalculatorPage() {
                       {calcIsExisting && (
                         <>
                           <div className="flex flex-col gap-1">
-                            <label className="text-[10px] font-bold text-steel-500 uppercase">Mevcut Çap (mm)</label>
-                            <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900" type="number" required={calcIsExisting} value={calcExistingRam} onChange={(e) => setCalcExistingRam(e.target.value)} />
+                            <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Mevcut Çap (mm)</label>
+                            <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900" type="number" required={calcIsExisting} value={calcExistingRam} onChange={(e) => setCalcExistingRam(e.target.value)} />
                           </div>
                           <div className="flex flex-col gap-1">
-                            <label className="text-[10px] font-bold text-steel-500 uppercase">Mevcut Et (mm)</label>
-                            <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900" type="number" required={calcIsExisting} value={calcExistingThickness} onChange={(e) => setCalcExistingThickness(e.target.value)} />
+                            <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Mevcut Et (mm)</label>
+                            <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900" type="number" required={calcIsExisting} value={calcExistingThickness} onChange={(e) => setCalcExistingThickness(e.target.value)} />
                           </div>
                         </>
                       )}
                     </div>
                   </details>
 
-                  <button type="submit" className="w-full bg-steel-900 hover:bg-steel-800 text-white border-none py-2.5 rounded-xl text-sm font-bold cursor-pointer transition-colors shadow-md mt-1">
+                  <button type="submit" className="w-full bg-steel-900 hover:bg-steel-800 text-white border-none py-2.5 rounded-[16px] text-sm font-semibold cursor-pointer transition-all shadow-[0_4px_14px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)] hover:-translate-y-0.5 mt-2">
                     Hesapla
                   </button>
                 </form>
@@ -454,7 +454,7 @@ export default function CalculatorPage() {
                   <h3 className="text-sm font-semibold mb-2 text-steel-900 dark:text-white">Önerilen Ana Komponentler</h3>
                   <div className="grid grid-cols-5 gap-2 mb-4">
                     {/* 1. Cylinder Card */}
-                    <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-lg shadow-sm border border-steel-200/60 dark:border-steel-800/60">
+                    <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-xl shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-steel-100 dark:border-steel-800/60">
                       <div className="text-[9px] uppercase tracking-wider text-steel-500 mb-0.5">Piston</div>
                       <div className="text-sm font-bold text-steel-900 dark:text-white">
                         {calcCylinderType === 'telescopic' ? (calcResult?.type || `T${calcStages}-${calcCylDiameter}...`) : `Ø${calcCylDiameter}x${calcCylThickness}`}
@@ -463,7 +463,7 @@ export default function CalculatorPage() {
                     </div>
 
                     {/* 2. Pump Card */}
-                    <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-lg shadow-sm border border-steel-200/60 dark:border-steel-800/60">
+                    <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-xl shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-steel-100 dark:border-steel-800/60">
                       <div className="text-[9px] uppercase tracking-wider text-steel-500 mb-0.5">Pompa</div>
                       <div className="text-sm font-bold text-steel-900 dark:text-white">
                         {recommendedPump}
@@ -472,7 +472,7 @@ export default function CalculatorPage() {
                     </div>
 
                     {/* 3. Motor Card */}
-                    <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-lg shadow-sm border border-steel-200/60 dark:border-steel-800/60">
+                    <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-xl shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-steel-100 dark:border-steel-800/60">
                       <div className="text-[9px] uppercase tracking-wider text-steel-500 mb-0.5">Motor</div>
                       <div className="text-sm font-bold text-steel-900 dark:text-white">
                         {recommendedMotor} kW
@@ -481,7 +481,7 @@ export default function CalculatorPage() {
                     </div>
 
                     {/* 4. Valve Card */}
-                    <div className="flex flex-col items-center text-center bg-steel-900 text-white p-2 rounded-lg shadow-sm border border-steel-800">
+                    <div className="flex flex-col items-center text-center bg-steel-900 text-white p-2 rounded-xl shadow-[0_4px_14px_rgba(0,0,0,0.2)] border border-steel-800">
                       <div className="text-[9px] uppercase tracking-wider text-steel-400 mb-0.5">Valf</div>
                       <div className="text-sm font-bold text-white">
                         {Number(calcResult?.pumpFlow || 0) < 125 ? 'EV100 3/4"' : Number(calcResult?.pumpFlow || 0) <= 800 ? 'EV100 1.5"' : 'EV100 2.5"'}
@@ -490,7 +490,7 @@ export default function CalculatorPage() {
                     </div>
 
                     {/* 5. Tank Card */}
-                    <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-lg shadow-sm border border-steel-200/60 dark:border-steel-800/60">
+                    <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-xl shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-steel-100 dark:border-steel-800/60">
                       <div className="text-[9px] uppercase tracking-wider text-steel-500 mb-0.5">Tank</div>
                       <div className="text-sm font-bold text-steel-900 dark:text-white">
                         {recommendedPowerUnit ? recommendedPowerUnit.model : "Özel"}
@@ -518,7 +518,7 @@ export default function CalculatorPage() {
                           { id: 'heater', label: 'Yağ Isıtıcı', state: calcHeater, setter: setCalcHeater },
                           { id: 'micro', label: 'Mikro Seviyeleme', state: calcMicroLevel, setter: setCalcMicroLevel }
                         ].map((item) => (
-                          <label key={item.id} className="flex items-center gap-1.5 cursor-pointer bg-steel-50 dark:bg-steel-800/50 px-2.5 py-1.5 rounded border border-steel-200 dark:border-steel-700 hover:bg-steel-100 transition-colors">
+                          <label key={item.id} className="flex items-center gap-1.5 cursor-pointer bg-steel-50 dark:bg-steel-800/50 px-2.5 py-1.5 rounded-lg border border-steel-100 dark:border-steel-700 hover:bg-steel-100/50 hover:border-steel-200 transition-all transition-colors">
                             <input type="checkbox" checked={item.state} onChange={(e) => item.setter(e.target.checked)} className="w-3.5 h-3.5 accent-brand-600" />
                             <span className="text-[11px] font-medium text-steel-700 dark:text-steel-300">{item.label}</span>
                           </label>
@@ -557,11 +557,7 @@ export default function CalculatorPage() {
                     </div>
                   </details>
                   
-                  <button onClick={() => setShowContactModal(true)} style={{ width: '100%', background: '#1d1d1f', color: '#fff', border: 'none', padding: '0.75rem', borderRadius: '12px', fontSize: '1.1rem', fontWeight: 600, cursor: 'pointer', transition: '0.2s', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}
-                     onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                     onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-                    Bu Konfigürasyon ile Resmi Teklif İste
-                  </button>
+                  <button onClick={() => setShowContactModal(true)} className="w-full bg-steel-900 hover:bg-steel-800 text-white border-none py-3 rounded-[16px] text-sm font-semibold cursor-pointer transition-all shadow-[0_4px_14px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)] hover:-translate-y-0.5">Bu Konfigürasyon ile Resmi Teklif İste</button>
                 </div>
 
 
