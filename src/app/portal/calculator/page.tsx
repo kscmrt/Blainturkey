@@ -445,7 +445,7 @@ export default function CalculatorPage() {
                       <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-xl shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-steel-100 dark:border-steel-800/60">
                         <div className="text-[9px] uppercase tracking-wider text-steel-500 mb-0.5">Piston</div>
                         <div className="text-sm font-bold text-steel-900 dark:text-white">
-                          {calcCylinderType === 'telescopic' ? (calcResult?.type || `T${calcStages}-${calcCylDiameter}...`) : `Ø${calcCylDiameter}x${calcCylThickness}`}
+                          {calcCylinderType === 'telescopic' ? (calcResult?.type || `T${calcStages}-${calcCylDiameter}...`) : `Ø${calcCylDiameter}x${calcCylThickness}x${calcResult?.stroke || ''}`}
                         </div>
                         <div className="text-[10px] text-steel-500">{calcCylinderCount} Adet</div>
                       </div>
@@ -484,7 +484,7 @@ export default function CalculatorPage() {
                       <div className="text-sm font-bold text-steel-900 dark:text-white">
                         {recommendedPowerUnit ? recommendedPowerUnit.model : "Özel"}
                       </div>
-                      <div className="text-[10px] text-steel-500">Strok {calcResult.stroke}</div>
+                      <div className="text-[10px] text-steel-500">1 Adet</div>
                     </div>
                   </div>
                   
