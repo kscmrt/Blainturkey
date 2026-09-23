@@ -229,19 +229,21 @@ export default function CalculatorPage() {
   return (
     <div className="min-h-[calc(100vh-80px)] bg-steel-50 text-steel-900 dark:bg-steel-950 dark:text-steel-100 flex items-start justify-center font-sans py-4 sm:py-6">
       <div className="w-full max-w-[1350px] px-4 sm:px-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-        <Link href="/portal" className="group mb-4 sm:mb-6 flex items-center gap-2 text-sm font-semibold text-steel-500 transition-colors hover:text-indigo-600 dark:text-steel-400 dark:hover:text-indigo-400">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-          Geri Dön
-        </Link>
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-steel-900 dark:text-white mb-4 sm:mb-6">
-          Teknik Hesaplama.
-        </h2>
+        <div className="flex items-center justify-between mb-4 sm:mb-5">
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-steel-900 dark:text-white">
+            Teknik Hesaplama.
+          </h2>
+          <Link href="/portal" className="group flex items-center gap-1.5 text-sm font-semibold text-steel-500 transition-colors hover:text-indigo-600 dark:text-steel-400 dark:hover:text-indigo-400">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Geri Dön
+          </Link>
+        </div>
         
 
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start relative w-full">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-stretch relative w-full">
           
           <div className="xl:col-span-5 w-full">
-                                            <form onSubmit={handleCalculate} className="flex flex-col gap-3">
+                                            <form onSubmit={handleCalculate} className="flex flex-col gap-3 h-full justify-between">
                   <div className="rounded-2xl border border-steel-200/60 bg-white p-4 shadow-sm dark:border-steel-800/80 dark:bg-steel-900/50">
                     <h3 className="mb-3 text-[13px] font-bold text-steel-900 dark:text-white uppercase tracking-wider flex items-center justify-between">
                       Proje Parametreleri
