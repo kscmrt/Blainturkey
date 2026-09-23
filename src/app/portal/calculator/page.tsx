@@ -89,9 +89,16 @@ export default function CalculatorPage() {
     let candidates = [];
     if (calcCylinderType === 'telescopic') {
       if (calcStages === '2') {
-        candidates = [ {d: 60, t: 5}, {d: 70, t: 5}, {d: 80, t: 5}, {d: 90, t: 5}, {d: 100, t: 6}, {d: 110, t: 6}, {d: 120, t: 6} ];
+        candidates = [ 
+          {d: 60, t: 5, type: 'T2-60-40'}, {d: 70, t: 5, type: 'T2-70-50'}, {d: 80, t: 5, type: 'T2-80-60'}, 
+          {d: 90, t: 5, type: 'T2-90-70'}, {d: 100, t: 6, type: 'T2-100-80'}, {d: 110, t: 6, type: 'T2-110-90'}, 
+          {d: 120, t: 6, type: 'T2-120-100'} 
+        ];
       } else {
-        candidates = [ {d: 70, t: 5}, {d: 90, t: 5}, {d: 110, t: 6}, {d: 130, t: 6} ];
+        candidates = [ 
+          {d: 70, t: 5, type: 'T3-70-50-30'}, {d: 90, t: 5, type: 'T3-90-70-50'}, 
+          {d: 110, t: 6, type: 'T3-110-90-70'}, {d: 130, t: 6, type: 'T3-130-110-90'} 
+        ];
       }
     } else {
       candidates = [
@@ -546,7 +553,7 @@ export default function CalculatorPage() {
                       <div>
                         <div className="text-xs uppercase tracking-wider text-steel-500 mb-2">Seçilen Piston</div>
                         <div className="text-2xl sm:text-3xl font-bold mb-1 text-steel-900 dark:text-white">
-                          Ø{calcCylDiameter}x{calcCylThickness}
+                          {calcCylinderType === 'telescopic' ? (calcResult?.type || `T${calcStages}-${calcCylDiameter}...`) : `Ø${calcCylDiameter}x${calcCylThickness}`}
                         </div>
                         <div className="text-sm text-steel-500 dark:text-steel-400">{calcCylinderCount} Adet {calcCylinderType === 'standard' ? 'Standart' : 'Teleskopik'}</div>
                       </div>

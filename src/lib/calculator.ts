@@ -587,7 +587,7 @@ export function performEngineeringCalculation(
         milCap: isTelescopic ? `T${stages}-${D}` : (D - 2 * t).toFixed(1),
         disCap: D,
         etKalinlik: t,
-        type: isTelescopic ? `Teleskopik ${stages} Kademe (Ø${D}...)` : cylinderSpec.type,
+        type: isTelescopic ? (cylinderSpec.type || `Teleskopik ${stages} Kademe (Ø${D}...)`) : cylinderSpec.type,
         isTelescopic,
         usageFactors,
         warnings,
