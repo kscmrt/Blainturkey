@@ -439,7 +439,7 @@ export default function CalculatorPage() {
 
                   {/* Top Recommended Components */}
                   <h3 className="text-sm font-semibold mb-2 text-steel-900 dark:text-white">Önerilen Ana Komponentler</h3>
-                  <div className="grid grid-cols-5 gap-2 mb-4">
+                  <div className={`grid ${calcIsExisting ? "grid-cols-4" : "grid-cols-5"} gap-2 mb-4`}>
                     {/* 1. Cylinder Card */}
                     <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-xl shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-steel-100 dark:border-steel-800/60">
                       <div className="text-[9px] uppercase tracking-wider text-steel-500 mb-0.5">Piston</div>
