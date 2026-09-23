@@ -125,7 +125,7 @@ export default function CalculatorPage() {
           // Standard Cylinder Options
           const viableOptions = data.options.filter((opt: any) => {
             const isPressureSafe = !opt.warnings?.some((w: string) => w.includes("COAM katalog sınırını"));
-            return opt.isViable && isPressureSafe && Number(opt.staticPressure) < 70;
+            return opt.isViable && isPressureSafe;
           });
           const bestOpt = viableOptions.length > 0 ? viableOptions[0] : data.options.filter((opt: any) => opt.isViable)[0] || data.options[data.options.length - 1]; // Fallback
 
