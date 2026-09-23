@@ -114,16 +114,29 @@ export default function CalculatorPage() {
     let bestResult = null;
     let selectedCyl = candidates[candidates.length - 1]; // Default to largest if none safe
 
+    const validOptions = [];
+
     for (const cyl of candidates) {
       const spec = { d: cyl.d, t: cyl.t };
       const result = calc.performEngineeringCalculation(inputs, spec);
       
       // We look for a safe buckling factor and reasonable static pressure (e.g. < 60 bar)
       if (result && !result.error && result.isBucklingSafe && Number(result.staticPressure) < 70) {
-        bestResult = result;
-        selectedCyl = cyl;
-        break; // Found the smallest suitable cylinder!
+        // Calculate weight proxy for price estimation: Cross-sectional area ~ (D - t) * t
+        const weightProxy = (cyl.d - cyl.t) * cyl.t;
+        validOptions.push({
+          cyl,
+          result,
+          weightProxy
+        });
       }
+    }
+
+    if (validOptions.length > 0) {
+      // Sort by weightProxy (price) ascending, just like sonproje does
+      validOptions.sort((a, b) => a.weightProxy - b.weightProxy);
+      bestResult = validOptions[0].result;
+      selectedCyl = validOptions[0].cyl;
     }
 
     if (!bestResult) {
