@@ -450,7 +450,7 @@ export default function CalculatorPage() {
 
                   {/* Top Recommended Components */}
                   <h3 className="text-lg sm:text-xl font-semibold mb-4 text-steel-900 dark:text-white">Önerilen Ana Komponentler</h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                  <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-4">
                     {/* 1. Cylinder Card */}
                     <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-3 sm:p-4 rounded-xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
                       <div>
@@ -570,7 +570,7 @@ export default function CalculatorPage() {
                   </div>
 
                   {/* Detailed Analysis Table Accordion */}
-                  <details style={{ background: 'var(--card, #fff)', borderRadius: '12px', border: '1px solid var(--border, #e2e8f0)', marginBottom: '2rem', overflow: 'hidden' }}>
+                  <details style={{ background: 'var(--card, #fff)', borderRadius: '12px', border: '1px solid var(--border, #e2e8f0)', marginBottom: '1rem', overflow: 'hidden' }}>
                     <summary style={{ padding: '1rem 1.5rem', background: 'var(--muted, #f8fafc)', borderBottom: '1px solid var(--border, #e2e8f0)', fontWeight: 600, fontSize: '1rem', color: 'inherit', cursor: 'pointer', outline: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       Teknik Parametreleri ve Analiz Detaylarını Göster
                     </summary>
