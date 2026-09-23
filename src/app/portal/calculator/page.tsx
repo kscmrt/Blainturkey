@@ -227,13 +227,13 @@ export default function CalculatorPage() {
 
   
   return (
-    <div className="min-h-screen bg-steel-50 text-steel-900 dark:bg-steel-950 dark:text-steel-100 flex items-center justify-center font-sans py-12">
-      <div className="w-full max-w-[1300px] p-6 sm:p-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-        <Link href="/portal" className="group mb-8 sm:mb-12 flex items-center gap-2 text-sm font-semibold text-steel-500 transition-colors hover:text-indigo-600 dark:text-steel-400 dark:hover:text-indigo-400">
+    <div className="min-h-[calc(100vh-80px)] bg-steel-50 text-steel-900 dark:bg-steel-950 dark:text-steel-100 flex items-start justify-center font-sans py-4 sm:py-6">
+      <div className="w-full max-w-[1350px] px-4 sm:px-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <Link href="/portal" className="group mb-4 sm:mb-6 flex items-center gap-2 text-sm font-semibold text-steel-500 transition-colors hover:text-indigo-600 dark:text-steel-400 dark:hover:text-indigo-400">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
           Geri Dön
         </Link>
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-steel-900 dark:text-white mb-8 sm:mb-12">
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-steel-900 dark:text-white mb-4 sm:mb-6">
           Teknik Hesaplama.
         </h2>
         
@@ -423,7 +423,7 @@ export default function CalculatorPage() {
 
           </div>
           
-          <div className="xl:col-span-7 w-full sticky top-8">
+          <div className="xl:col-span-7 w-full sticky top-4">
             <div className="bg-white dark:bg-steel-900 rounded-3xl p-4 sm:p-5 shadow-xl border border-steel-200/60 dark:border-steel-800/80 w-full min-h-[400px]">
               {!calcResult ? (
                 <div className="flex flex-col items-center justify-center h-full text-center opacity-60 m-auto mt-16">
