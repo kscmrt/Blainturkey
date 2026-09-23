@@ -88,9 +88,6 @@ export default function CalculatorPage() {
     
     let bestResult = null;
     let selectedCyl: any = { d: 100, t: 5 };
-    let bestResult = null;
-    let selectedCyl: any = { d: 100, t: 5 };
-
     try {
       const res = await fetch('/api/calculate', {
         method: 'POST',
