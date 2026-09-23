@@ -88,20 +88,22 @@ export default function CalculatorPage() {
     
     let bestResult = null;
     let selectedCyl: any = { d: 100, t: 5 };
+    let bestResult = null;
+    let selectedCyl: any = { d: 100, t: 5 };
 
-    if (calcCylinderType === 'telescopic') {
-      try {
-        const res = await fetch('/api/calculate-telescopic', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ inputs })
-        });
-        const data = await res.json();
-        
-        if (data.options && data.options.length > 0) {
+    try {
+      const res = await fetch('/api/calculate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ inputs })
+      });
+      const data = await res.json();
+      
+      if (data.options && data.options.length > 0) {
+        if (data.isTelescopic) {
           // Find the first viable option
           const viableOptions = data.options.filter((opt: any) => opt.isViable && opt.pressureEmpty >= 8 && opt.pressureFull <= (opt.pressureLimit || 59));
-          const bestOpt = viableOptions.length > 0 ? viableOptions[0] : data.options[data.options.length - 1]; // Fallback to last if none viable
+          const bestOpt = viableOptions.length > 0 ? viableOptions[0] : data.options[data.options.length - 1]; // Fallback
           
           bestResult = {
             type: `Teleskopik ${bestOpt.model} (${bestOpt.stages} Kademe) - ${bestOpt.stability}`,
@@ -117,50 +119,17 @@ export default function CalculatorPage() {
             warnings: bestOpt.isViable ? [] : [bestOpt.reason],
           };
           selectedCyl = { d: bestOpt.diameter, t: 5 }; // Mock t since it's not used
-        }
-      } catch (err) {
-        console.error("Telescopic calculation error:", err);
-      }
-    } else {
-      let candidates = [
-        {d: 50, t: 5}, {d: 60, t: 5}, {d: 63, t: 6},
-        {d: 70, t: 5}, {d: 70, t: 6}, {d: 70, t: 7.5},
-        {d: 80, t: 5}, {d: 80, t: 7.5}, {d: 80, t: 10},
-        {d: 85, t: 5}, {d: 85, t: 7.5},
-        {d: 90, t: 5}, {d: 90, t: 7.5}, {d: 90, t: 10},
-        {d: 95, t: 5}, {d: 95, t: 7.5},
-        {d: 100, t: 5}, {d: 100, t: 7.5}, {d: 100, t: 10}, {d: 100, t: 12},
-        {d: 110, t: 5}, {d: 110, t: 7.5}, {d: 110, t: 10}, {d: 110, t: 12},
-        {d: 120, t: 5}, {d: 120, t: 7.5}, {d: 120, t: 10}, {d: 120, t: 12},
-        {d: 130, t: 5},
-        {d: 140, t: 7.5}, {d: 140, t: 10}, {d: 140, t: 14},
-        {d: 150, t: 10}, {d: 160, t: 10}, {d: 170, t: 8.6},
-        {d: 180, t: 10}, {d: 200, t: 12}, {d: 250, t: 15}
-      ];
+        } else {
+          // Standard Cylinder Options
+          const viableOptions = data.options.filter((opt: any) => opt.isViable);
+          const bestOpt = viableOptions.length > 0 ? viableOptions[0] : data.options[data.options.length - 1]; // Fallback to largest if none viable
 
-      selectedCyl = candidates[candidates.length - 1]; // Default to largest if none safe
-
-      for (const cyl of candidates) {
-        const spec = { d: cyl.d, t: cyl.t };
-        const dimKey = `${cyl.d}x${cyl.t}`;
-        const cylinderDimension = calc.COAM_LIMITS ? calc.COAM_LIMITS[dimKey] : undefined;
-        const result = calc.performEngineeringCalculation(inputs, spec, undefined, undefined, undefined, cylinderDimension);
-        
-        // We look for a safe buckling factor and reasonable static pressure (e.g. < 70 bar)
-        const isPressureSafe = !result?.warnings?.some((w: string) => w.includes("COAM katalog sınırını"));
-        if (result && !result.error && result.isBucklingSafe && isPressureSafe && Number(result.staticPressure) < 70) {
-          bestResult = result;
-          selectedCyl = cyl;
-          break; // Found the smallest suitable cylinder!
+          bestResult = bestOpt;
+          selectedCyl = { d: bestOpt.originalSpec.d, t: bestOpt.originalSpec.t };
         }
       }
-
-      if (!bestResult) {
-        // If none are fully safe, just calculate with the largest one so we show something
-        const dimKey = `${selectedCyl.d}x${selectedCyl.t}`;
-        const cylinderDimension = calc.COAM_LIMITS ? calc.COAM_LIMITS[dimKey] : undefined;
-        bestResult = calc.performEngineeringCalculation(inputs, { d: selectedCyl.d, t: selectedCyl.t }, undefined, undefined, undefined, cylinderDimension);
-      }
+    } catch (err) {
+      console.error("Calculation error:", err);
     }
 
     setCalcCylDiameter(selectedCyl.d.toString());
