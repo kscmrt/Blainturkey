@@ -96,6 +96,11 @@ export default function CalculatorPage() {
       });
       const data = await res.json();
       
+      if (data.error) {
+        alert("API Hatası: " + data.error + "\n(Vercel Environment Variables ayarlanmamış veya geçerli değil olabilir. Ayarları ekledikten sonra Vercel'den 'Redeploy' yapmayı unutmayın!)");
+        return;
+      }
+
       if (data.options && data.options.length > 0) {
         if (data.isTelescopic) {
           // Find the first viable option
