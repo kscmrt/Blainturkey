@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       traffic.data.forEach(t => trafficMap[t.building_type_key] = t);
     }
 
-    let catalogValues = [];
+    let catalogValues: number[] = [];
     if (pumps.data) {
       catalogValues = pumps.data.map(p => Number(p.flow_lpm)).sort((a, b) => a - b);
     }
