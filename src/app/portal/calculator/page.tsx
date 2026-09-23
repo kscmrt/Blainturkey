@@ -137,7 +137,7 @@ export default function CalculatorPage() {
     
     // Auto-recommend valve
     const pFlow = Number(bestResult?.pumpFlow || 0);
-    const recommendedValve = pFlow < 125 ? '3/4" (EV100)' : pFlow <= 800 ? '1.5" / 2" (EV100)' : '2.5" (EV100)';
+    const recommendedValve = pFlow < 125 ? 'EV100 3/4"' : pFlow <= 800 ? 'EV100 1.5"' : 'EV100 2.5"';
     setCalcUserValve(recommendedValve);
 
     // Fetch live estimated price from CRM
@@ -192,7 +192,7 @@ export default function CalculatorPage() {
 
   const standardMotors = useMemo(() => [...new Set(RAW_MOTORS.map(m => Number(m.power_kw)))].sort((a, b) => a - b), []);
   const standardPumps = useMemo(() => RAW_PUMPS.map(p => ({
-    desc: p.description,
+    desc: `SEIM PA ${p.flow_rate}`, // CRM ile birebir aynı isimlendirme
     flow: Number(p.flow_rate)
   })).sort((a, b) => a.flow - b.flow), []);
 
