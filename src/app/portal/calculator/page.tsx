@@ -373,20 +373,7 @@ export default function CalculatorPage() {
                       <span className="text-steel-400 group-open:rotate-180 transition-transform">▼</span>
                     </summary>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-3 mt-3 pt-3 border-t border-steel-100">
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Sıcaklık (°C)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900" type="number" value={calcMaxAmbientTemp} onChange={(e) => setCalcMaxAmbientTemp(e.target.value)} />
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Frekans (%)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900" type="number" value={calcTravelFactor} onChange={(e) => setCalcTravelFactor(e.target.value)} />
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Viskozite</label>
-                        <select className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900" value={calcOilViscosity} onChange={(e) => setCalcOilViscosity(e.target.value)}>
-                          <option value="32">VG 32</option><option value="46">VG 46</option><option value="68">VG 68</option>
-                        </select>
-                      </div>
+                      
 
                       <div className="col-span-2 sm:col-span-4">
                         <div className="flex flex-wrap gap-4">
