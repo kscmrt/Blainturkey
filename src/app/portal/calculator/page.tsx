@@ -241,281 +241,190 @@ export default function CalculatorPage() {
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start relative w-full">
           
           <div className="xl:col-span-5 w-full">
-                            <form onSubmit={handleCalculate} className="flex flex-col gap-6">
-                  
-                  {/* GRUP 1: Yük & Performans */}
-                  <div className="rounded-2xl border border-steel-200/60 bg-white p-6 shadow-sm dark:border-steel-800/80 dark:bg-steel-900/50">
-                    <h3 className="mb-6 border-b border-steel-100 pb-3 text-lg font-bold text-steel-900 dark:border-steel-800 dark:text-white">Yük & Performans</h3>
-                    <div className="flex flex-col gap-6">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Kapasite (kg)</label>
-  <input className="w-full rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" type="number" required value={calcCapacity} onChange={(e) => setCalcCapacity(e.target.value)} />
-</div>
-                        <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Karkas Ağırlığı (kg)</label>
-  <input className="w-full rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" type="number" required value={calcCarcass} onChange={(e) => setCalcCarcass(e.target.value)} />
-</div>
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Kabin Hızı (m/s)</label>
-  <input className="w-full rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" type="number" required step="0.01" value={calcSpeed} onChange={(e) => setCalcSpeed(e.target.value)} />
-</div>
-                        <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Motor Kalkış (Saat)</label>
-  <div className="relative">
-      <select className="w-full appearance-none rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" required value={calcStartsPerHour} onChange={(e) =>
-       setCalcStartsPerHour(e.target.value)}>
-                            <option value="<5">&lt;5 (Düşük Yoğunluk)</option>
-                            <option value="5-15">5-15 (Orta)</option>
-                            <option value="16-25">16-25 (Yüksek)</option>
-                            <option value="26-35">26-35 (Çok Yüksek)</option>
-                            <option value="36+">36+ (Aşırı Yoğun)</option>
-                          
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-steel-500">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-      </div>
-  </div>
-</div>
-                      </div>
+                                            <form onSubmit={handleCalculate} className="flex flex-col gap-3">
+                  <div className="rounded-2xl border border-steel-200/60 bg-white p-4 shadow-sm dark:border-steel-800/80 dark:bg-steel-900/50">
+                    <h3 className="mb-3 text-[13px] font-bold text-steel-900 dark:text-white uppercase tracking-wider flex items-center justify-between">
+                      Proje Parametreleri
+                      <span className="text-[10px] text-steel-400 font-normal normal-case">Tüm alanları doldurunuz</span>
+                    </h3>
+                    
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-3">
                       
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Yönetmelik</label>
-  <div className="relative">
-      <select className="w-full appearance-none rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" required value={regulation} onChange={(e) =>
-       setRegulation(e.target.value as any)}>
-                            <option value="machine">Makine Direktifi</option>
-                            <option value="en81">TS EN 81-20/50</option>
-                          
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-steel-500">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-      </div>
-  </div>
-</div>
-                        <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Bina Tipi (Örn: Konut, Hastane)</label>
-  <input className="w-full rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="Opsiyonel" />
-</div>
+                      {/* Yük ve Performans */}
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Kapasite (kg)</label>
+                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcCapacity} onChange={(e) => setCalcCapacity(e.target.value)} />
                       </div>
-                    </div>
-                  </div>
-
-                  {/* GRUP 2: Kuyu Ölçüleri */}
-                  <div className="rounded-2xl border border-steel-200/60 bg-white p-6 shadow-sm dark:border-steel-800/80 dark:bg-steel-900/50">
-                    <h3 className="mb-6 border-b border-steel-100 pb-3 text-lg font-bold text-steel-900 dark:border-steel-800 dark:text-white">Kuyu Ölçüleri</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Seyir Mesafesi (mm)</label>
-  <input className="w-full rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" type="number" required value={calcTravel} onChange={(e) => setCalcTravel(e.target.value)} />
-</div>
-                      <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Tampon Mesafesi (mm)</label>
-  <input className="w-full rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" type="number" required value={calcBuffer} onChange={(e) => setCalcBuffer(e.target.value)} />
-</div>
-                      <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Son Kat (mm)</label>
-  <input className="w-full rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" type="number" required value={calcTopFloor} onChange={(e) => setCalcTopFloor(e.target.value)} />
-</div>
-                      <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Kuyu Dibi (mm)</label>
-  <input className="w-full rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" type="number" required value={calcPitDepth} onChange={(e) => setCalcPitDepth(e.target.value)} />
-</div>
-                    </div>
-                  </div>
-
-                  {/* GRUP 3: Mekanik Yapı */}
-                  <div className="rounded-2xl border border-steel-200/60 bg-white p-6 shadow-sm dark:border-steel-800/80 dark:bg-steel-900/50">
-                    <h3 className="mb-6 border-b border-steel-100 pb-3 text-lg font-bold text-steel-900 dark:border-steel-800 dark:text-white">Mekanik Yapı</h3>
-                    <div className="flex flex-col gap-6">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Askı Tipi</label>
-  <div className="relative">
-      <select className="w-full appearance-none rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" required value={calcSuspension} onChange={(e) =>
-       setCalcSuspension(e.target.value as any)}>
-                            <option value="1:1">1:1</option>
-                            <option value="2:1">2:1</option>
-                            <option value="4:1">4:1</option>
-                          
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-steel-500">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-      </div>
-  </div>
-</div>
-                        <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Montaj Yönü</label>
-  <div className="relative">
-      <select className="w-full appearance-none rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" required value={calcMountingType} onChange={(e) =>
-       setCalcMountingType(e.target.value)}>
-                            <option value="side">Yandan Süspansiyon</option>
-                            <option value="central">Merkezi / Alttan</option>
-                          
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-steel-500">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-      </div>
-  </div>
-</div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Karkas (kg)</label>
+                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcCarcass} onChange={(e) => setCalcCarcass(e.target.value)} />
                       </div>
-                      
-                      <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Halat / Kasnak Ağırlığı Toplamı (kg)</label>
-  <input className="w-full rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" type="number" required value={calcRopeWeight} onChange={(e) => setCalcRopeWeight(e.target.value)} />
-</div>
-                    </div>
-                  </div>
-
-                  {/* GRUP 4: Piston Bilgileri */}
-                  <div className="rounded-2xl border border-steel-200/60 bg-white p-6 shadow-sm dark:border-steel-800/80 dark:bg-steel-900/50">
-                    <h3 className="mb-6 border-b border-steel-100 pb-3 text-lg font-bold text-steel-900 dark:border-steel-800 dark:text-white">Silindir / Piston Değerleri</h3>
-                    <div className="flex flex-col gap-6">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Piston Sayısı</label>
-  <div className="relative">
-      <select className="w-full appearance-none rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" required value={calcCylinderCount} onChange={(e) =>
-       setCalcCylinderCount(e.target.value)}>
-                            <option value="1">1 Piston</option>
-                            <option value="2">2 Piston</option>
-                            <option value="4">4 Piston</option>
-                          
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-steel-500">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-      </div>
-  </div>
-</div>
-                        <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Silindir Tipi</label>
-  <div className="relative">
-      <select className="w-full appearance-none rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" required value={calcCylinderType} onChange={(e) =>
-       setCalcCylinderType(e.target.value)}>
-                            <option value="standard">Standart (Tek Parça)</option>
-                            <option value="telescopic">Teleskopik</option>
-                          
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-steel-500">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-      </div>
-  </div>
-</div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Kabin Hızı (m/s)</label>
+                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required step="0.01" value={calcSpeed} onChange={(e) => setCalcSpeed(e.target.value)} />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Kalkış / Saat</label>
+                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcStartsPerHour} onChange={(e) => setCalcStartsPerHour(e.target.value)}>
+                          <option value="<5">&lt;5 (Düşük)</option>
+                          <option value="5-15">5-15 (Orta)</option>
+                          <option value="16-25">16-25 (Yüksek)</option>
+                          <option value="26-35">26-35 (Çok)</option>
+                          <option value="36+">36+ (Aşırı)</option>
+                        </select>
                       </div>
 
-                      {calcCylinderType === 'telescopic' && (
-                        <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Teleskopik Kademe Sayısı</label>
-  <div className="relative">
-      <select className="w-full appearance-none rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" required value={calcStages} onChange={(e) =>
-       setCalcStages(e.target.value)}>
-                            <option value="2">2 Kademeli</option>
-                            <option value="3">3 Kademeli</option>
-                          
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-steel-500">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-      </div>
-  </div>
-</div>
-                      )}
+                      {/* Kuyu */}
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Seyir (mm)</label>
+                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcTravel} onChange={(e) => setCalcTravel(e.target.value)} />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Tampon (mm)</label>
+                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcBuffer} onChange={(e) => setCalcBuffer(e.target.value)} />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Son Kat (mm)</label>
+                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcTopFloor} onChange={(e) => setCalcTopFloor(e.target.value)} />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Kuyu Dibi (mm)</label>
+                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcPitDepth} onChange={(e) => setCalcPitDepth(e.target.value)} />
+                      </div>
 
-                      <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Güç Ünitesi Sayısı</label>
-  <div className="relative">
-      <select className="w-full appearance-none rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" required value={calcPowerUnitCount} onChange={(e) =>
-       setCalcPowerUnitCount(e.target.value)}>
+                      {/* Mekanik */}
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Askı Tipi</label>
+                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcSuspension} onChange={(e) => setCalcSuspension(e.target.value as any)}>
+                          <option value="1:1">1:1</option>
+                          <option value="2:1">2:1</option>
+                          <option value="4:1">4:1</option>
+                        </select>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Montaj Yönü</label>
+                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcMountingType} onChange={(e) => setCalcMountingType(e.target.value)}>
+                          <option value="side">Yandan</option>
+                          <option value="central">Merkezi</option>
+                        </select>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Halat Ağ. (kg)</label>
+                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcRopeWeight} onChange={(e) => setCalcRopeWeight(e.target.value)} />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Sil. Sayısı</label>
+                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcCylinderCount} onChange={(e) => setCalcCylinderCount(e.target.value)}>
                           <option value="1">1</option>
                           <option value="2">2</option>
-                          <option value="3">3</option>
                           <option value="4">4</option>
-                        
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-steel-500">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-      </div>
-  </div>
-</div>
-
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--muted-foreground, #64748b)', background: 'var(--muted, #f8fafc)', padding: '1rem', borderRadius: '8px' }}>
-                          ℹ️ Sisteminiz için en uygun piston çapı ve et kalınlığı, girilen kuyu ve kapasite ölçülerine göre otomatik olarak hesaplanacaktır.
-                        </div>
+                        </select>
                       </div>
+
+                      {/* Silindir Seçenekleri */}
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Silindir Tipi</label>
+                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcCylinderType} onChange={(e) => setCalcCylinderType(e.target.value)}>
+                          <option value="standard">Standart</option>
+                          <option value="telescopic">Teleskopik</option>
+                        </select>
+                      </div>
+                      
+                      {calcCylinderType === 'telescopic' ? (
+                        <div className="flex flex-col gap-1">
+                          <label className="text-[10px] font-bold text-steel-500 uppercase">Tel. Kademe</label>
+                          <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcStages} onChange={(e) => setCalcStages(e.target.value)}>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                          </select>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col gap-1">
+                          <label className="text-[10px] font-bold text-steel-500 uppercase">Yönetmelik</label>
+                          <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={regulation} onChange={(e) => setRegulation(e.target.value as any)}>
+                            <option value="machine">Makine</option>
+                            <option value="en81">EN81</option>
+                          </select>
+                        </div>
+                      )}
+
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Güç Ünitesi</label>
+                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" required value={calcPowerUnitCount} onChange={(e) => setCalcPowerUnitCount(e.target.value)}>
+                          <option value="1">1 Adet</option>
+                          <option value="2">2 Adet</option>
+                        </select>
+                      </div>
+                      
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Bina Tipi (Ops.)</label>
+                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
+                      </div>
+
                     </div>
                   </div>
 
-                  {/* GRUP 5: Gelişmiş Parametreler (Opsiyonel) */}
-                  <details style={{ background: 'var(--card, #fff)', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', border: '1px solid var(--border, #e2e8f0)', cursor: 'pointer' }}>
-                    <summary style={{ fontSize: '1.1rem', fontWeight: 600, color: 'inherit', outline: 'none' }}>Gelişmiş Parametreler & Özel Durumlar</summary>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginTop: '1.5rem' }}>
-                      
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Ortam Sıcaklığı (°C) - Opsiyonel</label>
-  <input className="w-full rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" type="number" value={calcMaxAmbientTemp} onChange={(e) => setCalcMaxAmbientTemp(e.target.value)} />
-</div>
-                        <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Seyir Frekansı (%) - Opsiyonel</label>
-  <input className="w-full rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" type="number" value={calcTravelFactor} onChange={(e) => setCalcTravelFactor(e.target.value)} />
-</div>
+                  {/* Gelişmiş */}
+                  <details className="rounded-2xl border border-steel-200/60 bg-white p-3 shadow-sm cursor-pointer group">
+                    <summary className="text-[12px] font-bold text-steel-900 outline-none select-none uppercase tracking-wider flex justify-between items-center">
+                      Gelişmiş Parametreler & Mevcut Sistem
+                      <span className="text-steel-400 group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-3 mt-3 pt-3 border-t border-steel-100">
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Sıcaklık (°C)</label>
+                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900" type="number" value={calcMaxAmbientTemp} onChange={(e) => setCalcMaxAmbientTemp(e.target.value)} />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Frekans (%)</label>
+                        <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900" type="number" value={calcTravelFactor} onChange={(e) => setCalcTravelFactor(e.target.value)} />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] font-bold text-steel-500 uppercase">Viskozite</label>
+                        <select className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900" value={calcOilViscosity} onChange={(e) => setCalcOilViscosity(e.target.value)}>
+                          <option value="32">VG 32</option><option value="46">VG 46</option><option value="68">VG 68</option>
+                        </select>
                       </div>
 
-                      <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Yağ Viskozitesi</label>
-  <div className="relative">
-      <select className="w-full appearance-none rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" value={calcOilViscosity} onChange={(e) =>
-       setCalcOilViscosity(e.target.value)}>
-                          <option value="32">VG 32</option>
-                          <option value="46">VG 46</option>
-                          <option value="68">VG 68</option>
-                        
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-steel-500">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-      </div>
-  </div>
-</div>
-
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                        {calcCylinderType !== 'telescopic' && (
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
-                            <input type="checkbox" checked={calcIsSplit} onChange={(e) => setCalcIsSplit(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
-                            <span>İki Parçalı (Ekli) Piston</span>
+                      <div className="col-span-2 sm:col-span-4 mt-2">
+                        <div className="flex flex-wrap gap-4">
+                          {calcCylinderType !== 'telescopic' && (
+                            <label className="flex items-center gap-2 cursor-pointer">
+                              <input type="checkbox" checked={calcIsSplit} onChange={(e) => setCalcIsSplit(e.target.checked)} className="w-4 h-4 accent-steel-900" />
+                              <span className="text-xs font-medium text-steel-700">İki Parçalı (Ekli)</span>
+                            </label>
+                          )}
+                          <label className="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" checked={calcIsExisting} onChange={(e) => setCalcIsExisting(e.target.checked)} className="w-4 h-4 accent-steel-900" />
+                            <span className="text-xs font-medium text-steel-700">Mevcut Piston (Revizyon)</span>
                           </label>
-                        )}
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
-                          <input type="checkbox" checked={calcIsExisting} onChange={(e) => setCalcIsExisting(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#1d1d1f' }} />
-                          <span>Mevcut Piston (Sadece Revizyon / Piston değişmeyecek)</span>
-                        </label>
+                        </div>
                       </div>
 
                       {calcIsExisting && (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', padding: '1rem', background: 'var(--muted, #f8fafc)', borderRadius: '8px' }}>
-                          <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Mevcut Çap (mm)</label>
-  <input className="w-full rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" type="number" required={calcIsExisting} value={calcExistingRam} onChange={(e) => setCalcExistingRam(e.target.value)} />
-</div>
-                          <div className="flex flex-col gap-1.5 group">
-  <label className="text-sm font-medium text-steel-500 dark:text-steel-400 group-focus-within:text-brand-600 dark:group-focus-within:text-brand-400">Mevcut Kalınlık (mm)</label>
-  <input className="w-full rounded-xl border border-steel-200 bg-steel-50/50 px-4 py-2.5 text-steel-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none dark:border-steel-700 dark:bg-steel-800 dark:text-white" type="number" required={calcIsExisting} value={calcExistingThickness} onChange={(e) => setCalcExistingThickness(e.target.value)} />
-</div>
-                        </div>
+                        <>
+                          <div className="flex flex-col gap-1">
+                            <label className="text-[10px] font-bold text-steel-500 uppercase">Mevcut Çap (mm)</label>
+                            <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900" type="number" required={calcIsExisting} value={calcExistingRam} onChange={(e) => setCalcExistingRam(e.target.value)} />
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <label className="text-[10px] font-bold text-steel-500 uppercase">Mevcut Et (mm)</label>
+                            <input className="w-full rounded border border-steel-200 bg-steel-50/50 px-2.5 py-1.5 text-xs text-steel-900" type="number" required={calcIsExisting} value={calcExistingThickness} onChange={(e) => setCalcExistingThickness(e.target.value)} />
+                          </div>
+                        </>
                       )}
-
                     </div>
                   </details>
 
-                  <button type="submit" style={{ marginTop: "1rem", width: "100%", background: "#1d1d1f", color: "var(--card, #fff)", border: "none", padding: "1.25rem", borderRadius: "12px", fontSize: "1.1rem", fontWeight: 600, cursor: "pointer", transition: "0.2s", boxShadow: "0 10px 20px rgba(0,0,0,0.1)" }}>Hesapla</button>
+                  <button type="submit" className="w-full bg-steel-900 hover:bg-steel-800 text-white border-none py-2.5 rounded-xl text-sm font-bold cursor-pointer transition-colors shadow-md mt-1">
+                    Hesapla
+                  </button>
                 </form>
 
           </div>
           
           <div className="xl:col-span-7 w-full sticky top-8">
-            <div className="bg-white dark:bg-steel-900 rounded-3xl p-6 sm:p-10 shadow-xl border border-steel-200/60 dark:border-steel-800/80 w-full min-h-[400px]">
+            <div className="bg-white dark:bg-steel-900 rounded-3xl p-4 sm:p-5 shadow-xl border border-steel-200/60 dark:border-steel-800/80 w-full min-h-[400px]">
               {!calcResult ? (
                 <div className="flex flex-col items-center justify-center h-full text-center opacity-60 m-auto mt-16">
                   <div className="w-20 h-20 mb-6 bg-steel-100 dark:bg-steel-800 rounded-full flex items-center justify-center text-steel-400">
@@ -530,10 +439,10 @@ export default function CalculatorPage() {
                 <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                                   <div style={{ animation: 'fadeUp 0.6s ease' }}>
                   <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl sm:text-3xl font-bold m-0 tracking-tight text-steel-900 dark:text-white">Projenize Özel Konfigürasyon</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold m-0 tracking-tight text-steel-900 dark:text-white">Projenize Özel Konfigürasyon</h2>
                     
                   </div>
-                  <p className="text-steel-600 dark:text-steel-400 mb-8 text-base sm:text-lg">Mühendislik hesaplamaları tamamlandı. Sisteminiz için en uygun ve güvenli komponentler aşağıda listelenmiştir.</p>
+                  <p className="text-steel-600 dark:text-steel-400 mb-4 text-sm">Mühendislik hesaplamaları tamamlandı. Sisteminiz için en uygun ve güvenli komponentler aşağıda listelenmiştir.</p>
                   
 
 
@@ -541,23 +450,23 @@ export default function CalculatorPage() {
 
                   {/* Top Recommended Components */}
                   <h3 className="text-lg sm:text-xl font-semibold mb-4 text-steel-900 dark:text-white">Önerilen Ana Komponentler</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
                     {/* 1. Cylinder Card */}
-                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-5 sm:p-6 rounded-2xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
+                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-3 sm:p-4 rounded-xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
                       <div>
                         <div className="text-xs uppercase tracking-wider text-steel-500 mb-2">Seçilen Piston</div>
-                        <div className="text-2xl sm:text-3xl font-bold mb-1 text-steel-900 dark:text-white">
+                        <div className="text-xl sm:text-2xl font-bold mb-1 text-steel-900 dark:text-white">
                           {calcCylinderType === 'telescopic' ? (calcResult?.type || `T${calcStages}-${calcCylDiameter}...`) : `Ø${calcCylDiameter}x${calcCylThickness}`}
                         </div>
                         <div className="text-sm text-steel-500 dark:text-steel-400">{calcCylinderCount} Adet {calcCylinderType === 'standard' ? 'Standart' : 'Teleskopik'}</div>
                       </div>
-                      <div className="mt-4 p-2.5 bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
+                      <div className="mt-2 p-1.5 text-[11px] bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
                         Durum: {calcResult.isBucklingSafe ? 'Güvenli (Onaylı)' : 'Riskli'}
                       </div>
                     </div>
 
                     {/* 2. Pump Card */}
-                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-5 sm:p-6 rounded-2xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
+                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-3 sm:p-4 rounded-xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
                       <div>
                         <div className="text-xs uppercase tracking-wider text-steel-500 mb-2">Pompa</div>
                         <div className="text-lg sm:text-xl font-bold mb-1 text-steel-900 dark:text-white">
@@ -565,49 +474,49 @@ export default function CalculatorPage() {
                         </div>
                         <div className="text-sm text-steel-500 dark:text-steel-400">Minimum Debi: {calcResult.pumpFlow} L/dk</div>
                       </div>
-                      <div className="mt-4 p-2.5 bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
+                      <div className="mt-2 p-1.5 text-[11px] bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
                         Sistem Debi Kapasitesi
                       </div>
                     </div>
 
                     {/* 3. Motor Card */}
-                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-5 sm:p-6 rounded-2xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
+                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-3 sm:p-4 rounded-xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
                       <div>
                         <div className="text-xs uppercase tracking-wider text-steel-500 mb-2">Motor</div>
-                        <div className="text-2xl sm:text-3xl font-bold mb-1 text-steel-900 dark:text-white">
+                        <div className="text-xl sm:text-2xl font-bold mb-1 text-steel-900 dark:text-white">
                           {recommendedMotor} <span style={{fontSize:'1.2rem'}}>kW</span>
                         </div>
                         <div className="text-sm text-steel-500 dark:text-steel-400">Minimum gereksinim: {calcResult.motorPowerReq} kW</div>
                       </div>
-                      <div className="mt-4 p-2.5 bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
+                      <div className="mt-2 p-1.5 text-[11px] bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
                         Statik Basınç: {calcResult.staticPressure} Bar
                       </div>
                     </div>
 
                     {/* 4. Valve Card - Premium Look */}
-                    <div className="flex flex-col justify-between bg-gradient-to-br from-steel-900 to-steel-700 text-white p-5 sm:p-6 rounded-2xl shadow-lg border border-steel-700/50">
+                    <div className="flex flex-col justify-between bg-gradient-to-br from-steel-900 to-steel-700 text-white p-3 sm:p-4 rounded-xl shadow-lg border border-steel-700/50">
                       <div>
                         <div className="text-xs uppercase tracking-wider text-steel-400 mb-2">Kontrol Valfi</div>
-                        <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
+                        <div className="text-xl sm:text-2xl font-bold text-white mb-1">
                           {Number(calcResult?.pumpFlow || 0) < 125 ? 'EV100 3/4"' : Number(calcResult?.pumpFlow || 0) <= 800 ? 'EV100 1.5"' : 'EV100 2.5"'}
                         </div>
                         <div className="text-sm text-steel-300">Entegre sistem kontrolü</div>
                       </div>
-                      <div className="mt-4 p-2.5 bg-white/10 rounded-lg text-sm text-white font-medium">
+                      <div className="mt-2 p-1.5 text-[11px] bg-white/10 rounded-lg text-sm text-white font-medium">
                         Debi Kapasitesi: {calcResult.pumpFlow} L/dk
                       </div>
                     </div>
 
                     {/* 5. Tank Card */}
-                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-5 sm:p-6 rounded-2xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
+                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-3 sm:p-4 rounded-xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
                       <div>
                         <div className="text-xs uppercase tracking-wider text-steel-500 mb-2">Güç Ünitesi</div>
-                        <div className="text-2xl sm:text-3xl font-bold mb-1 text-steel-900 dark:text-white">
+                        <div className="text-xl sm:text-2xl font-bold mb-1 text-steel-900 dark:text-white">
                           {recommendedPowerUnit ? recommendedPowerUnit.model : "Özel Tank"}
                         </div>
                         
                       </div>
-                      <div className="mt-4 p-2.5 bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
+                      <div className="mt-2 p-1.5 text-[11px] bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
                         Piston Strok: {calcResult.stroke} mm
                       </div>
                     </div>
