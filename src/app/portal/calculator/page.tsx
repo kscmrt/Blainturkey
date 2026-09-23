@@ -153,7 +153,7 @@ export default function CalculatorPage() {
       const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
       const apiUrl = process.env.NEXT_PUBLIC_CRM_API_URL || 'https://portal.blainturkey.com.tr';
       
-      const priceReq = await fetch(`${apiUrl}/api/external-quotes/estimate`, {
+      const priceReq = await fetch('/api/estimate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
