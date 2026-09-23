@@ -116,10 +116,13 @@ export default function CalculatorPage() {
 
     for (const cyl of candidates) {
       const spec = { d: cyl.d, t: cyl.t };
-      const result = calc.performEngineeringCalculation(inputs, spec);
+      const dimKey = `${cyl.d}x${cyl.t}`;
+      const cylinderDimension = calc.COAM_LIMITS ? calc.COAM_LIMITS[dimKey] : undefined;
+      const result = calc.performEngineeringCalculation(inputs, spec, undefined, undefined, undefined, cylinderDimension);
       
       // We look for a safe buckling factor and reasonable static pressure (e.g. < 70 bar)
-      if (result && !result.error && result.isBucklingSafe && Number(result.staticPressure) < 70) {
+      const isPressureSafe = !result?.warnings?.some((w: string) => w.includes("COAM katalog sınırını"));
+      if (result && !result.error && result.isBucklingSafe && isPressureSafe && Number(result.staticPressure) < 70) {
         bestResult = result;
         selectedCyl = cyl;
         break; // Found the smallest suitable cylinder!
@@ -128,7 +131,9 @@ export default function CalculatorPage() {
 
     if (!bestResult) {
       // If none are fully safe, just calculate with the largest one so we show something
-      bestResult = calc.performEngineeringCalculation(inputs, { d: selectedCyl.d, t: selectedCyl.t });
+      const dimKey = `${selectedCyl.d}x${selectedCyl.t}`;
+      const cylinderDimension = calc.COAM_LIMITS ? calc.COAM_LIMITS[dimKey] : undefined;
+      bestResult = calc.performEngineeringCalculation(inputs, { d: selectedCyl.d, t: selectedCyl.t }, undefined, undefined, undefined, cylinderDimension);
     }
 
     setCalcCylDiameter(selectedCyl.d.toString());

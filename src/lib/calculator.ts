@@ -110,6 +110,45 @@ export let PUMP_CATALOG = [
     8, 12, 16, 20, 25, 30, 35, 40, 43, 50, 55, 60, 75, 77, 96, 100, 125, 150, 180, 210, 250, 280, 300, 360, 380, 420, 500, 600, 720, 800, 960
 ];
 
+export const COAM_LIMITS: Record<string, { p_max_mpa: number, inertia_cm4: number }> = {
+    "60x5": { p_max_mpa: 6.7, inertia_cm4: 32.9 },
+    "63x6": { p_max_mpa: 6.3, inertia_cm4: 44.1 },
+    "70x5": { p_max_mpa: 5.9, inertia_cm4: 54.2 },
+    "70x6": { p_max_mpa: 5.9, inertia_cm4: 62.3 },
+    "70x7.5": { p_max_mpa: 5.9, inertia_cm4: 72.9 },
+    "80x5": { p_max_mpa: 5.6, inertia_cm4: 83.2 },
+    "80x7.5": { p_max_mpa: 5.6, inertia_cm4: 113 },
+    "80x10": { p_max_mpa: 5.6, inertia_cm4: 137 },
+    "85x5": { p_max_mpa: 5.7, inertia_cm4: 101 },
+    "85x7.5": { p_max_mpa: 5.7, inertia_cm4: 138 },
+    "90x5": { p_max_mpa: 5.7, inertia_cm4: 121 },
+    "90x7.5": { p_max_mpa: 5.7, inertia_cm4: 167 },
+    "90x10": { p_max_mpa: 5.7, inertia_cm4: 204 },
+    "95x5": { p_max_mpa: 6.0, inertia_cm4: 144 },
+    "95x7.5": { p_max_mpa: 6.0, inertia_cm4: 199 },
+    "100x5": { p_max_mpa: 6.0, inertia_cm4: 169 },
+    "100x7.5": { p_max_mpa: 6.0, inertia_cm4: 235 },
+    "100x10": { p_max_mpa: 6.0, inertia_cm4: 290 },
+    "100x12": { p_max_mpa: 6.0, inertia_cm4: 327 },
+    "110x5": { p_max_mpa: 5.5, inertia_cm4: 228 },
+    "110x7.5": { p_max_mpa: 5.5, inertia_cm4: 319 },
+    "110x10": { p_max_mpa: 5.5, inertia_cm4: 397 },
+    "110x12": { p_max_mpa: 5.5, inertia_cm4: 450 },
+    "120x5": { p_max_mpa: 5.7, inertia_cm4: 299 },
+    "120x7.5": { p_max_mpa: 5.7, inertia_cm4: 421.2 },
+    "120x10": { p_max_mpa: 5.7, inertia_cm4: 527 },
+    "120x12": { p_max_mpa: 5.7, inertia_cm4: 600.9 },
+    "130x5": { p_max_mpa: 5.7, inertia_cm4: 400 },
+    "140x7.5": { p_max_mpa: 5.0, inertia_cm4: 687.3 },
+    "140x10": { p_max_mpa: 5.0, inertia_cm4: 867.8 },
+    "140x14": { p_max_mpa: 5.0, inertia_cm4: 1113 },
+    "150x10": { p_max_mpa: 4.8, inertia_cm4: 1083 },
+    "160x10": { p_max_mpa: 5.3, inertia_cm4: 1331 },
+    "170x8.6": { p_max_mpa: 5.7, inertia_cm4: 1424 },
+    "180x10": { p_max_mpa: 6.0, inertia_cm4: 1936 },
+    "200x12": { p_max_mpa: 6.7, inertia_cm4: 3144 }
+};
+
 // Usage-based factors from provided table
 export let STARTS_PER_HOUR_DATA: Record<string, { tankFactor: number, generation: number, dissipation: number, motorStart: number, loadTravel: number }> = {
     "<5": { tankFactor: 1.2, generation: 0.5, dissipation: 1.0, motorStart: 5, loadTravel: 10 },
