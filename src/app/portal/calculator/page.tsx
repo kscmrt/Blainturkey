@@ -369,7 +369,7 @@ export default function CalculatorPage() {
                   {/* Gelişmiş */}
                   <details className="rounded-[20px] border border-steel-100 bg-white p-4 shadow-[0_4px_20px_rgb(0,0,0,0.03)] cursor-pointer group">
                     <summary className="text-[12px] font-bold text-steel-900 outline-none select-none uppercase tracking-wider flex justify-between items-center">
-                      Gelişmiş Parametreler & Mevcut Sistem
+                      Mevcut Sistem (Revizyon) Bilgileri
                       <span className="text-steel-400 group-open:rotate-180 transition-transform">▼</span>
                     </summary>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-3 mt-3 pt-3 border-t border-steel-100">
@@ -388,7 +388,7 @@ export default function CalculatorPage() {
                         </select>
                       </div>
 
-                      <div className="col-span-2 sm:col-span-4 mt-2">
+                      <div className="col-span-2 sm:col-span-4">
                         <div className="flex flex-wrap gap-4">
                           {calcCylinderType !== 'telescopic' && (
                             <label className="flex items-center gap-2 cursor-pointer">
