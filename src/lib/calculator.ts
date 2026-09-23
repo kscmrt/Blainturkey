@@ -3,6 +3,7 @@
  * Refactored for Next.js + TypeScript
  */
 
+import { supabase } from '@/lib/supabase';
 
 export const CONSTANTS = {
     GRAVITY: 9.81,
@@ -110,45 +111,6 @@ export let PUMP_CATALOG = [
     8, 12, 16, 20, 25, 30, 35, 40, 43, 50, 55, 60, 75, 77, 96, 100, 125, 150, 180, 210, 250, 280, 300, 360, 380, 420, 500, 600, 720, 800, 960
 ];
 
-export const COAM_LIMITS: Record<string, { p_max_mpa: number, inertia_cm4: number }> = {
-    "60x5": { p_max_mpa: 6.7, inertia_cm4: 32.9 },
-    "63x6": { p_max_mpa: 6.3, inertia_cm4: 44.1 },
-    "70x5": { p_max_mpa: 5.9, inertia_cm4: 54.2 },
-    "70x6": { p_max_mpa: 5.9, inertia_cm4: 62.3 },
-    "70x7.5": { p_max_mpa: 5.9, inertia_cm4: 72.9 },
-    "80x5": { p_max_mpa: 5.6, inertia_cm4: 83.2 },
-    "80x7.5": { p_max_mpa: 5.6, inertia_cm4: 113 },
-    "80x10": { p_max_mpa: 5.6, inertia_cm4: 137 },
-    "85x5": { p_max_mpa: 5.7, inertia_cm4: 101 },
-    "85x7.5": { p_max_mpa: 5.7, inertia_cm4: 138 },
-    "90x5": { p_max_mpa: 5.7, inertia_cm4: 121 },
-    "90x7.5": { p_max_mpa: 5.7, inertia_cm4: 167 },
-    "90x10": { p_max_mpa: 5.7, inertia_cm4: 204 },
-    "95x5": { p_max_mpa: 6.0, inertia_cm4: 144 },
-    "95x7.5": { p_max_mpa: 6.0, inertia_cm4: 199 },
-    "100x5": { p_max_mpa: 6.0, inertia_cm4: 169 },
-    "100x7.5": { p_max_mpa: 6.0, inertia_cm4: 235 },
-    "100x10": { p_max_mpa: 6.0, inertia_cm4: 290 },
-    "100x12": { p_max_mpa: 6.0, inertia_cm4: 327 },
-    "110x5": { p_max_mpa: 5.5, inertia_cm4: 228 },
-    "110x7.5": { p_max_mpa: 5.5, inertia_cm4: 319 },
-    "110x10": { p_max_mpa: 5.5, inertia_cm4: 397 },
-    "110x12": { p_max_mpa: 5.5, inertia_cm4: 450 },
-    "120x5": { p_max_mpa: 5.7, inertia_cm4: 299 },
-    "120x7.5": { p_max_mpa: 5.7, inertia_cm4: 421.2 },
-    "120x10": { p_max_mpa: 5.7, inertia_cm4: 527 },
-    "120x12": { p_max_mpa: 5.7, inertia_cm4: 600.9 },
-    "130x5": { p_max_mpa: 5.7, inertia_cm4: 400 },
-    "140x7.5": { p_max_mpa: 5.0, inertia_cm4: 687.3 },
-    "140x10": { p_max_mpa: 5.0, inertia_cm4: 867.8 },
-    "140x14": { p_max_mpa: 5.0, inertia_cm4: 1113 },
-    "150x10": { p_max_mpa: 4.8, inertia_cm4: 1083 },
-    "160x10": { p_max_mpa: 5.3, inertia_cm4: 1331 },
-    "170x8.6": { p_max_mpa: 5.7, inertia_cm4: 1424 },
-    "180x10": { p_max_mpa: 6.0, inertia_cm4: 1936 },
-    "200x12": { p_max_mpa: 6.7, inertia_cm4: 3144 }
-};
-
 // Usage-based factors from provided table
 export let STARTS_PER_HOUR_DATA: Record<string, { tankFactor: number, generation: number, dissipation: number, motorStart: number, loadTravel: number }> = {
     "<5": { tankFactor: 1.2, generation: 0.5, dissipation: 1.0, motorStart: 5, loadTravel: 10 },
@@ -158,6 +120,75 @@ export let STARTS_PER_HOUR_DATA: Record<string, { tankFactor: number, generation
     "36+": { tankFactor: 3.0, generation: 0.8, dissipation: 1.3, motorStart: 40, loadTravel: 100 }
 };
 
+export async function hydrateCalculatorConstants() {
+    try {
+        const [pumps, rules, specs, traffic] = await Promise.all([
+            supabase.from('raw_pumps').select('flow_rate'),
+            supabase.from('valve_selection_rules').select('*').order('flow_lpm'),
+            supabase.from('valve_technical_specs').select('*'),
+            supabase.from('traffic_usage_factors').select('*')
+        ]);
+
+        if (pumps.data) {
+            const flows = new Set<number>();
+            pumps.data.forEach((p: any) => { if (p.flow_rate) flows.add(Number(p.flow_rate)); });
+            if (flows.size > 0) {
+                PUMP_CATALOG.length = 0;
+                PUMP_CATALOG.push(...Array.from(flows).sort((a, b) => a - b));
+            }
+        }
+
+        if (rules.data && rules.data.length > 0) {
+            const grouped: Record<string, any[]> = {};
+            rules.data.forEach((r: any) => {
+                if (!grouped[r.valve_series]) grouped[r.valve_series] = [];
+                let fObj = grouped[r.valve_series].find(x => x.flow === r.flow_lpm);
+                if (!fObj) {
+                    fObj = { flow: r.flow_lpm, rules: [] };
+                    grouped[r.valve_series].push(fObj);
+                }
+                const ruleDetail: any = { guide: r.recommended_guide };
+                if (r.pressure_min) ruleDetail.min = r.pressure_min;
+                if (r.pressure_max) ruleDetail.max = r.pressure_max;
+                fObj.rules.push(ruleDetail);
+            });
+            Object.keys(VALVE_GUIDE_RULES).forEach(k => delete VALVE_GUIDE_RULES[k]);
+            Object.assign(VALVE_GUIDE_RULES, grouped);
+        }
+
+        if (specs.data && specs.data.length > 0) {
+            const sm: any = {};
+            specs.data.forEach((s: any) => {
+                sm[s.valve_series] = {
+                    minFlow: s.min_flow_lpm ?? s.min_flow,
+                    maxFlow: s.max_flow_lpm ?? s.max_flow,
+                    minPressure: s.min_pressure_bar ?? s.min_pressure,
+                    maxPressure: s.max_pressure_bar ?? s.max_pressure,
+                    burstPressure: s.burst_pressure_bar ?? s.burst_pressure
+                };
+            });
+            Object.keys(VALVE_TECHNICAL_SPECS).forEach(k => delete VALVE_TECHNICAL_SPECS[k]);
+            Object.assign(VALVE_TECHNICAL_SPECS, sm);
+        }
+
+        if (traffic.data && traffic.data.length > 0) {
+            const tm: Record<string, any> = {};
+            traffic.data.forEach((t: any) => {
+                tm[t.building_type_key] = {
+                    tankFactor: t.tank_factor,
+                    generation: t.generation,
+                    dissipation: t.dissipation,
+                    motorStart: t.motor_start,
+                    loadTravel: t.load_travel
+                };
+            });
+            Object.keys(STARTS_PER_HOUR_DATA).forEach(k => delete STARTS_PER_HOUR_DATA[k]);
+            Object.assign(STARTS_PER_HOUR_DATA, tm);
+        }
+    } catch (err) {
+        console.error("Hydration error in calculator.ts", err);
+    }
+}
 
 // --- Interfaces ---
 export interface RamProperties {
@@ -197,6 +228,7 @@ export interface EngineeringInputs {
     pitDepth?: number | string; // Kuyu Dibi
     topFloor?: number | string; // Son Kat (Overhead)
     isExisting?: boolean; // Mevcut Silindir
+    accessoriesFlags?: any; // Dışarıdan gelen tekliflerdeki aksesuar bayrakları
     existingRamDiameter?: number | string; // Mevcut Piston Çapı
     existingWallThickness?: number | string; // Mevcut Et Kalınlığı
     // New Fields for Detailed PDF
@@ -263,6 +295,17 @@ export function calculateBuckling(lengthMm: number, inertia: number, area: numbe
     return { f_crit, lambda, method };
 }
 
+export function calculateStandardCylinderPrice(
+    basePrice: number,
+    perMeterPrice: number,
+    strokeMm: number,
+    additionalPrice: number = 0,
+    isEkli: boolean = false
+): number {
+    const strokeM = strokeMm / 1000;
+    const price = (basePrice || 0) + (strokeM * (perMeterPrice || 0)) + (isEkli ? (additionalPrice || 0) : 0);
+    return Math.max(0, Number(price.toFixed(2)));
+}
 
 export function calculatePumpFlow(speedMs: number, areaMm2: number, suspension: number | string = 1): number {
     const suspensionRatio = typeof suspension === 'string' ? (suspension === '1:1' ? 1 : 2) : suspension;
@@ -587,7 +630,7 @@ export function performEngineeringCalculation(
         milCap: isTelescopic ? `T${stages}-${D}` : (D - 2 * t).toFixed(1),
         disCap: D,
         etKalinlik: t,
-        type: isTelescopic ? (cylinderSpec.type || `Teleskopik ${stages} Kademe (Ø${D}...)`) : cylinderSpec.type,
+        type: isTelescopic ? `Teleskopik ${stages} Kademe (Ø${D}...)` : cylinderSpec.type,
         isTelescopic,
         usageFactors,
         warnings,
@@ -636,16 +679,242 @@ export interface TelescopicOption {
     usageFactors?: any;
 }
 
+export async function calculateTelescopicOptions(
+    inputs: EngineeringInputs,
+    cylinders: any[], // Pass TelescopicCylinder[]
+    rules: any[],     // Pass ReserveStrokeRule[]
+    trafficOverrides?: Record<string, any>,
+    pumpCatalogOverride?: number[]
+): Promise<TelescopicOption[]> {
+    const results: TelescopicOption[] = [];
 
+    // Parse Inputs
+    const stages = inputs.stages || 2;
+    const count = Number(inputs.cylinderCount) || 1;
+    const powerUnitCount = Number(inputs.powerUnitCount) || 1;
+    const suspensionVal = inputs.suspension === '2:1' ? 2 : 1;
+    const speed = Number(inputs.speed) || 0.6;
+    const cylinderSpeed = speed / suspensionVal;
+    const buffer = Number(inputs.buffer) || 0;
+
+    // 1. Filter Cylinders
+    const candidates = cylinders.filter(c => c.stages === stages);
+
+    // 2. Determine RH
+    let rh = 0;
+    if (rules && rules.length > 0) {
+        const matchingRule = rules.find(r =>
+            Number(r.stage_count) === Number(stages) &&
+            cylinderSpeed >= Number(r.speed_min || 0) &&
+            (r.speed_max === null || r.speed_max === undefined || cylinderSpeed < Number(r.speed_max))
+        );
+        if (matchingRule) rh = Number(matchingRule.rh_value);
+    }
+    if (rh === 0) {
+        rh = stages === 2 ? (cylinderSpeed < 0.5 ? 340 : (cylinderSpeed < 0.85 ? 440 : 540)) 
+                          : (cylinderSpeed < 0.5 ? 490 : (cylinderSpeed < 0.85 ? 640 : 790));
+    }
+
+    const gh = ((Number(inputs.travelDistance) + buffer) / suspensionVal) + rh;
+    const ghMeters = gh / 1000;
+
+    for (const cyl of candidates) {
+        const modelName = (cyl.model_name || cyl.model || "").trim();
+        const mountingCode = inputs.mountingType === 'side' ? 'RS' : 'VE';
+        
+        // 1. Calculate Cylinder Weight (Moving Parts)
+        const ghMeters = gh / 1000;
+        const cylinderWeight = (cyl.weight_base || 0) + ((cyl.weight_factor || 0) * ghMeters);
+        
+        // 2. Load on Ram: ((Weight * Suspension) / Count) + Extra Weight + Cylinder Moving Parts
+        const extraWeight = CONSTANTS.EXTRA_WEIGHT;
+        const loadEmptyOnRam = (((Number(inputs.carcassWeight) + (Number(inputs.ropeWeight) || 0)) * suspensionVal) / count) + extraWeight + cylinderWeight;
+        const loadFullOnRam = (((Number(inputs.capacity) + Number(inputs.carcassWeight) + (Number(inputs.ropeWeight) || 0)) * suspensionVal) / count) + extraWeight + cylinderWeight;
+        
+        const areaCm2 = cyl.area_cm2 || 1;
+        const pressureEmpty = (loadEmptyOnRam * 0.981) / areaCm2;
+        const pressureFull = (loadFullOnRam * 0.981) / areaCm2;
+        
+        // 3. Buckling Load (P + Q) for Catalog Lookup
+        // Catalog graphics typically exclude the cylinder's own weight from the buckling limit charts.
+        const bucklingLoadOnRam = (((Number(inputs.capacity) + Number(inputs.carcassWeight) + (Number(inputs.ropeWeight) || 0)) * suspensionVal) / count);
+
+        // Buckling / Yoke suitability check (Using external static load P+Q)
+        const yokeSuitability = await checkYokeSuitability(modelName, ghMeters, bucklingLoadOnRam, mountingCode);
+        
+        // REFINED PRESSURE LIMITS: 3-stage cylinders (3PL series) are limited to ~46 bar based on smallest stage area (35mm).
+        // 2-stage cylinders (3PL series) are limited to ~64 bar based on smallest stage area (63mm).
+        const maxPressureLimit = cyl.p_stat_max || (stages === 2 ? 64 : 46);
+
+        // Pressure status
+        const pressureStatus = pressureFull > maxPressureLimit ? 'unsuitable' : 
+                                 pressureFull > (maxPressureLimit * 0.9) ? 'borderline' : 'suitable';
+
+        // Overall technical viability
+        const isViable = pressureFull <= maxPressureLimit && yokeSuitability.status !== 'unsuitable';
+
+        // Calculate price if viable
+        let calculatedPrice = 0;
+        let viabilityReason = '';
+
+        if (isViable) {
+            const { data: priceRules } = await supabase
+                .from('telescopic_prices')
+                .select('*')
+                .eq('model', modelName)
+                .eq('mounting', mountingCode);
+
+            if (priceRules && priceRules.length > 0) {
+                // Try to find exact yoke match, fallback to X0
+                let rule = priceRules.find(r => r.yoke === yokeSuitability.config) || 
+                           priceRules.find(r => r.yoke === 'X0');
+
+                if (rule) {
+                    let rate = ghMeters < 5 ? (rule.price_per_meter_low || 0) :
+                               ghMeters < 8 ? (rule.price_per_meter_mid || 0) :
+                               (rule.price_per_meter_high || 0);
+
+                    let rawPrice = (rule.base_price || 0) + (ghMeters * rate);
+                    
+                    // Add extension price if applicable
+                    if ((inputs.isEkli || inputs.isSplit) && rule.piston_extension_price) {
+                        rawPrice += rule.piston_extension_price;
+                    }
+
+                    calculatedPrice = (rawPrice * CONSTANTS.TELESCOPIC_SALES_FACTOR) + CONSTANTS.TELESCOPIC_FIXED_ADDITION;
+                }
+            }
+
+            // Construct viability reason
+            if (pressureStatus === 'borderline') {
+                viabilityReason = `Static pressure near limit: ${pressureFull.toFixed(1)} / ${maxPressureLimit} bar`;
+            }
+        }
+
+        // Pump & Motor Selection
+        const areaMm2 = areaCm2 * 100;
+        const totalRequiredFlow = calculatePumpFlow(speed, areaMm2, suspensionVal) * count;
+        const requiredFlowPerUnit = totalRequiredFlow / powerUnitCount;
+        
+        const selectedPumpPerUnit = selectPump(requiredFlowPerUnit, pumpCatalogOverride);
+        const motorPowerPerUnit = calculateRequiredMotorPower(pressureFull, selectedPumpPerUnit);
+
+        const yokeConfig = yokeSuitability.config;
+        const constX = (mountingCode === 'VE' && cyl.constant_x_central) ? cyl.constant_x_central : (cyl.constant_x || 200);
+        const factorY = cyl.factor_y || cyl.stages;
+        const closedLen = Math.round((gh / factorY) + constX);
+
+        results.push({
+            model: modelName,
+            orderCode: `3PL -${mountingCode}/${yokeConfig}- ${modelName} - ${gh.toFixed(0)}`,
+            price: calculatedPrice > 0 ? Number(calculatedPrice.toFixed(2)) : undefined,
+            openLength: Math.round(closedLen + gh),
+            closedLength: closedLen,
+            cylinderWeight: Math.round(cylinderWeight),
+            stages: cyl.stages,
+            diameter: cyl.diameter_mm,
+            dimensions: cyl.dimensions,
+            area: areaCm2,
+            gh: gh,
+            pressureFull: Number(pressureFull.toFixed(1)),
+            pressureEmpty: Number(pressureEmpty.toFixed(1)),
+            pressureDynamic: Number((pressureFull * 1.10).toFixed(1)),
+            pressureLimit: maxPressureLimit,
+            oilVolume: Number(((areaCm2 * (gh / 10)) / 1000).toFixed(1)),
+            stability: yokeConfig,
+            isViable: isViable,
+            status: pressureStatus === 'suitable' && yokeSuitability.status === 'suitable' ? 'suitable' :
+                    (pressureStatus === 'unsuitable' || yokeSuitability.status === 'unsuitable') ? 'unsuitable' : 'borderline',
+            reason: isViable ? viabilityReason : (pressureFull > maxPressureLimit ? `Basınç Sınırı Aşıldı (${pressureFull.toFixed(1)} > ${maxPressureLimit} bar)` : `Burkulma Sınırı Aşıldı (${bucklingLoadOnRam.toFixed(0)} > ${yokeSuitability.limit}kg)`),
+            details: {
+                pressure: `${pressureFull.toFixed(1)} bar`,
+                maxPressure: `${maxPressureLimit} bar`,
+                bucklingLimit: `${yokeSuitability.limit} kg`,
+                bucklingMargin: `${Math.round(yokeSuitability.margin * 100)}%`,
+                loadBuckling: `${bucklingLoadOnRam.toFixed(0)} kg`,
+                loadNominal: `${loadFullOnRam.toFixed(0)} kg`
+            },
+            yokeConfig: yokeConfig,
+            yokeStatus: yokeSuitability.status,
+            yokeMaxLoad: yokeSuitability.limit,
+            yokeSafetyMargin: Math.round(yokeSuitability.margin * 100),
+            requiredFlowLpm: Number(totalRequiredFlow.toFixed(1)),
+            requiredFlowPerUnit: Number(requiredFlowPerUnit.toFixed(1)),
+            selectedPumpFlow: selectedPumpPerUnit,
+            requiredMotorPower: Number(motorPowerPerUnit.toFixed(2)),
+            actualSpeed: Number((((selectedPumpPerUnit * powerUnitCount) * suspensionVal) / (6 * areaCm2 * count)).toFixed(2)),
+            pistonArea: areaMm2,
+            rh: rh,
+            usageFactors: trafficOverrides?.[inputs.buildingType || "16-25"] || STARTS_PER_HOUR_DATA[inputs.buildingType || "16-25"] || STARTS_PER_HOUR_DATA["16-25"]
+        });
+    }
+
+    return results.sort((a, b) => a.pressureFull - b.pressureFull);
+}
 
 // --- Yoke Selection Functions ---
 
-
+export interface YokeSuitability {
+    config: 'X0' | 'Z2' | 'Z3';
+    maxLoad: number;
+    status: 'suitable' | 'unsuitable' | 'unknown';
+    safetyMargin: number; // percentage
+    limit: number;
+    margin: number;
+}
 
 /**
  * Interpolate yoke load limit
  */
+export async function interpolateYokeLimit(
+    model: string,
+    stroke_m: number,
+    config: 'X0' | 'Z2' | 'Z3',
+    mounting: string = 'VE'
+): Promise<number> {
+    try {
+        // Normalize model to prepend '3PL ' if missing (DB has e.g. '3PL 50/2')
+        const dbModel = model.startsWith('3PL ') ? model : `3PL ${model}`;
+        
+        const stages = parseInt(model.split('/')[1]) || 2;
 
+        // Query with mounting filter
+        const { data, error } = await supabase
+            .from('yoke_selection_limits')
+            .select('stroke_m, max_load_kg')
+            .eq('model', dbModel)
+            .eq('config', config)
+            .eq('mounting', mounting)
+            .order('stroke_m');
+
+        if (!error && data && data.length > 0) {
+            return processInterpolation(data, stroke_m);
+        }
+
+        // No mounting-specific data found — try legacy (no mounting column)
+        const { data: legacyData, error: legacyError } = await supabase
+            .from('yoke_selection_limits')
+            .select('stroke_m, max_load_kg')
+            .eq('model', dbModel)
+            .eq('config', config)
+            .order('stroke_m');
+
+        if (!legacyError && legacyData && legacyData.length > 0) {
+            return processInterpolation(legacyData, stroke_m);
+        }
+
+        // For RS 2-stage with missing data: cautious fallback to VE with 20% penalty
+        if (mounting === 'RS' && stages === 2) {
+            const veFallback = await interpolateYokeLimit(model, stroke_m, config, 'VE');
+            return veFallback > 0 ? Math.round(veFallback * 0.80) : 0;
+        }
+
+        return 0;
+    } catch (e) {
+        console.error("Critical error in interpolateYokeLimit:", e);
+        return 0;
+    }
+}
 
 /**
  * Internal helper to process the interpolation logic.
@@ -653,12 +922,88 @@ export interface TelescopicOption {
  * using the slope of the last two data points (buckling load decreases
  * with stroke²). Returns 0 if extrapolation gives a negative value.
  */
+function processInterpolation(data: any[], stroke_m: number): number {
+    const lower = data.filter((d: any) => Number(d.stroke_m) <= stroke_m).pop();
+    const upper = data.find((d: any) => Number(d.stroke_m) > stroke_m);
 
+    // Stroke is before first known point — use first known value
+    if (!lower) return Number(data[0].max_load_kg);
+
+    // Stroke is beyond last known point — extrapolate downward
+    if (!upper) {
+        // Need at least 2 points to extrapolate
+        if (data.length < 2) return Number(lower.max_load_kg);
+
+        const last = data[data.length - 1];
+        // If stroke_m exceeds the last database point by more than 0.05m, it's out of limits.
+        if (stroke_m > (Number(last.stroke_m) + 0.05)) {
+            return 0;
+        }
+
+        const secondLast = data[data.length - 2];
+        const s1 = Number(secondLast.stroke_m);
+        const s2 = Number(last.stroke_m);
+        const v1 = Number(secondLast.max_load_kg);
+        const v2 = Number(last.max_load_kg);
+
+        if (s2 === s1) return v2;
+
+        // Linear extrapolation beyond last point
+        const slope = (v2 - v1) / (s2 - s1);
+        const extrapolated = v2 + slope * (stroke_m - s2);
+
+        // Buckling load cannot be negative
+        return Math.max(0, Math.round(extrapolated));
+    }
+
+    // Interpolate between lower and upper
+    const lowerStroke = Number(lower.stroke_m);
+    const upperStroke = Number(upper.stroke_m);
+
+    if (upperStroke === lowerStroke) return Number(lower.max_load_kg);
+
+    const ratio = (stroke_m - lowerStroke) / (upperStroke - lowerStroke);
+    return Math.round(Number(lower.max_load_kg) + ratio * (Number(upper.max_load_kg) - Number(lower.max_load_kg)));
+}
 
 /**
  * Check yoke suitability for all configurations and return the best one
  */
+export async function checkYokeSuitability(
+    model: string,
+    stroke_m: number,
+    load_kg: number,
+    mounting: string = 'VE'
+): Promise<YokeSuitability> {
+    const stages = parseInt(model.split('/')[1]) || 2;
+    const configs: ('X0' | 'Z2' | 'Z3')[] = stages === 2 ? ['X0', 'Z2'] : ['X0', 'Z2', 'Z3'];
 
+    let bestSuitability: YokeSuitability = { config: 'X0', status: 'unsuitable', limit: 0, margin: -1, maxLoad: 0, safetyMargin: 0 };
+
+    for (const config of configs) {
+        let limit = await interpolateYokeLimit(model, stroke_m, config, mounting);
+
+        if (limit === 0) continue;
+
+        const margin = (limit - load_kg) / limit;
+        const status = margin < 0 ? 'unsuitable' : 'suitable';
+        const safetyMargin = Math.round(margin * 100);
+
+        // Preference logic:
+        // 1. If X0 is suitable, return it immediately (most economical).
+        // 2. For Z2 and Z3, return immediately if suitable.
+        if (status === 'suitable') {
+            return { config, status, limit, margin, maxLoad: limit, safetyMargin };
+        }
+        
+        // Track the one with the best margin if nothing is suitable yet
+        if (margin > bestSuitability.margin) {
+            bestSuitability = { config, status, limit, margin, maxLoad: limit, safetyMargin };
+        }
+    }
+
+    return bestSuitability;
+}
 
 // --- Helper Functions ---
 
@@ -668,7 +1013,17 @@ export interface TelescopicOption {
  * Get recommended yoke configuration
  * Returns the most economical suitable configuration (prefers X0 if suitable)
  */
+export async function getRecommendedYokeConfig(
+    model: string,
+    stroke_m: number,
+    load_kg: number
+): Promise<YokeSuitability | null> {
+    const suitability = await checkYokeSuitability(model, stroke_m, load_kg);
 
+    if (suitability.status === 'unsuitable') return null;
+
+    return suitability;
+}
 
 // --- Pump Selection Functions ---
 

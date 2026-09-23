@@ -86,22 +86,43 @@ export default function CalculatorPage() {
       oilViscosity: calcOilViscosity,
     };
     
-    let candidates = [];
+    let bestResult = null;
+    let selectedCyl: any = { d: 100, t: 5 };
+
     if (calcCylinderType === 'telescopic') {
-      if (calcStages === '2') {
-        candidates = [ 
-          {d: 60, t: 5, type: 'T2-60-40'}, {d: 70, t: 5, type: 'T2-70-50'}, {d: 80, t: 5, type: 'T2-80-60'}, 
-          {d: 90, t: 5, type: 'T2-90-70'}, {d: 100, t: 6, type: 'T2-100-80'}, {d: 110, t: 6, type: 'T2-110-90'}, 
-          {d: 120, t: 6, type: 'T2-120-100'} 
-        ];
-      } else {
-        candidates = [ 
-          {d: 70, t: 5, type: 'T3-70-50-30'}, {d: 90, t: 5, type: 'T3-90-70-50'}, 
-          {d: 110, t: 6, type: 'T3-110-90-70'}, {d: 130, t: 6, type: 'T3-130-110-90'} 
-        ];
+      try {
+        const res = await fetch('/api/calculate-telescopic', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ inputs })
+        });
+        const data = await res.json();
+        
+        if (data.options && data.options.length > 0) {
+          // Find the first viable option
+          const viableOptions = data.options.filter((opt: any) => opt.isViable && opt.pressureEmpty >= 8 && opt.pressureFull <= (opt.pressureLimit || 59));
+          const bestOpt = viableOptions.length > 0 ? viableOptions[0] : data.options[data.options.length - 1]; // Fallback to last if none viable
+          
+          bestResult = {
+            type: `Teleskopik ${bestOpt.model} (${bestOpt.stages} Kademe) - ${bestOpt.stability}`,
+            isTelescopic: true,
+            isBucklingSafe: bestOpt.isViable,
+            staticPressure: bestOpt.pressureFull.toFixed(1),
+            oilVolume: bestOpt.oilVolume.toFixed(1),
+            actualSpeed: bestOpt.actualSpeed,
+            pumpFlow: bestOpt.selectedPumpFlow?.toFixed(1) || bestOpt.requiredFlowPerUnit?.toFixed(1) || 0,
+            motorPowerReq: bestOpt.requiredMotorPower?.toFixed(1) || 0,
+            usageFactors: bestOpt.usageFactors,
+            milCap: `T${bestOpt.stages}-${bestOpt.diameter}`,
+            warnings: bestOpt.isViable ? [] : [bestOpt.reason],
+          };
+          selectedCyl = { d: bestOpt.diameter, t: 5 }; // Mock t since it's not used
+        }
+      } catch (err) {
+        console.error("Telescopic calculation error:", err);
       }
     } else {
-      candidates = [
+      let candidates = [
         {d: 50, t: 5}, {d: 60, t: 5}, {d: 63, t: 6},
         {d: 70, t: 5}, {d: 70, t: 6}, {d: 70, t: 7.5},
         {d: 80, t: 5}, {d: 80, t: 7.5}, {d: 80, t: 10},
@@ -116,31 +137,30 @@ export default function CalculatorPage() {
         {d: 150, t: 10}, {d: 160, t: 10}, {d: 170, t: 8.6},
         {d: 180, t: 10}, {d: 200, t: 12}, {d: 250, t: 15}
       ];
-    }
 
-    let bestResult = null;
-    let selectedCyl = candidates[candidates.length - 1]; // Default to largest if none safe
+      selectedCyl = candidates[candidates.length - 1]; // Default to largest if none safe
 
-    for (const cyl of candidates) {
-      const spec = { d: cyl.d, t: cyl.t };
-      const dimKey = `${cyl.d}x${cyl.t}`;
-      const cylinderDimension = calc.COAM_LIMITS ? calc.COAM_LIMITS[dimKey] : undefined;
-      const result = calc.performEngineeringCalculation(inputs, spec, undefined, undefined, undefined, cylinderDimension);
-      
-      // We look for a safe buckling factor and reasonable static pressure (e.g. < 70 bar)
-      const isPressureSafe = !result?.warnings?.some((w: string) => w.includes("COAM katalog sınırını"));
-      if (result && !result.error && result.isBucklingSafe && isPressureSafe && Number(result.staticPressure) < 70) {
-        bestResult = result;
-        selectedCyl = cyl;
-        break; // Found the smallest suitable cylinder!
+      for (const cyl of candidates) {
+        const spec = { d: cyl.d, t: cyl.t };
+        const dimKey = `${cyl.d}x${cyl.t}`;
+        const cylinderDimension = calc.COAM_LIMITS ? calc.COAM_LIMITS[dimKey] : undefined;
+        const result = calc.performEngineeringCalculation(inputs, spec, undefined, undefined, undefined, cylinderDimension);
+        
+        // We look for a safe buckling factor and reasonable static pressure (e.g. < 70 bar)
+        const isPressureSafe = !result?.warnings?.some((w: string) => w.includes("COAM katalog sınırını"));
+        if (result && !result.error && result.isBucklingSafe && isPressureSafe && Number(result.staticPressure) < 70) {
+          bestResult = result;
+          selectedCyl = cyl;
+          break; // Found the smallest suitable cylinder!
+        }
       }
-    }
 
-    if (!bestResult) {
-      // If none are fully safe, just calculate with the largest one so we show something
-      const dimKey = `${selectedCyl.d}x${selectedCyl.t}`;
-      const cylinderDimension = calc.COAM_LIMITS ? calc.COAM_LIMITS[dimKey] : undefined;
-      bestResult = calc.performEngineeringCalculation(inputs, { d: selectedCyl.d, t: selectedCyl.t }, undefined, undefined, undefined, cylinderDimension);
+      if (!bestResult) {
+        // If none are fully safe, just calculate with the largest one so we show something
+        const dimKey = `${selectedCyl.d}x${selectedCyl.t}`;
+        const cylinderDimension = calc.COAM_LIMITS ? calc.COAM_LIMITS[dimKey] : undefined;
+        bestResult = calc.performEngineeringCalculation(inputs, { d: selectedCyl.d, t: selectedCyl.t }, undefined, undefined, undefined, cylinderDimension);
+      }
     }
 
     setCalcCylDiameter(selectedCyl.d.toString());
