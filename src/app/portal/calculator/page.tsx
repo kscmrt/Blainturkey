@@ -436,7 +436,13 @@ export default function CalculatorPage() {
                       {isCalculatingPrice ? (
                         <div className="w-16 h-4 bg-green-200/50 dark:bg-green-800/50 rounded animate-pulse"></div>
                       ) : (
-                        <span className="font-bold">{estimatedPrice ? `€${estimatedPrice.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '---'}</span>
+                        <span className="font-bold">
+                          {estimatedPrice !== null 
+                            ? (estimatedPrice > 0 
+                                ? `€${estimatedPrice.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` 
+                                : 'Fiyat Tanımsız')
+                            : '---'}
+                        </span>
                       )}
                     </div>
                     
