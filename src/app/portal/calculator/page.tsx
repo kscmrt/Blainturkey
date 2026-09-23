@@ -442,178 +442,120 @@ export default function CalculatorPage() {
                     <h2 className="text-xl sm:text-2xl font-bold m-0 tracking-tight text-steel-900 dark:text-white">Projenize Özel Konfigürasyon</h2>
                     
                   </div>
-                  <p className="text-steel-600 dark:text-steel-400 mb-4 text-sm">Mühendislik hesaplamaları tamamlandı. Sisteminiz için en uygun ve güvenli komponentler aşağıda listelenmiştir.</p>
+                  
                   
 
 
                   {/* Estimated Price Banner removed as per user request */}
 
                   {/* Top Recommended Components */}
-                  <h3 className="text-lg sm:text-xl font-semibold mb-4 text-steel-900 dark:text-white">Önerilen Ana Komponentler</h3>
-                  <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-4">
+                  <h3 className="text-sm font-semibold mb-2 text-steel-900 dark:text-white">Önerilen Ana Komponentler</h3>
+                  <div className="grid grid-cols-5 gap-2 mb-4">
                     {/* 1. Cylinder Card */}
-                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-3 sm:p-4 rounded-xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
-                      <div>
-                        <div className="text-xs uppercase tracking-wider text-steel-500 mb-2">Seçilen Piston</div>
-                        <div className="text-xl sm:text-2xl font-bold mb-1 text-steel-900 dark:text-white">
-                          {calcCylinderType === 'telescopic' ? (calcResult?.type || `T${calcStages}-${calcCylDiameter}...`) : `Ø${calcCylDiameter}x${calcCylThickness}`}
-                        </div>
-                        <div className="text-sm text-steel-500 dark:text-steel-400">{calcCylinderCount} Adet {calcCylinderType === 'standard' ? 'Standart' : 'Teleskopik'}</div>
+                    <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-lg shadow-sm border border-steel-200/60 dark:border-steel-800/60">
+                      <div className="text-[9px] uppercase tracking-wider text-steel-500 mb-0.5">Piston</div>
+                      <div className="text-sm font-bold text-steel-900 dark:text-white">
+                        {calcCylinderType === 'telescopic' ? (calcResult?.type || `T${calcStages}-${calcCylDiameter}...`) : `Ø${calcCylDiameter}x${calcCylThickness}`}
                       </div>
-                      <div className="mt-2 p-1.5 text-[11px] bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
-                        Durum: {calcResult.isBucklingSafe ? 'Güvenli (Onaylı)' : 'Riskli'}
-                      </div>
+                      <div className="text-[10px] text-steel-500">{calcCylinderCount} Adet</div>
                     </div>
 
                     {/* 2. Pump Card */}
-                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-3 sm:p-4 rounded-xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
-                      <div>
-                        <div className="text-xs uppercase tracking-wider text-steel-500 mb-2">Pompa</div>
-                        <div className="text-lg sm:text-xl font-bold mb-1 text-steel-900 dark:text-white">
-                          {recommendedPump}
-                        </div>
-                        <div className="text-sm text-steel-500 dark:text-steel-400">Minimum Debi: {calcResult.pumpFlow} L/dk</div>
+                    <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-lg shadow-sm border border-steel-200/60 dark:border-steel-800/60">
+                      <div className="text-[9px] uppercase tracking-wider text-steel-500 mb-0.5">Pompa</div>
+                      <div className="text-sm font-bold text-steel-900 dark:text-white">
+                        {recommendedPump}
                       </div>
-                      <div className="mt-2 p-1.5 text-[11px] bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
-                        Sistem Debi Kapasitesi
-                      </div>
+                      <div className="text-[10px] text-steel-500">{calcResult.pumpFlow} L/dk</div>
                     </div>
 
                     {/* 3. Motor Card */}
-                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-3 sm:p-4 rounded-xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
-                      <div>
-                        <div className="text-xs uppercase tracking-wider text-steel-500 mb-2">Motor</div>
-                        <div className="text-xl sm:text-2xl font-bold mb-1 text-steel-900 dark:text-white">
-                          {recommendedMotor} <span style={{fontSize:'1.2rem'}}>kW</span>
-                        </div>
-                        <div className="text-sm text-steel-500 dark:text-steel-400">Minimum gereksinim: {calcResult.motorPowerReq} kW</div>
+                    <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-lg shadow-sm border border-steel-200/60 dark:border-steel-800/60">
+                      <div className="text-[9px] uppercase tracking-wider text-steel-500 mb-0.5">Motor</div>
+                      <div className="text-sm font-bold text-steel-900 dark:text-white">
+                        {recommendedMotor} kW
                       </div>
-                      <div className="mt-2 p-1.5 text-[11px] bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
-                        Statik Basınç: {calcResult.staticPressure} Bar
-                      </div>
+                      <div className="text-[10px] text-steel-500">{calcResult.motorPowerReq} kW</div>
                     </div>
 
-                    {/* 4. Valve Card - Premium Look */}
-                    <div className="flex flex-col justify-between bg-gradient-to-br from-steel-900 to-steel-700 text-white p-3 sm:p-4 rounded-xl shadow-lg border border-steel-700/50">
-                      <div>
-                        <div className="text-xs uppercase tracking-wider text-steel-400 mb-2">Kontrol Valfi</div>
-                        <div className="text-xl sm:text-2xl font-bold text-white mb-1">
-                          {Number(calcResult?.pumpFlow || 0) < 125 ? 'EV100 3/4"' : Number(calcResult?.pumpFlow || 0) <= 800 ? 'EV100 1.5"' : 'EV100 2.5"'}
-                        </div>
-                        <div className="text-sm text-steel-300">Entegre sistem kontrolü</div>
+                    {/* 4. Valve Card */}
+                    <div className="flex flex-col items-center text-center bg-steel-900 text-white p-2 rounded-lg shadow-sm border border-steel-800">
+                      <div className="text-[9px] uppercase tracking-wider text-steel-400 mb-0.5">Valf</div>
+                      <div className="text-sm font-bold text-white">
+                        {Number(calcResult?.pumpFlow || 0) < 125 ? 'EV100 3/4"' : Number(calcResult?.pumpFlow || 0) <= 800 ? 'EV100 1.5"' : 'EV100 2.5"'}
                       </div>
-                      <div className="mt-2 p-1.5 text-[11px] bg-white/10 rounded-lg text-sm text-white font-medium">
-                        Debi Kapasitesi: {calcResult.pumpFlow} L/dk
-                      </div>
+                      <div className="text-[10px] text-steel-300">Entegre</div>
                     </div>
 
                     {/* 5. Tank Card */}
-                    <div className="flex flex-col justify-between bg-white dark:bg-steel-900 p-3 sm:p-4 rounded-xl shadow-sm border border-steel-200/60 dark:border-steel-800/60">
-                      <div>
-                        <div className="text-xs uppercase tracking-wider text-steel-500 mb-2">Güç Ünitesi</div>
-                        <div className="text-xl sm:text-2xl font-bold mb-1 text-steel-900 dark:text-white">
-                          {recommendedPowerUnit ? recommendedPowerUnit.model : "Özel Tank"}
-                        </div>
-                        
+                    <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-lg shadow-sm border border-steel-200/60 dark:border-steel-800/60">
+                      <div className="text-[9px] uppercase tracking-wider text-steel-500 mb-0.5">Tank</div>
+                      <div className="text-sm font-bold text-steel-900 dark:text-white">
+                        {recommendedPowerUnit ? recommendedPowerUnit.model : "Özel"}
                       </div>
-                      <div className="mt-2 p-1.5 text-[11px] bg-steel-50 dark:bg-steel-800/50 rounded-lg text-sm font-medium text-steel-700 dark:text-steel-300">
-                        Piston Strok: {calcResult.stroke} mm
-                      </div>
+                      <div className="text-[10px] text-steel-500">Strok {calcResult.stroke}</div>
                     </div>
                   </div>
-
+                  
                   {/* Component Selections */}
-                  <div className="mb-8 p-5 sm:p-6 bg-white dark:bg-steel-900 rounded-2xl border border-steel-200/60 dark:border-steel-800/60 shadow-sm">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
-                      <h3 className="text-lg font-semibold text-steel-900 dark:text-white m-0">Opsiyonel Donanımlar (Aksesuarlar)</h3>
-                      <span className="text-xs self-start sm:self-auto font-medium text-steel-600 dark:text-steel-400 bg-steel-100 dark:bg-steel-800 px-3 py-1 rounded-full">Birden fazla seçilebilir</span>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {[
-                        { id: 'handpump', label: 'El Pompası', desc: 'Acil kurtarma', state: calcHandPump, setter: setCalcHandPump },
-                        { id: 'ballvalve', label: 'Küresel Vana', desc: 'Bakım kolaylığı', state: calcBallValve, setter: setCalcBallValve },
-                        { id: 'rupture', label: 'Boru Patlama Valfi', desc: 'Güvenlik', state: calcRuptureValve, setter: setCalcRuptureValve },
-                        { id: 'a3', label: 'A3 Valfi (U33/UAB)', desc: 'Ekstra Güvenlik', state: calcA3Valve, setter: setCalcA3Valve },
-                        { id: 'lowpress', label: 'Alçak Basınç Şalteri', desc: 'Sistem Koruma', state: calcLowPressure, setter: setCalcLowPressure },
-                        { id: 'highpress', label: 'Yüksek Basınç Şalteri', desc: 'Aşırı Yük Koruma', state: calcHighPressure, setter: setCalcHighPressure },
-                        { id: 'overload', label: 'Aşırı Yük Şalteri', desc: 'Limit Kontrol', state: calcOverload, setter: setCalcOverload },
-                        { id: 'heater', label: 'Yağ Isıtıcı', desc: 'Soğuk İklimler İçin', state: calcHeater, setter: setCalcHeater },
-                        { id: 'micro', label: 'Mikro Seviyeleme', desc: 'Hassas Duruş', state: calcMicroLevel, setter: setCalcMicroLevel }
-                      ].map((item) => (
-                        <label 
-                          key={item.id} 
-                          style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: 'space-between',
-                            padding: '1rem', 
-                            background: item.state ? '#f0fdf4' : '#fbfbfd', 
-                            border: `1px solid ${item.state ? '#bbf7d0' : '#e5e5ea'}`, 
-                            borderRadius: '12px', 
-                            cursor: 'pointer',
-                            transition: 'all 0.2s ease',
-                            boxShadow: item.state ? '0 2px 8px rgba(34,197,94,0.1)' : 'none'
-                          }}
-                        >
-                          <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <span style={{ fontWeight: 600, color: item.state ? '#166534' : '#1d1d1f', fontSize: '0.95rem' }}>{item.label}</span>
-                            <span style={{ fontSize: '0.8rem', color: item.state ? '#15803d' : '#86868b' }}>{item.desc}</span>
-                          </div>
-                          <div style={{ position: 'relative', width: '44px', height: '24px', background: item.state ? '#34c759' : '#e5e5ea', borderRadius: '12px', transition: '0.3s ease' }}>
-                            <div style={{ position: 'absolute', top: '2px', left: item.state ? '22px' : '2px', width: '20px', height: '20px', background: 'var(--card, #fff)', borderRadius: '50%', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', transition: '0.3s ease' }} />
-                          </div>
-                          <input type="checkbox" checked={item.state} onChange={(e) => item.setter(e.target.checked)} style={{ display: 'none' }} />
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Detailed Analysis Table Accordion */}
-                  <details style={{ background: 'var(--card, #fff)', borderRadius: '12px', border: '1px solid var(--border, #e2e8f0)', marginBottom: '1rem', overflow: 'hidden' }}>
-                    <summary style={{ padding: '1rem 1.5rem', background: 'var(--muted, #f8fafc)', borderBottom: '1px solid var(--border, #e2e8f0)', fontWeight: 600, fontSize: '1rem', color: 'inherit', cursor: 'pointer', outline: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      Teknik Parametreleri ve Analiz Detaylarını Göster
+                  <details className="mb-3 bg-white dark:bg-steel-900 rounded-lg border border-steel-200/60 dark:border-steel-800/60 shadow-sm overflow-hidden group">
+                    <summary className="flex items-center justify-between p-2.5 cursor-pointer outline-none bg-steel-50/50 dark:bg-steel-800/30 text-sm font-semibold text-steel-900 dark:text-white">
+                      <span>Opsiyonel Donanımlar (Aksesuarlar)</span>
+                      <span className="text-steel-400 group-open:rotate-180 transition-transform">▼</span>
                     </summary>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: '1px solid var(--border, #e2e8f0)' }}>
-                        <span style={{ fontWeight: 500, color: 'var(--muted-foreground, #64748b)' }}>Piston Ağırlığı</span>
-                        <div style={{ display: 'flex', gap: '1rem', minWidth: '150px', justifyContent: 'flex-end' }}>
-                          <span style={{ fontWeight: 600 }}>{calcResult.ramWeight}</span>
-                          <span style={{ color: 'var(--muted-foreground, #64748b)' }}>kg</span>
-                        </div>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: '1px solid var(--border, #e2e8f0)' }}>
-                        <span style={{ fontWeight: 500, color: 'var(--muted-foreground, #64748b)' }}>Boş Kabin Basıncı</span>
-                        <div style={{ display: 'flex', gap: '1rem', minWidth: '150px', justifyContent: 'flex-end' }}>
-                          <span style={{ fontWeight: 600 }}>{calcResult.pressureEmpty}</span>
-                          <span style={{ color: 'var(--muted-foreground, #64748b)' }}>Bar</span>
-                        </div>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: '1px solid var(--border, #e2e8f0)' }}>
-                        <span style={{ fontWeight: 500, color: 'var(--muted-foreground, #64748b)' }}>Gerçek Hız (Aşağı/Yukarı)</span>
-                        <div style={{ display: 'flex', gap: '1rem', minWidth: '150px', justifyContent: 'flex-end' }}>
-                          <span style={{ fontWeight: 600 }}>{Number(calcResult.actualSpeed || calcSpeed).toFixed(2)}</span>
-                          <span style={{ color: 'var(--muted-foreground, #64748b)' }}>m/s</span>
-                        </div>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: '1px solid var(--border, #e2e8f0)' }}>
-                        <span style={{ fontWeight: 500, color: 'var(--muted-foreground, #64748b)' }}>Dinamik Basınç</span>
-                        <div style={{ display: 'flex', gap: '1rem', minWidth: '150px', justifyContent: 'flex-end' }}>
-                          <span style={{ fontWeight: 600 }}>{calcResult.dynamicPressure}</span>
-                          <span style={{ color: 'var(--muted-foreground, #64748b)' }}>Bar</span>
-                        </div>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 1.5rem' }}>
-                        <span style={{ fontWeight: 500, color: 'var(--muted-foreground, #64748b)' }}>Kapalı Boy</span>
-                        <div style={{ display: 'flex', gap: '1rem', minWidth: '150px', justifyContent: 'flex-end' }}>
-                          <span style={{ fontWeight: 600 }}>{calcResult.closedLen}</span>
-                          <span style={{ color: 'var(--muted-foreground, #64748b)' }}>mm</span>
-                        </div>
+                    <div className="p-3 border-t border-steel-100 dark:border-steel-800">
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          { id: 'handpump', label: 'El Pompası', state: calcHandPump, setter: setCalcHandPump },
+                          { id: 'ballvalve', label: 'Küresel Vana', state: calcBallValve, setter: setCalcBallValve },
+                          { id: 'rupture', label: 'Boru Patlama Valfi', state: calcRuptureValve, setter: setCalcRuptureValve },
+                          { id: 'a3', label: 'A3 Valfi (U33)', state: calcA3Valve, setter: setCalcA3Valve },
+                          { id: 'lowpress', label: 'Alçak Basınç Şalteri', state: calcLowPressure, setter: setCalcLowPressure },
+                          { id: 'highpress', label: 'Yüksek Basınç Şalteri', state: calcHighPressure, setter: setCalcHighPressure },
+                          { id: 'overload', label: 'Aşırı Yük Şalteri', state: calcOverload, setter: setCalcOverload },
+                          { id: 'heater', label: 'Yağ Isıtıcı', state: calcHeater, setter: setCalcHeater },
+                          { id: 'micro', label: 'Mikro Seviyeleme', state: calcMicroLevel, setter: setCalcMicroLevel }
+                        ].map((item) => (
+                          <label key={item.id} className="flex items-center gap-1.5 cursor-pointer bg-steel-50 dark:bg-steel-800/50 px-2.5 py-1.5 rounded border border-steel-200 dark:border-steel-700 hover:bg-steel-100 transition-colors">
+                            <input type="checkbox" checked={item.state} onChange={(e) => item.setter(e.target.checked)} className="w-3.5 h-3.5 accent-brand-600" />
+                            <span className="text-[11px] font-medium text-steel-700 dark:text-steel-300">{item.label}</span>
+                          </label>
+                        ))}
                       </div>
                     </div>
                   </details>
-
-                  <button onClick={() => setShowContactModal(true)} style={{ width: '100%', background: '#1d1d1f', color: '#fff', border: 'none', padding: '1.25rem', borderRadius: '12px', fontSize: '1.1rem', fontWeight: 600, cursor: 'pointer', transition: '0.2s', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}
+                  
+                  {/* Detailed Analysis Table Accordion */}
+                  <details className="mb-3 bg-white dark:bg-steel-900 rounded-lg border border-steel-200/60 dark:border-steel-800/60 shadow-sm overflow-hidden group">
+                    <summary className="flex items-center justify-between p-2.5 cursor-pointer outline-none bg-steel-50/50 dark:bg-steel-800/30 text-sm font-semibold text-steel-900 dark:text-white">
+                      <span>Teknik Parametreleri ve Analiz Detaylarını Göster</span>
+                      <span className="text-steel-400 group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 p-3 border-t border-steel-100 dark:border-steel-800 text-xs">
+                      <div className="flex justify-between border-b border-steel-100 pb-1">
+                        <span className="text-steel-500">Piston Ağırlığı:</span>
+                        <span className="font-semibold">{calcResult.ramWeight} kg</span>
+                      </div>
+                      <div className="flex justify-between border-b border-steel-100 pb-1">
+                        <span className="text-steel-500">Boş Basınç:</span>
+                        <span className="font-semibold">{calcResult.pressureEmpty} Bar</span>
+                      </div>
+                      <div className="flex justify-between border-b border-steel-100 pb-1">
+                        <span className="text-steel-500">Gerçek Hız:</span>
+                        <span className="font-semibold">{Number(calcResult.actualSpeed || calcSpeed).toFixed(2)} m/s</span>
+                      </div>
+                      <div className="flex justify-between border-b border-steel-100 pb-1">
+                        <span className="text-steel-500">Dinamik Basınç:</span>
+                        <span className="font-semibold">{calcResult.dynamicPressure} Bar</span>
+                      </div>
+                      <div className="flex justify-between border-b border-steel-100 pb-1">
+                        <span className="text-steel-500">Kapalı Boy:</span>
+                        <span className="font-semibold">{calcResult.closedLen} mm</span>
+                      </div>
+                    </div>
+                  </details>
+                  
+                  <button onClick={() => setShowContactModal(true)} style={{ width: '100%', background: '#1d1d1f', color: '#fff', border: 'none', padding: '0.75rem', borderRadius: '12px', fontSize: '1.1rem', fontWeight: 600, cursor: 'pointer', transition: '0.2s', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}
                      onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
                      onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
                     Bu Konfigürasyon ile Resmi Teklif İste
