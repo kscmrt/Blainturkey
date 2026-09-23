@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { RAW_POWER_UNITS, RAW_MOTORS, RAW_PUMPS } from '@/lib/catalogData';
 
 export default function CalculatorPage() {
-  const [calcCapacity, setCalcCapacity] = useState('630');
-  const [calcCarcass, setCalcCarcass] = useState('500');
-  const [calcTravel, setCalcTravel] = useState('15000'); // mm
-  const [calcSpeed, setCalcSpeed] = useState('0.63');
+  const [calcCapacity, setCalcCapacity] = useState('');
+  const [calcCarcass, setCalcCarcass] = useState('');
+  const [calcTravel, setCalcTravel] = useState(''); // mm
+  const [calcSpeed, setCalcSpeed] = useState('');
   const [calcSuspension, setCalcSuspension] = useState<'1:1' | '2:1' | '4:1'>('2:1');
   const [calcCylDiameter, setCalcCylDiameter] = useState('100');
   const [calcCylThickness, setCalcCylThickness] = useState('5');
@@ -17,14 +17,14 @@ export default function CalculatorPage() {
   
   // Comprehensive Calculator States
   const [calcStartsPerHour, setCalcStartsPerHour] = useState('<5');
-  const [calcPitDepth, setCalcPitDepth] = useState('1200'); // mm
-  const [calcTopFloor, setCalcTopFloor] = useState('3500'); // mm
-  const [calcBuffer, setCalcBuffer] = useState('100'); // mm
+  const [calcPitDepth, setCalcPitDepth] = useState(''); // mm
+  const [calcTopFloor, setCalcTopFloor] = useState(''); // mm
+  const [calcBuffer, setCalcBuffer] = useState(''); // mm
   const [calcMountingType, setCalcMountingType] = useState('side');
   const [calcCylinderCount, setCalcCylinderCount] = useState('1');
   const [calcCylinderType, setCalcCylinderType] = useState('standard');
   const [calcStages, setCalcStages] = useState('2');
-  const [calcRopeWeight, setCalcRopeWeight] = useState('50');
+  const [calcRopeWeight, setCalcRopeWeight] = useState('');
   // Advanced & Extra CRM fields
   const [calcPowerUnitCount, setCalcPowerUnitCount] = useState('1');
   const [calcMaxAmbientTemp, setCalcMaxAmbientTemp] = useState('');
@@ -255,15 +255,15 @@ export default function CalculatorPage() {
                       {/* Yük ve Performans */}
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Kapasite (kg)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcCapacity} onChange={(e) => setCalcCapacity(e.target.value)} />
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcCapacity} onChange={(e) => setCalcCapacity(e.target.value)} placeholder="Örn: 630" />
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Karkas (kg)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcCarcass} onChange={(e) => setCalcCarcass(e.target.value)} />
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcCarcass} onChange={(e) => setCalcCarcass(e.target.value)} placeholder="Örn: 500" />
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Kabin Hızı (m/s)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required step="0.01" value={calcSpeed} onChange={(e) => setCalcSpeed(e.target.value)} />
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required step="0.01" value={calcSpeed} onChange={(e) => setCalcSpeed(e.target.value)} placeholder="Örn: 0,63" />
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Kalkış / Saat</label>
@@ -279,19 +279,19 @@ export default function CalculatorPage() {
                       {/* Kuyu */}
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Seyir (mm)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcTravel} onChange={(e) => setCalcTravel(e.target.value)} />
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcTravel} onChange={(e) => setCalcTravel(e.target.value)} placeholder="Örn: 15000" />
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Tampon (mm)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcBuffer} onChange={(e) => setCalcBuffer(e.target.value)} />
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcBuffer} onChange={(e) => setCalcBuffer(e.target.value)} placeholder="Örn: 100" />
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Son Kat (mm)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcTopFloor} onChange={(e) => setCalcTopFloor(e.target.value)} />
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcTopFloor} onChange={(e) => setCalcTopFloor(e.target.value)} placeholder="Örn: 3500" />
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Kuyu Dibi (mm)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcPitDepth} onChange={(e) => setCalcPitDepth(e.target.value)} />
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcPitDepth} onChange={(e) => setCalcPitDepth(e.target.value)} placeholder="Örn: 1200" />
                       </div>
 
                       {/* Mekanik */}
@@ -312,7 +312,7 @@ export default function CalculatorPage() {
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Halat Ağ. (kg)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcRopeWeight} onChange={(e) => setCalcRopeWeight(e.target.value)} />
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcRopeWeight} onChange={(e) => setCalcRopeWeight(e.target.value)} placeholder="Örn: 50" />
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Sil. Sayısı</label>
