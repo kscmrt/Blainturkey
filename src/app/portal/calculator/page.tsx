@@ -252,7 +252,7 @@ export default function CalculatorPage() {
                       <span className="text-[10px] text-steel-400 font-normal normal-case">Tüm alanları doldurunuz</span>
                     </h3>
                     
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-3">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-3">
                       
                       {/* Yük ve Performans */}
                       <div className="flex flex-col gap-1">
@@ -374,7 +374,7 @@ export default function CalculatorPage() {
                       Mevcut Sistem (Revizyon) Bilgileri
                       <span className="text-steel-400 group-open:rotate-180 transition-transform">▼</span>
                     </summary>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-3 mt-3 pt-3 border-t border-steel-100">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-3 mt-3 pt-3 border-t border-steel-100">
                       
 
                       <div className="col-span-2 sm:col-span-4">
@@ -414,7 +414,7 @@ export default function CalculatorPage() {
 
           </div>
           
-          <div className="xl:col-span-7 w-full sticky top-4">
+          <div className="xl:col-span-7 w-full relative xl:sticky top-4">
             <div className="bg-white dark:bg-steel-900 rounded-3xl p-4 sm:p-5 shadow-xl border border-steel-200/60 dark:border-steel-800/80 w-full min-h-[400px]">
               {!calcResult ? (
                 <div className="flex flex-col items-center justify-center h-full text-center opacity-60 m-auto mt-16">
@@ -441,7 +441,7 @@ export default function CalculatorPage() {
 
                   {/* Top Recommended Components */}
                   <h3 className="text-sm font-semibold mb-2 text-steel-900 dark:text-white">Önerilen Ana Komponentler</h3>
-                  <div className={`grid ${calcIsExisting ? "grid-cols-4" : "grid-cols-5"} gap-2 mb-4`}>
+                  <div className={`grid grid-cols-2 sm:grid-cols-3 xl:${calcIsExisting ? "grid-cols-4" : "grid-cols-5"} gap-2 mb-4`}>
                     {/* 1. Cylinder Card */}
                     {!calcIsExisting && (
                       <div className="flex flex-col items-center text-center bg-white dark:bg-steel-900 p-2 rounded-xl shadow-[0_2px_10px_rgb(0,0,0,0.02)] border border-steel-100 dark:border-steel-800/60">
