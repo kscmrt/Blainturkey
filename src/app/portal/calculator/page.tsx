@@ -55,6 +55,8 @@ export default function CalculatorPage() {
   const [contactEmail, setContactEmail] = useState('');
   const [contactPhone, setContactPhone] = useState('');
   const [isSubmittingQuote, setIsSubmittingQuote] = useState(false);
+  const [isSimulatingCalc, setIsSimulatingCalc] = useState(false);
+  const [calcProgress, setCalcProgress] = useState(0);
   
     const handleCalculate = async (e: React.FormEvent) => {
     e.preventDefault();
