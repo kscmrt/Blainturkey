@@ -283,15 +283,15 @@ export default function CalculatorPage() {
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Tampon (mm)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcBuffer} onChange={(e) => setCalcBuffer(e.target.value)} placeholder="Örn: 100" />
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" value={calcBuffer} onChange={(e) => setCalcBuffer(e.target.value)} placeholder="Örn: 100" />
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Son Kat (mm)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcTopFloor} onChange={(e) => setCalcTopFloor(e.target.value)} placeholder="Örn: 3500" />
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" value={calcTopFloor} onChange={(e) => setCalcTopFloor(e.target.value)} placeholder="Örn: 3500" />
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Kuyu Dibi (mm)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcPitDepth} onChange={(e) => setCalcPitDepth(e.target.value)} placeholder="Örn: 1200" />
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" value={calcPitDepth} onChange={(e) => setCalcPitDepth(e.target.value)} placeholder="Örn: 1200" />
                       </div>
 
                       {/* Mekanik */}
@@ -312,7 +312,7 @@ export default function CalculatorPage() {
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Halat Ağ. (kg)</label>
-                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" required value={calcRopeWeight} onChange={(e) => setCalcRopeWeight(e.target.value)} placeholder="Örn: 50" />
+                        <input className="w-full rounded-xl border border-steel-100 bg-steel-50/80 px-3 py-2 transition-all focus:ring-4 focus:ring-blue-500/10 text-xs text-steel-900 focus:border-blue-500 focus:bg-white focus:outline-none" type="number" value={calcRopeWeight} onChange={(e) => setCalcRopeWeight(e.target.value)} placeholder="Örn: 50" />
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[9px] font-semibold text-steel-400 uppercase tracking-widest">Sil. Sayısı</label>
