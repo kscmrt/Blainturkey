@@ -2,7 +2,13 @@
 
 import { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { ContactShadows, Environment, Float, useGLTF } from "@react-three/drei";
+import {
+  ContactShadows,
+  Environment,
+  Float,
+  useGLTF,
+  useProgress,
+} from "@react-three/drei";
 import { motion, useReducedMotion, useTransform } from "motion/react";
 
 import ValveModel from "./ValveModel";
@@ -18,6 +24,25 @@ import {
 
 const LEFT_GUARD = buildGuardTimeline("left");
 const RIGHT_GUARD = buildGuardTimeline("right");
+
+/* 3B model/HDR indirilirken sahne boş kalmasın diye — özellikle mobilde
+   yavaş bağlantıda fark ediliyordu. `useProgress`, three.js'in global
+   LoadingManager'ını okur; Canvas'a bağlı olmasa da aynı yükleri izler. */
+function StageLoader() {
+  const { active, progress } = useProgress();
+  if (!active) return null;
+
+  return (
+    <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+      <div className="flex flex-col items-center gap-3">
+        <div className="size-10 animate-spin rounded-full border-2 border-brand-600/25 border-t-brand-600" />
+        <span className="text-[0.65rem] font-semibold tracking-[0.2em] text-brand-600/70">
+          {Math.round(progress)}%
+        </span>
+      </div>
+    </div>
+  );
+}
 
 /* Model değişiminde bekleme olmasın diye hepsi önden yüklenir. */
 if (typeof window !== "undefined") {
@@ -118,6 +143,8 @@ export default function ValveStage() {
           </Suspense>
         </Canvas>
       </motion.div>
+
+      <StageLoader />
 
       {/* Sağ Yan / Alt Parça İnceleme Paneli (Modal açıldığında alttaki kontrolleri gizlemez, üzerine biner ve alttan kapatır) */}
       <ValveInspectorDock

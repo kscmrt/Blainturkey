@@ -9,7 +9,7 @@ export default function ContactPage() {
         {/* Adjusted the overlay to be darker and more transparent for better contrast */}
         <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-[2px]"></div>
         <div className="relative z-10 text-center text-white px-8">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 drop-shadow-xl tracking-tight">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white drop-shadow-xl tracking-tight">
             Bize Ulaşın
           </h1>
           <p className="text-lg md:text-xl text-blue-100 font-light max-w-2xl mx-auto">

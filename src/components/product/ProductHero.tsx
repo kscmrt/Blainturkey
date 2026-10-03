@@ -42,7 +42,7 @@ export default function ProductHero({
   return (
     <motion.section
       ref={ref}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-white via-white to-[#fafafc] pt-32 md:pt-20"
+      className="relative flex items-center justify-center overflow-hidden bg-gradient-to-b from-white via-white to-[#fafafc] pt-32 pb-16 md:min-h-screen md:pt-20 md:pb-0"
       style={{ opacity }}
     >
       {/* Background Gradient Orbs */}
