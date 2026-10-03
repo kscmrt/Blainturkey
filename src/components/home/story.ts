@@ -34,7 +34,7 @@ export const STORY_CHAPTERS: readonly StoryChapterData[] = [
     metric: { value: "50+ yıl", label: "kanıtlanmış güvenilirlik" },
     align: "left",
     tone: "light",
-    range: [0.12, 0.2, 0.29, 0.35],
+    range: [0.085, 0.165, 0.28, 0.34],
   },
   {
     id: "durability",
@@ -44,7 +44,7 @@ export const STORY_CHAPTERS: readonly StoryChapterData[] = [
     metric: { value: "10+ yıl", label: "gövde ömrü" },
     align: "right",
     tone: "dark",
-    range: [0.42, 0.5, 0.58, 0.64],
+    range: [0.37, 0.45, 0.565, 0.625],
   },
   {
     id: "precision",
@@ -54,7 +54,7 @@ export const STORY_CHAPTERS: readonly StoryChapterData[] = [
     metric: { value: "%100", label: "sevkiyat öncesi basınç testi" },
     align: "left",
     tone: "dark",
-    range: [0.71, 0.78, 0.85, 0.9],
+    range: [0.66, 0.74, 0.855, 0.915],
   },
 ] as const;
 

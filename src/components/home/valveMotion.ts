@@ -24,14 +24,14 @@ export function sample(progress: number, keyframes: readonly Keyframe[]): number
 /* Masaüstü: valf, o an ekranda olan metin panelinin karşı tarafına kaçar. */
 const DESKTOP_X: readonly Keyframe[] = [
   [0.0, 0],
-  [0.1, 0],
-  [0.17, 2.7], // 01 — metin solda
-  [0.36, 2.7],
-  [0.46, -2.7], // 02 — metin sağda
-  [0.64, -2.7],
-  [0.73, 2.4], // 03 — metin solda
-  [0.86, 2.4],
-  [0.93, 0], // final — merkeze döner
+  [0.055, 0],
+  [0.165, 2.7], // 01 — metin solda
+  [0.34, 2.7],
+  [0.45, -2.7], // 02 — metin sağda
+  [0.625, -2.7],
+  [0.74, 2.4], // 03 — metin solda
+  [0.915, 2.4],
+  [0.95, 0], // final — merkeze döner
   [1.0, 0],
 ];
 
@@ -46,17 +46,15 @@ const DESKTOP_Y: readonly Keyframe[] = [
 /* Mobil: Valf merkezde kalır; metin üstte, valf alt-orta yarıda ferahça görünür. */
 const MOBILE_Y: readonly Keyframe[] = [
   [0.0, -1.8],
-  [0.14, -0.6],
-  [0.3, -0.6],
-  [0.6, -0.6],
-  [0.85, -0.6],
+  [0.12, -0.6],
+  [0.915, -0.6],
   [1.0, -0.3],
 ];
 
 const SCALE: readonly Keyframe[] = [
   [0.0, 0.6],
-  [0.14, 0.95],
-  [0.86, 0.95],
+  [0.12, 0.95],
+  [0.915, 0.95],
   [1.0, 0.8],
 ];
 
