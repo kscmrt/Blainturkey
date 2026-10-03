@@ -43,9 +43,12 @@ const DESKTOP_Y: readonly Keyframe[] = [
   [1.0, 0.55],
 ];
 
-/* Mobil: Valf merkezde kalır; metin üstte, valf alt-orta yarıda ferahça görünür. */
+/* Mobil: Valf merkezde kalır; metin üstte, valf alt-orta yarıda ferahça görünür.
+   Başlangıç değeri -1.8 iken Float'ın hafif yüzdürme sapmasıyla birleşince valf
+   kamera çerçevesinin altından taşıyordu (scroll başlar başlamaz "kayboluyor"
+   şikâyeti) — -1.0'a çekildi, hâlâ aşağıda ama çerçeve içinde kalıyor. */
 const MOBILE_Y: readonly Keyframe[] = [
-  [0.0, -1.8],
+  [0.0, -1.0],
   [0.12, -0.6],
   [0.915, -0.6],
   [1.0, -0.3],
