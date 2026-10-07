@@ -129,6 +129,7 @@ export default function ValveStage() {
                 reduceMotion={reduceMotion}
                 angleOffsetY={isDockOpen ? activePart.angleY : 0}
                 angleOffsetX={isDockOpen ? activePart.angleX : 0}
+                isMobile={!isDesktop}
               />
             </Float>
 

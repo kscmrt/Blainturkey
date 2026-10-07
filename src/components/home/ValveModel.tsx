@@ -28,6 +28,7 @@ type ValveModelProps = {
   reduceMotion: boolean;
   angleOffsetY?: number;
   angleOffsetX?: number;
+  isMobile: boolean;
 };
 
 export default function ValveModel({
@@ -37,12 +38,10 @@ export default function ValveModel({
   reduceMotion,
   angleOffsetY = 0,
   angleOffsetX = 0,
+  isMobile,
 }: ValveModelProps) {
   const groupRef = useRef<THREE.Group>(null);
   const { scene } = useGLTF(`/${valveId}.glb`);
-  const { viewport } = useThree();
-
-  const isMobile = viewport.width < 5;
 
   /* Materyal örneği yalnızca seçim değişince kurulur; her karede değil. */
   const material = useMemo(() => {
