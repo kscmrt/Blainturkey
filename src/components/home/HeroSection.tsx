@@ -57,7 +57,7 @@ export default function HeroSection() {
               />
             </Float>
             
-            <ContactShadows position={[0, -3.5, 0]} opacity={0.28} scale={15} blur={2.5} far={4} color="#000000" />
+            <ContactShadows position={[0, -2.0, 0]} opacity={0.28} scale={15} blur={2.5} far={4} color="#000000" />
           </Suspense>
           
           {/* Scroll yerini OrbitControls aldı, kullanıcı kendi çevirebilir */}

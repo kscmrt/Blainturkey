@@ -6,9 +6,9 @@ import * as THREE from "three";
 import { VALVE_MATERIALS, type MaterialId, type ValveId } from "./valveCatalog";
 
 const PIVOT_OFFSETS: Record<string, [number, number, number]> = {
-  "EV100_1_5_2": [0, -1, 0],
-  EV100_3_4: [-0.6, -1, 0],
-  KV1P: [0.4, -1, 0],
+  "EV100_1_5_2": [0, 0.5, 0],
+  EV100_3_4: [-0.6, 0.5, 0],
+  KV1P: [0.4, 0.5, 0],
 };
 
 const BASE_SCALE: Record<string, number> = {
@@ -52,7 +52,7 @@ export default function ValveModelStandalone({ valveId, materialId }: ValveModel
 
   return (
     <group ref={groupRef} rotation={[0, initialRotationY, 0]}>
-      <group position={PIVOT_OFFSETS[valveId] ?? [0, -1, 0]}>
+      <group position={PIVOT_OFFSETS[valveId] ?? [0, 0.5, 0]}>
         <primitive object={scene} scale={modelScale} />
       </group>
     </group>
