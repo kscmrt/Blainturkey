@@ -32,7 +32,7 @@ export default function StageControls({
 }: StageControlsProps) {
   return (
     <div
-      className={`absolute inset-x-0 bottom-4 z-20 flex flex-col items-center gap-2 px-3 transition-all duration-300 sm:bottom-8 sm:gap-3 sm:px-4 ${
+      className={`absolute inset-x-0 bottom-4 z-20 flex flex-col items-center gap-2 px-3 transition-all duration-300 sm:bottom-8 lg:bottom-20 sm:gap-3 sm:px-4 ${
         isDockOpen
           ? "pointer-events-none translate-y-4 opacity-0"
           : "pointer-events-none translate-y-0 opacity-100"

@@ -38,7 +38,7 @@ export default function HeroSection() {
       </div>
 
       {/* 3D SAHNE */}
-      <div className="relative w-full h-[65vh] min-h-[500px] lg:h-[calc(100vh-var(--header-h))] lg:w-1/2 bg-gradient-to-b from-transparent to-white/50 lg:bg-none">
+      <div className="relative w-full h-[65vh] min-h-[500px] lg:h-[80vh] lg:w-1/2 bg-gradient-to-b from-transparent to-white/50 lg:bg-none">
         <Canvas
           camera={{ position: [0, 0, 10], fov: 45 }}
           dpr={[1, 1.75]}
