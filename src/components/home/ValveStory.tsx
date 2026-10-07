@@ -59,7 +59,10 @@ export default function ValveStory() {
            çünkü küçük ekranda uzun scroll yorucu. */
         className="relative h-[300svh] md:h-[440svh]"
       >
-        <div className="sticky top-[var(--header-h)] h-[calc(100svh-var(--header-h))] overflow-hidden">
+        <div 
+          className="sticky top-[var(--header-h)] overflow-hidden"
+          style={{ height: "calc(100svh - var(--header-h))" }}
+        >
           <ValveStage />
 
           {/* Metin katmanı: tıklamalar 3B sahneye geçsin diye varsayılan

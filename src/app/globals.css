@@ -151,7 +151,6 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: var(--header-h);
-    overflow-x: hidden;
   }
 
   body {
@@ -160,7 +159,6 @@
     font-family: var(--font-sans);
     line-height: 1.7;
     min-height: 100vh;
-    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
