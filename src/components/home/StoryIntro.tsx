@@ -21,7 +21,7 @@ export default function StoryIntro() {
       style={
         reduceMotion ? undefined : { opacity, y, willChange: "transform, opacity" }
       }
-      className="absolute inset-x-4 top-[4svh] flex flex-col items-center text-center sm:inset-x-6 sm:top-[9svh]"
+      className="absolute inset-x-4 top-[4vh] flex flex-col items-center text-center sm:inset-x-6 sm:top-[9vh]"
     >
       <p className="eyebrow text-xs sm:text-sm animate-fade">Asansör hidroliğinde dünya standardı</p>
 

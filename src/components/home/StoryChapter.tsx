@@ -51,7 +51,7 @@ export default function StoryChapter({ chapter }: { chapter: StoryChapterData })
           : { opacity, x, y, filter: blur, willChange: "transform, opacity" }
       }
       /* Dikey hizalama: mobilde sahneyi kapatmamak için üst-orta dengeli, masaüstünde flex center */
-      className={`absolute inset-x-4 top-[8svh] bottom-[18svh] sm:inset-y-0 sm:left-10 sm:right-10 flex max-w-[min(30rem,90vw)] flex-col justify-start sm:justify-center lg:left-[8vw] lg:right-[8vw] ${
+      className={`absolute inset-x-4 top-[8vh] bottom-[18vh] sm:inset-y-0 sm:left-10 sm:right-10 flex max-w-[min(30rem,90vw)] flex-col justify-start sm:justify-center lg:left-[8vw] lg:right-[8vw] ${
         chapter.align === "right" ? "ml-auto lg:items-end lg:text-right" : ""
       }`}
     >

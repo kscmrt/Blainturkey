@@ -355,7 +355,7 @@ export default function ValveInspectorDock({
       {/* Mobilde ekranın altından açılan tam genişlikli kart, masaüstünde sağ yan panel */}
       <aside
         aria-label="Blain EV100 Hızlı Ayarlama Kılavuzu"
-        className="pointer-events-auto flex max-h-[85svh] w-full flex-col overflow-hidden rounded-t-[2rem] border border-steel-200/90 bg-white/98 shadow-2xl backdrop-blur-2xl transition-all duration-300 dark:border-steel-700/80 dark:bg-steel-900/98 sm:mt-14 sm:max-h-[88svh] sm:max-w-md sm:rounded-3xl lg:max-w-lg"
+        className="pointer-events-auto flex max-h-[85vh] w-full flex-col overflow-hidden rounded-t-[2rem] border border-steel-200/90 bg-white/98 shadow-2xl backdrop-blur-2xl transition-all duration-300 dark:border-steel-700/80 dark:bg-steel-900/98 sm:mt-14 sm:max-h-[88vh] sm:max-w-md sm:rounded-3xl lg:max-w-lg"
       >
         {/* Mobilde sürükleme / tutma çizgisi */}
         <div className="flex justify-center pt-2.5 pb-1 sm:hidden">

@@ -25,7 +25,7 @@ export default function StoryFinale() {
   const staticStyle = reduceMotion ? undefined : { opacity };
 
   return (
-    <div className="absolute inset-x-6 bottom-[16svh] flex flex-col items-center gap-8 text-center sm:bottom-[18svh]">
+    <div className="absolute inset-x-6 bottom-[16vh] flex flex-col items-center gap-8 text-center sm:bottom-[18vh]">
       <div className="flex flex-col items-center justify-center gap-x-4 sm:flex-row">
         <motion.h2
           style={

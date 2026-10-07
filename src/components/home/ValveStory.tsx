@@ -57,11 +57,11 @@ export default function ValveStory() {
         style={{ background }}
         /* Ray yüksekliği = perde sayısı × okuma payı. Mobilde daha kısa,
            çünkü küçük ekranda uzun scroll yorucu. */
-        className="relative h-[300svh] md:h-[440svh]"
+        className="relative h-[300vh] md:h-[440vh]"
       >
         <div 
           className="sticky top-[var(--header-h)] overflow-hidden"
-          style={{ height: "calc(100svh - var(--header-h))" }}
+          style={{ height: "calc(100vh - var(--header-h))" }}
         >
           <ValveStage />
 
