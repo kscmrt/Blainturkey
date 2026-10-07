@@ -6,20 +6,11 @@ import HomeCta from "@/components/home/HomeCta";
 import TrustStrip from "@/components/home/TrustStrip";
 import FAQSection from "@/components/FAQSection";
 
-/**
- * Ana sayfa bir Server Component'tir. `'use client'` yalnızca gerçekten
- * tarayıcıda çalışması gereken tek parçada — scroll'a bağlı 3B hikâyede —
- * bulunur. Altındaki tüm bölümler sunucuda render edilir ve istemciye
- * JavaScript göndermez.
- */
-
-/* WebGL sahnesi sunucuda anlamsız; ilk boyamayı bloklamaması için ayrı
-   parçaya alınır. */
-const ValveStory = dynamic(() => import("@/components/home/ValveStory"), {
+const HeroSection = dynamic(() => import("@/components/home/HeroSection"), {
   loading: () => (
     <div
       aria-hidden
-      className="h-[70svh] w-full animate-pulse bg-steel-50"
+      className="h-[calc(100vh-var(--header-h))] w-full animate-pulse bg-steel-50"
     />
   ),
 });
@@ -34,7 +25,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      <ValveStory />
+      <HeroSection />
       <TrustStrip />
       <EngineeringBento />
       <FAQSection />
