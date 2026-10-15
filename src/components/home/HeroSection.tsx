@@ -16,52 +16,50 @@ export default function HeroSection() {
   const [selectedPartId, setSelectedPartId] = useState("adj-1");
 
   return (
-    <section className="relative flex min-h-[calc(100vh-var(--header-h))] flex-col items-center justify-between overflow-hidden bg-steel-50 pt-8 lg:flex-row lg:pt-16">
-      {/* METİN BÖLÜMÜ */}
-      <div className="z-10 flex w-full flex-col px-6 pb-12 pt-8 lg:w-1/2 lg:pl-16 lg:pb-0 xl:pl-24">
-        <p className="eyebrow text-xs sm:text-sm text-brand-600 animate-fade">Asansör hidroliğinde dünya standardı</p>
-        <h1 className="mt-4 max-w-[15ch] animate-rise text-[clamp(2.2rem,5vw,4rem)] font-bold tracking-tight text-steel-900 leading-tight">
-          Kabinin içinde <span className="block text-brand-600">hissedilmeyen mühendislik</span>
+    <section className="relative flex flex-col items-center justify-start bg-white pt-16 sm:pt-24 lg:pt-32">
+      {/* BAŞLIK VE METİN */}
+      <div className="z-10 flex w-full max-w-5xl flex-col items-center px-6 text-center">
+        <p className="eyebrow inline-block rounded-full border border-brand-200 bg-brand-50 px-4 py-1.5 text-xs font-bold tracking-widest text-brand-700 animate-fade">
+          ASANSÖR HİDROLİĞİNDE DÜNYA STANDARDI
+        </p>
+        <h1 className="mt-8 animate-rise text-5xl sm:text-6xl lg:text-[5.5rem] font-extrabold tracking-tight text-steel-900 leading-[1.05]">
+          Kabinin içinde <br className="hidden sm:block" />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-blue-500">
+            hissedilmeyen mühendislik
+          </span>
         </h1>
-        <p className="lede mt-4 sm:mt-6 max-w-xl animate-rise text-[0.95rem] sm:text-base leading-relaxed text-steel-600" style={{ animationDelay: "160ms" }}>
+        <p className="lede mt-8 max-w-2xl animate-rise text-lg sm:text-xl leading-relaxed text-steel-600" style={{ animationDelay: "160ms" }}>
           1971'den bu yana Almanya'da tasarlanan Blain kontrol valfleri, hidrolik asansörün hızını, duruşunu ve sessizliğini tek gövdede yönetir.
         </p>
-
-        <div className="mt-8 flex flex-col gap-6 sm:mt-12 sm:gap-8">
-          {STORY_CHAPTERS.map((chapter, i) => (
-            <div key={chapter.id} className="animate-rise flex flex-col gap-1.5 sm:gap-2 border-l-2 border-brand-600 pl-4" style={{ animationDelay: `${300 + i * 150}ms` }}>
-              <h3 className="text-lg sm:text-xl font-bold text-steel-900">{chapter.title}</h3>
-              <p className="text-[0.85rem] sm:text-sm text-steel-600 max-w-md">{chapter.body}</p>
-            </div>
-          ))}
-        </div>
       </div>
 
-      {/* 3D SAHNE */}
-      <div className="relative w-full h-[65vh] min-h-[500px] lg:h-[80vh] lg:w-1/2 bg-gradient-to-b from-transparent to-white/50 lg:bg-none">
+      {/* 3D SAHNE - TAM GENİŞLİK */}
+      <div className="relative z-10 mt-12 w-full h-[60vh] min-h-[500px] lg:h-[75vh] max-w-[1400px] mx-auto animate-rise" style={{ animationDelay: "300ms" }}>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-steel-100/50 via-white to-white -z-10" />
+        
         <Canvas
-          camera={{ position: [0, 0, 10], fov: 45 }}
+          camera={{ position: [0, 1, 12], fov: 40 }}
           dpr={[1, 1.75]}
-          gl={{ antialias: true, powerPreference: "high-performance" }}
+          gl={{ antialias: true, powerPreference: "high-performance", alpha: true }}
         >
-          <ambientLight intensity={0.6} />
-          <spotLight position={[10, 20, 10]} angle={0.4} penumbra={1} intensity={2} color="#ffffff" />
+          <ambientLight intensity={0.7} />
+          <spotLight position={[10, 20, 10]} angle={0.4} penumbra={1} intensity={2.5} color="#ffffff" castShadow />
+          <spotLight position={[-10, 10, -10]} angle={0.4} penumbra={1} intensity={1} color="#e2e8f0" />
           
           <Suspense fallback={null}>
             <Environment files="/studio.hdr" />
             
-            <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.5}>
+            <Float speed={2} rotationIntensity={0.15} floatIntensity={0.8}>
               <ValveModelStandalone
                 valveId={valveId}
                 materialId={materialId}
               />
             </Float>
             
-            <ContactShadows position={[0, -2.0, 0]} opacity={0.28} scale={15} blur={2.5} far={4} color="#000000" />
+            <ContactShadows position={[0, -2.5, 0]} opacity={0.3} scale={20} blur={2.5} far={4} color="#0f172a" />
           </Suspense>
           
-          {/* Scroll yerini OrbitControls aldı, kullanıcı kendi çevirebilir */}
-          <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={1.5} />
+          <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={1} />
         </Canvas>
 
         {/* KONTROLLER */}
@@ -80,6 +78,25 @@ export default function HeroSection() {
           onSelectPart={setSelectedPartId}
           onClose={() => setIsDockOpen(false)}
         />
+      </div>
+
+      {/* HİKAYE BÖLÜMLERİ (GRID) */}
+      <div className="relative z-20 -mt-8 w-full max-w-7xl px-6 pb-24 sm:px-8">
+        <div className="grid gap-6 md:grid-cols-3">
+          {STORY_CHAPTERS.map((chapter, i) => (
+            <div 
+              key={chapter.id} 
+              className="group rounded-3xl border border-steel-200 bg-white/80 p-8 shadow-sm backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-steel-900/5 animate-rise" 
+              style={{ animationDelay: `${500 + i * 100}ms` }}
+            >
+              <div className="mb-4 flex size-12 items-center justify-center rounded-2xl bg-brand-50 text-xl font-black text-brand-600 transition-colors group-hover:bg-brand-600 group-hover:text-white">
+                0{i + 1}
+              </div>
+              <h3 className="text-xl font-bold text-steel-900">{chapter.title}</h3>
+              <p className="mt-4 text-[0.95rem] leading-relaxed text-steel-600">{chapter.body}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 
 export type AdjustmentGroup = "up" | "down" | "solenoid" | "safety";
@@ -343,19 +344,41 @@ export default function ValveInspectorDock({
   onClose,
 }: ValveInspectorDockProps) {
   const [activeGroup, setActiveGroup] = useState<AdjustmentGroup>("up");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Escape tuşu ile kılavuzu kapatma desteği
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
 
   const groupItems = OFFICIAL_VALVE_DATA.filter((i) => i.group === activeGroup);
   const activePart =
     OFFICIAL_VALVE_DATA.find((p) => p.id === selectedPartId) ?? groupItems[0] ?? OFFICIAL_VALVE_DATA[0];
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
-    <div className="pointer-events-none absolute inset-0 z-50 flex items-end justify-center sm:items-start sm:justify-end sm:p-6 lg:p-8">
+  return createPortal(
+    <div className="pointer-events-none fixed inset-0 z-[120] flex items-end justify-center sm:items-start sm:justify-end sm:p-6 sm:pt-20 lg:p-8 lg:pt-24">
+      {/* Mobilde hafif karartma backdrop (arka plana basınca kapatır) */}
+      <div
+        onClick={onClose}
+        className="pointer-events-auto fixed inset-0 bg-steel-950/20 backdrop-blur-[2px] transition-opacity sm:hidden"
+        aria-hidden="true"
+      />
+
       {/* Mobilde ekranın altından açılan tam genişlikli kart, masaüstünde sağ yan panel */}
       <aside
         aria-label="Blain EV100 Hızlı Ayarlama Kılavuzu"
-        className="pointer-events-auto flex max-h-[85vh] w-full flex-col overflow-hidden rounded-t-[2rem] border border-steel-200/90 bg-white/98 shadow-2xl backdrop-blur-2xl transition-all duration-300 dark:border-steel-700/80 dark:bg-steel-900/98 sm:mt-14 sm:max-h-[88vh] sm:max-w-md sm:rounded-3xl lg:max-w-lg"
+        className="pointer-events-auto relative z-10 flex max-h-[85vh] w-full flex-col overflow-hidden rounded-t-[2rem] border border-steel-200/90 bg-white/98 shadow-2xl backdrop-blur-2xl transition-all duration-300 dark:border-steel-700/80 dark:bg-steel-900/98 sm:max-h-[calc(100vh-6.5rem)] sm:max-w-md sm:rounded-3xl lg:max-w-lg"
       >
         {/* Mobilde sürükleme / tutma çizgisi */}
         <div className="flex justify-center pt-2.5 pb-1 sm:hidden">
@@ -569,6 +592,7 @@ export default function ValveInspectorDock({
           </div>
         </div>
       </aside>
-    </div>
+    </div>,
+    document.body
   );
 }
