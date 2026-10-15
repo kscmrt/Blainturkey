@@ -53,13 +53,13 @@ export default function CookieConsent() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="fixed bottom-0 left-0 right-0 bg-slate-950 text-white p-4 z-50 border-t border-slate-800"
+          className="fixed bottom-0 left-0 right-0 bg-slate-950 text-white p-3 sm:p-4 z-50 border-t border-slate-800"
         >
           <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center justify-between">
               {/* Message */}
               <div className="flex-1">
-                <h3 className="font-semibold mb-1">Çerez Politikası</h3>
+                <h3 className="hidden sm:block font-semibold mb-1">Çerez Politikası</h3>
                 <p className="text-sm text-slate-300">
                   Deneyiminizi iyileştirmek ve trafiği analiz etmek için çerezleri kullanıyoruz.{' '}
                   <Link
